@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.navLink {
+	@apply block  p-4  font-poppins text-lg;
+}
+
+.homeSideLink {
+	@apply text-base;
+}
+.bullet {
+	@apply h-4 w-4 bg-gray-100 rounded-full cursor-pointer;
+}
+.footerLink {
+	@apply font-inter text-base;
+}
+.footerLinkHeader {
+	@apply font-inter text-2xl font-medium block mb-6;
+}
+.footerLinkParent {
+	@apply space-y-6 pr-12;
+}
