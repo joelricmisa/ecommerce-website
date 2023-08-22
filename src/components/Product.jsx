@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { heart, preview } from "../assets/icons";
 
 const Product = ({ id, productName, productImage, currentPrice, originalPrice, rating, rateCount, discountPercentage }) => {
 	const [toggle, setToggle] = useState(false);
@@ -12,8 +13,8 @@ const Product = ({ id, productName, productImage, currentPrice, originalPrice, r
 					<span className="w-14 h-6 bg-secondary text-white text-xs grid place-items-center rounded-sm absolute top-3 left-3">{discountPercentage}</span>
 				)}
 				<span className="flex flex-col space-y-2 absolute top-3 right-3">
-					<img src="/src/assets/svg/heart.svg" className="bg-white p-2 rounded-full cursor-pointer" alt="heart icon" />
-					<img src="/src/assets/svg/preview.svg" className="bg-white p-2 rounded-full cursor-pointer" alt="preview icon" />
+					<img src={heart} className="bg-white p-2 rounded-full cursor-pointer" alt="heart icon" />
+					<img src={preview} className="bg-white p-2 rounded-full cursor-pointer" alt="preview icon" />
 				</span>
 				<img src={productImage} alt="" />
 				{toggle && (

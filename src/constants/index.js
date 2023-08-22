@@ -1,29 +1,27 @@
-import product from "../assets/images/game-console.png";
-import product2 from "../assets/images/ak-keyboard.png";
-import product3 from "../assets/images/monitor.png";
-import product4 from "../assets/images/comfort-chair.png";
-import product5 from "../assets/images/north-coat.png";
-import product6 from "../assets/images/gucci-duffle-bag.png";
-import product7 from "../assets/images/rgb-liquid-cooler.png";
-import product8 from "../assets/images/small-bookshelf.png";
-import product9 from "../assets/images/dogfood.png";
-import product10 from "../assets/images/canon-camera.png";
-import product11 from "../assets/images/asus gaming laptop.png";
-import product12 from "../assets/images//product-set.png";
-import product13 from "../assets/images/kids-car.png";
-import product14 from "../assets/images/soccer-cleats.png";
-import product15 from "../assets/images/shooter-gamepad.png";
-import product16 from "../assets/images/satin-jacket.png";
-import category from "../assets/categoriesImages/cellphone.svg";
-import category2 from "../assets/categoriesImages/computer.svg";
-import category3 from "../assets/categoriesImages/smartwatch.svg";
-import category4 from "../assets/categoriesImages/camera.svg";
-import category5 from "../assets/categoriesImages/headphone.svg";
-import category6 from "../assets/categoriesImages/gamepad.svg";
-import fiveStar from "../assets/images/five-star.png";
-import fourHalfStar from "../assets/images/four-half-star.png";
-import fourStar from "../assets/images/four-star.png";
-import threeStar from "../assets/images/three-star.png";
+import {
+	product,
+	product2,
+	product3,
+	product4,
+	product5,
+	product6,
+	product7,
+	product8,
+	product9,
+	product10,
+	product11,
+	product12,
+	product13,
+	product14,
+	product15,
+	product16,
+	fiveStar,
+	fourHalfStar,
+	fourStar,
+	threeStar,
+} from "../assets/images";
+
+import { category, category2, category3, category4, category5, category6 } from "../assets/categoriesImages";
 
 export const ProductData = {
 	flashSales: [
@@ -241,3 +239,64 @@ export const ProductData = {
 		},
 	],
 };
+
+export const navLinks = [
+	{ href: "/", label: "Home" },
+	{ href: "contact", label: "Contact" },
+	{ href: "about", label: "About" },
+	{ href: "signup", label: "Sign Up" },
+];
+
+export const sideLinks = [
+	{ href: "", label: "Women's Fashion" },
+	{ href: "", label: "Men's Fashion" },
+	{ href: "", label: "Electronics" },
+	{ href: "", label: "Home & Lifestyle" },
+	{ href: "", label: "Medicine" },
+	{ href: "", label: "Sports & Outdoor" },
+	{ href: "", label: "Baby’s & Toys" },
+	{ href: "", label: "Groceries & Pets" },
+	{ href: "", label: "Health & Beauty" },
+];
+
+export const footerLinks = [
+	{
+		title: "Exclusive",
+		links: [
+			{ href: "", label: "Subscribe" },
+			{ href: "", label: "Get 10% off your first order" },
+		],
+	},
+	{
+		title: "Support",
+		links: [
+			{ href: "", label: "20 Aurora Compound St., Metro Manila, Marikina, Philippines." },
+			{ href: "", label: "exclusive@gmail.com" },
+			{ href: "", label: "+99075-11111-77777" },
+		],
+	},
+	{
+		title: "Account",
+		links: [
+			{ href: "", label: "My Account" },
+			{ href: "", label: "Login / Register" },
+			{ href: "", label: "Cart" },
+			{ href: "", label: "Wishlist" },
+			{ href: "", label: "Shop" },
+			{ href: "", label: "" },
+		],
+	},
+	{
+		title: "Quick Link",
+		links: [
+			{ href: "", label: "Privacy Policy" },
+			{ href: "", label: "Terms Of Use" },
+			{ href: "", label: "FAQ" },
+			{ href: "", label: "Contact" },
+		],
+	},
+	{
+		title: "Download App",
+		links: [{ href: "", label: "Save $3 with App New User Only" }],
+	},
+];
