@@ -1,7 +1,8 @@
 import { Product } from "./index";
-import { arrowLeft, arrowRight } from "../assets/icons";
 import { timerImg } from "../assets/images";
 import { v4 as uuid } from "uuid";
+import { SvgIcon } from "./index";
+import { arrowLeft, arrowRight } from "../assets/icons/SvgIconsList";
 
 const ProductList = ({ data, category, title, timer, headerBtn, bottomBtn }) => {
 	return (
@@ -19,17 +20,18 @@ const ProductList = ({ data, category, title, timer, headerBtn, bottomBtn }) => 
 					</button>
 				) : (
 					<span className="flex ml-auto space-x-2 mr-10">
-						<img src={arrowLeft} className="bg-tertiary rounded-full p-1 cursor-pointer shadow-sm" alt="" />
-						<img src={arrowRight} className="bg-tertiary rounded-full p-1 cursor-pointer shadow-sm" alt="" />
+						<SvgIcon icon={arrowLeft()} classVal={"bg-tertiary rounded-full p-1 cursor-pointer shadow-sm"} />
+						<SvgIcon icon={arrowRight()} classVal={"bg-tertiary rounded-full p-1 cursor-pointer shadow-sm"} />
 					</span>
 				)}
 			</div>
 			<div className="grid grid-cols-4 gap-10 ">
 				{data.map((product) => {
-					console.log(product);
+					// console.log(product);
 					return (
 						<Product
 							key={uuid()}
+							id={product.id}
 							productName={product.productName}
 							productImage={product.productImage}
 							currentPrice={product.currentPrice}
@@ -37,6 +39,7 @@ const ProductList = ({ data, category, title, timer, headerBtn, bottomBtn }) => 
 							rating={product.rating}
 							rateCount={product.rateCount}
 							discountPercentage={product.discountPercentage}
+							quantity={product.quantity}
 						/>
 					);
 				})}

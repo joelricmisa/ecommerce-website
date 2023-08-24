@@ -26,6 +26,7 @@ import playStation from "./playstation.png";
 import attractiveWoman from "./attractive-woman.png";
 import speaker from "./speaker.png";
 import gucciPerfume from "./gucci-perfume.png";
+import signUpImg from "./signup-img.png";
 export {
 	product,
 	product2,
@@ -53,4 +54,5 @@ export {
 	attractiveWoman,
 	speaker,
 	gucciPerfume,
+	signUpImg,
 };

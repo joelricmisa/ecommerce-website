@@ -5,5 +5,6 @@ import facebook from "./facebook.svg";
 import instagram from "./instagram.svg";
 import linkedIn from "./linkedin.svg";
 import twitter from "./twitter.svg";
+import google from "./google.svg";
 
-export { apple, appStore, playStore, facebook, instagram, linkedIn, twitter };
+export { apple, appStore, playStore, facebook, instagram, linkedIn, twitter, google };

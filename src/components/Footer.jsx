@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { appStore, playStore, facebook, instagram, twitter, linkedIn } from "../assets/logo";
-import { send, githubQr, copyRight } from "../assets/icons";
+import { githubQr } from "../assets/icons";
 import { footerLinks } from "../constants";
+import { SvgIcon } from "./index";
+import { send, copyRight } from "../assets/icons/SvgIconsList";
 const Footer = () => {
 	const currentYear = new Date().getFullYear();
 	return (
@@ -24,7 +26,7 @@ const Footer = () => {
 								<label htmlFor="email" className="relative block">
 									<span className="sr-only">Email</span>
 									<button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2">
-										<img src={send} alt="send icon" />
+										<SvgIcon icon={send()} />
 									</button>
 									<input
 										className="block placeholder:text-sm bg-black w-full border broder-slate-300 rounded-md py-2 px-4 pr-9 shadow-sm focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 font-poppins text-base"
@@ -61,7 +63,7 @@ const Footer = () => {
 				))}
 			</div>
 			<div className="flex items-center justify-center space-x-2 font-poppins text-base p-5 border-t opacity-40 ">
-				<img src={copyRight} alt="" />
+				<SvgIcon icon={copyRight()} />
 
 				<h2>Copyright Joelric {currentYear}. All right reserved</h2>
 			</div>

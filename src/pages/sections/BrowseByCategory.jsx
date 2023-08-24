@@ -1,5 +1,5 @@
-import { CategoryCard } from "../../components";
-import { arrowLeft, arrowRight } from "../../assets/icons";
+import { CategoryCard, SvgIcon } from "../../components";
+import { arrowLeft, arrowRight } from "../../assets/icons/SvgIconsList";
 import { ProductData } from "../../constants";
 import { v4 as uuid } from "uuid";
 
@@ -13,13 +13,13 @@ const BrowseByCategory = () => {
 			<div className="flex items-end  font-inter text-4xl font-semibold mb-10 h-14">
 				Browse By Category
 				<span className="flex ml-auto space-x-2 mr-10">
-					<img src={arrowLeft} className="bg-tertiary rounded-full p-1 cursor-pointer shadow-sm" alt="" />
-					<img src={arrowRight} className="bg-tertiary rounded-full p-1 cursor-pointer shadow-sm" alt="" />
+					<SvgIcon icon={arrowLeft()} classVal={"bg-tertiary rounded-full p-1 cursor-pointer shadow-sm"} />
+					<SvgIcon icon={arrowRight()} classVal={"bg-tertiary rounded-full p-1 cursor-pointer shadow-sm"} />
 				</span>
 			</div>
 			<div className="grid grid-cols-6 px-10 gap-10 py-10 ">
 				{ProductData.browseByCategory.map((category) => {
-					console.log(category);
+					// console.log(category);
 					return <CategoryCard key={uuid()} categoryName={category.categoryName} categoryImage={category.categoryImage} />;
 				})}
 			</div>
