@@ -29,6 +29,7 @@ const Wishlist = () => {
 								discountPercentage={product.discountPercentage}
 								iconValue={trash()}
 								quantity={product.quantity}
+								subTotal={product.subTotal}
 							/>
 						);
 					})}
@@ -60,6 +61,7 @@ const Wishlist = () => {
 								discountPercentage={product.discountPercentage}
 								iconValue={eye()}
 								quantity={product.quantity}
+								subTotal={product.subTotal}
 							/>
 						);
 					})}

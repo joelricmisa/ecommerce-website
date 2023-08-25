@@ -1,31 +1,16 @@
-import React, { useContext, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { cartData } from "../constants";
-import { QuantityState } from "../components";
+import { Breadcrumb, QuantityState } from "../components";
 import { ShopContext } from "../contexts/ShopContext";
 
 const Cart = () => {
 	const { cartItems, getTotalCartAmount } = useContext(ShopContext);
-	const location = useLocation();
-	let currentLink = "";
-	const crumbs = location.pathname.split("/").filter((link) => link !== "");
 	const [totalAmount, setTotalAmount] = useState(getTotalCartAmount());
+	const formatNumber = new Intl.NumberFormat("en-US", { currency: "USD", style: "currency" });
 	return (
 		<div className="w-10/12 mx-auto py-20">
-			<p className="font-poppins -ml-2 mb-14">
-				<Link to="/" className="opacity-50 ">
-					Home /
-				</Link>
-				{crumbs.map((link, index) => {
-					currentLink += `/${link}`;
-					return (
-						<Link to={currentLink} className="capitalize ml-2 after:content-['/'] after:ml-2 after:last:content-['']" key={index}>
-							{link}
-						</Link>
-					);
-				})}
-			</p>
-
+			<Breadcrumb />
 			<div className="w-full  text-center font-poppins  rounded-sm [&>div]:mb-5 border border-black  ">
 				<div className="grid grid-cols-5  py-5 shadow-sm rounded-sm font-medium border-b">
 					{cartData.tableHeaders.map((head, index) => (
@@ -63,15 +48,17 @@ const Cart = () => {
 				<div className="w-2/5  px-5 py-10 flex flex-col  border-black rounded-md border">
 					<h1 className="font-medium mb-7 text-xl">Cart Total</h1>
 					<p className="flex justify-between w-full  mb-4 pb-4 border-black/30 border-b">
-						Subtotal: <span>{new Intl.NumberFormat("en-US", { currency: "USD", style: "currency" }).format(totalAmount)}</span>
+						Subtotal: <span>{formatNumber.format(totalAmount)}</span>
 					</p>
 					<p className="flex justify-between w-full  mb-4 pb-4 border-black/30 border-b">
 						Shipping: <span>Free</span>
 					</p>
 					<p className="flex justify-between w-full  mb-4 pb-4">
-						Total: <span>{new Intl.NumberFormat("en-US", { currency: "USD", style: "currency" }).format(totalAmount)}</span>
+						Total: <span>{formatNumber.format(totalAmount)}</span>
 					</p>
-					<button className="w-3/4 mx-auto py-4 bg-secondary h-14 text-white font-medium rounded-sm">Process to Checkout</button>
+					<Link to={"checkout"} className="w-3/4 mx-auto py-4 bg-secondary h-14 text-white font-medium rounded-sm text-center">
+						Process to Checkout
+					</Link>
 				</div>
 			</div>
 		</div>

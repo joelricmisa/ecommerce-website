@@ -2,7 +2,7 @@ import { SvgIcon } from "./index";
 import { cart } from "../assets/icons/SvgIconsList";
 import { ShopContext } from "../contexts/ShopContext";
 import { useContext } from "react";
-const WishlistCard = ({ id, productName, productImage, currentPrice, originalPrice, rating, rateCount, discountPercentage, iconValue, quantity }) => {
+const WishlistCard = ({ id, productName, productImage, currentPrice, originalPrice, rating, rateCount, discountPercentage, iconValue, quantity, subTotal }) => {
 	const { wishlistItems, addToCart } = useContext(ShopContext);
 	return (
 		<div className="flex flex-col w-[270px] min-h-[300px]  rounded-sm  hover:scale-105 transition-transform hover:ring-offset-2  hover:ring-1 hover:ring-black/10 hover:shadow-sm">
@@ -18,7 +18,7 @@ const WishlistCard = ({ id, productName, productImage, currentPrice, originalPri
 				<button
 					type="button"
 					className="absolute bottom-0 inset-x-0  text-base bg-black text-white py-2 flex gap-2 justify-center items-center "
-					onClick={() => addToCart({ id, productName, productImage, currentPrice, originalPrice, rating, rateCount, discountPercentage, quantity })}>
+					onClick={() => addToCart({ id, productName, productImage, currentPrice, originalPrice, rating, rateCount, discountPercentage, quantity, subTotal })}>
 					<SvgIcon icon={cart("w-6 h-6")} /> Add To Cart
 				</button>
 			</div>

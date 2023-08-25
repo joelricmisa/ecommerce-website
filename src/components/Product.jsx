@@ -5,7 +5,7 @@ import { heart, eye } from "../assets/icons/SvgIconsList";
 import { useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 
-const Product = ({ id, productName, productImage, currentPrice, originalPrice, rating, rateCount, discountPercentage, quantity }) => {
+const Product = ({ id, productName, productImage, currentPrice, originalPrice, rating, rateCount, discountPercentage, quantity, subTotal }) => {
 	const [toggle, setToggle] = useState(false);
 	const { addToCart } = useContext(ShopContext);
 	return (
@@ -26,7 +26,9 @@ const Product = ({ id, productName, productImage, currentPrice, originalPrice, r
 					<button
 						type="button"
 						className="absolute bottom-0 inset-x-0  text-base bg-black text-white py-2 "
-						onClick={() => addToCart({ id, productName, productImage, currentPrice, originalPrice, rating, rateCount, discountPercentage, quantity })}>
+						onClick={() =>
+							addToCart({ id, productName, productImage, currentPrice, originalPrice, rating, rateCount, discountPercentage, quantity, subTotal })
+						}>
 						Add To Cart
 					</button>
 				)}

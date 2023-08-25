@@ -12,15 +12,15 @@ const SignUp = () => {
 				<h1 className="text-4xl font-medium">Create an account</h1>
 				<h2 className="text-base mt-5">Enter your details below</h2>
 				<label htmlFor="name">
-					<input type="text" name="name" id="name" placeholder="Name" className="signUpInput" />
+					<input type="text" name="name" id="name" placeholder="Name" className="signInput" />
 				</label>
 				<label htmlFor="email">
-					<input type="email" name="email" id="email" placeholder="Email" className="signUpInput" />
+					<input type="email" name="email" id="email" placeholder="Email" className="signInput" />
 				</label>
 				<label htmlFor="pass">
-					<input type="password" name="pass" id="pass" placeholder="Password" className="signUpInput" />
+					<input type="password" name="pass" id="pass" placeholder="Password" className="signInput" />
 				</label>
-				<button className="mt-5 py-4 w-full bg-secondary rounded-sm text-white">Create Account</button>
+				<button className="mt-10 py-4 w-full bg-secondary rounded-sm text-white">Create Account</button>
 				<button className="mt-5 py-4 w-full outline outline-black/50 outline-1 flex justify-center items-center gap-4 rounded-sm">
 					<img src={google} alt="" /> Sign up with Google
 				</button>

@@ -1,31 +1,13 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
 import { aboutCover } from "../assets/images";
-import { ServiceCard, ShopInfoCard } from "../components";
+import { Breadcrumb, ServiceCard, ShopInfoCard } from "../components";
 import { shopInfo, services, people } from "../constants";
 import PeopleCard from "../components/PeopleCard";
 
 const About = () => {
-	const location = useLocation();
-	let currentLink = "";
-	const crumbs = location.pathname.split("/").filter((link) => link !== "");
-
 	return (
 		<div className="w-11/12  ml-auto py-20">
-			<p className="font-poppins -ml-2 mb-14">
-				<Link to="/" className="opacity-50 ">
-					Home /
-				</Link>
-				{crumbs.map((link) => {
-					currentLink += `/${link}`;
-					return (
-						<Link key={link} to={currentLink} className="capitalize ml-2 after:conter-['/'] after:ml-2 after:last:content-['']">
-							{link}
-						</Link>
-					);
-				})}
-			</p>
-			<div className="flex">
+			<Breadcrumb />
+			<div className="flex -mt-10">
 				<div className="flex flex-col items-start justify-center font-poppins pr-20">
 					<h1 className="text-5xl mb-10 font-inter">Our Story</h1>
 					<p className="mb-6">

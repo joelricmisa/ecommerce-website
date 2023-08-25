@@ -6,5 +6,6 @@ import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import Wishlist from "./Wishlist";
 import Cart from "./Cart";
+import Checkout from "./Checkout";
 
-export { Home, NotFound, Contact, About, SignUp, SignIn, Wishlist, Cart };
+export { Home, NotFound, Contact, About, SignUp, SignIn, Wishlist, Cart, Checkout };

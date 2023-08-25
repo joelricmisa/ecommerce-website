@@ -41,7 +41,7 @@ export const ProductData = {
 			rateCount: "88",
 			discountPercentage: "-40%",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 120,
 		},
 		{
 			id: 2,
@@ -53,7 +53,7 @@ export const ProductData = {
 			rateCount: "75",
 			discountPercentage: "-35%",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 960,
 		},
 		{
 			id: 3,
@@ -65,7 +65,7 @@ export const ProductData = {
 			rateCount: "99",
 			discountPercentage: "-40%",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 370,
 		},
 		{
 			id: 4,
@@ -77,7 +77,7 @@ export const ProductData = {
 			rateCount: "99",
 			discountPercentage: "-25%",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 375,
 		},
 	],
 	browseByCategory: [
@@ -117,7 +117,7 @@ export const ProductData = {
 			rateCount: "65",
 			discountPercentage: "",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 260,
 		},
 		{
 			id: 6,
@@ -129,7 +129,7 @@ export const ProductData = {
 			rateCount: "65",
 			discountPercentage: "",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 960,
 		},
 		{
 			id: 7,
@@ -141,7 +141,7 @@ export const ProductData = {
 			rateCount: "65",
 			discountPercentage: "",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 160,
 		},
 		{
 			id: 8,
@@ -153,7 +153,7 @@ export const ProductData = {
 			rateCount: "65",
 			discountPercentage: "",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 360,
 		},
 	],
 	exploreOurProducts: [
@@ -167,7 +167,7 @@ export const ProductData = {
 			rateCount: "35",
 			discountPercentage: "",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 100,
 		},
 		{
 			id: 10,
@@ -179,7 +179,7 @@ export const ProductData = {
 			rateCount: "95",
 			discountPercentage: "",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 360,
 		},
 		{
 			id: 11,
@@ -191,7 +191,7 @@ export const ProductData = {
 			rateCount: "325",
 			discountPercentage: "",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 700,
 		},
 		{
 			id: 12,
@@ -203,7 +203,7 @@ export const ProductData = {
 			rateCount: "145",
 			discountPercentage: "",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 500,
 		},
 		{
 			id: 13,
@@ -215,7 +215,7 @@ export const ProductData = {
 			rateCount: "65",
 			discountPercentage: "",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 960,
 		},
 		{
 			id: 14,
@@ -227,7 +227,7 @@ export const ProductData = {
 			rateCount: "35",
 			discountPercentage: "",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 1160,
 		},
 		{
 			id: 15,
@@ -239,7 +239,7 @@ export const ProductData = {
 			rateCount: "55",
 			discountPercentage: "",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 660,
 		},
 		{
 			id: 16,
@@ -251,7 +251,7 @@ export const ProductData = {
 			rateCount: "55",
 			discountPercentage: "",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 660,
 		},
 	],
 };
@@ -328,7 +328,7 @@ export const wishlistData = [
 		rateCount: "65",
 		discountPercentage: "",
 		quantity: 1,
-		subTotal: "",
+		subTotal: 260,
 	},
 	{
 		id: 6,
@@ -340,7 +340,7 @@ export const wishlistData = [
 		rateCount: "65",
 		discountPercentage: "",
 		quantity: 1,
-		subTotal: "",
+		subTotal: 960,
 	},
 	{
 		id: 7,
@@ -352,7 +352,7 @@ export const wishlistData = [
 		rateCount: "65",
 		discountPercentage: "",
 		quantity: 1,
-		subTotal: "",
+		subTotal: 160,
 	},
 	{
 		id: 8,
@@ -364,7 +364,7 @@ export const wishlistData = [
 		rateCount: "65",
 		discountPercentage: "",
 		quantity: 1,
-		subTotal: "",
+		subTotal: 360,
 	},
 ];
 
@@ -377,7 +377,7 @@ export const cartData = {
 			productImage: product8,
 			currentPrice: "$360",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 360,
 		},
 		{
 			id: 6,
@@ -385,7 +385,7 @@ export const cartData = {
 			productImage: product6,
 			currentPrice: "$960",
 			quantity: 1,
-			subTotal: "",
+			subTotal: 960,
 		},
 	],
 };
@@ -459,5 +459,43 @@ export const socials = [
 	{
 		name: "LinkedIn",
 		icon: blackLinkedin,
+	},
+];
+
+export const billingDetails = [
+	{
+		id: "name",
+		label: "Name *",
+		type: "text",
+	},
+	{
+		id: "companyName",
+		label: "Company Name",
+		type: "text",
+	},
+	{
+		id: "street",
+		label: "Street Address*",
+		type: "text",
+	},
+	{
+		id: "apartment",
+		label: "Apartment, floor, etc. (optional)",
+		type: "text",
+	},
+	{
+		id: "city",
+		label: "Town/City *",
+		type: "text",
+	},
+	{
+		id: "phoneNumber",
+		label: "Phone Number *",
+		type: "number",
+	},
+	{
+		id: "email",
+		label: "Email Address *",
+		type: "email",
 	},
 ];

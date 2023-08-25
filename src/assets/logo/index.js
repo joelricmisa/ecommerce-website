@@ -9,5 +9,7 @@ import google from "./google.svg";
 import blackTwitter from "./b-twitter.svg";
 import blackInstagram from "./b-instagram.svg";
 import blackLinkedin from "./b-linkedin.svg";
+import masterCard from "./master-card.png";
+import visa from "./visa.png";
 
-export { apple, appStore, playStore, facebook, instagram, linkedIn, twitter, google, blackTwitter, blackInstagram, blackLinkedin };
+export { apple, appStore, playStore, facebook, instagram, linkedIn, twitter, google, blackTwitter, blackInstagram, blackLinkedin, masterCard, visa };

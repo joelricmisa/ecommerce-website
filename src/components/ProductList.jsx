@@ -40,6 +40,7 @@ const ProductList = ({ data, category, title, timer, headerBtn, bottomBtn }) => 
 							rateCount={product.rateCount}
 							discountPercentage={product.discountPercentage}
 							quantity={product.quantity}
+							subTotal={product.subTotal}
 						/>
 					);
 				})}

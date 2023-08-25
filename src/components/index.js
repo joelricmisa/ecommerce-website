@@ -8,4 +8,5 @@ import SvgIcon from "./SvgIcon";
 import QuantityState from "./QuantityState";
 import ShopInfoCard from "./ShopInfoCard";
 import ServiceCard from "./ServiceCard";
-export { CategoryCard, Footer, Navbar, Product, ProductList, WishlistCard, SvgIcon, QuantityState, ShopInfoCard, ServiceCard };
+import Breadcrumb from "./Breadcrumb";
+export { CategoryCard, Footer, Navbar, Product, ProductList, WishlistCard, SvgIcon, QuantityState, ShopInfoCard, ServiceCard, Breadcrumb };

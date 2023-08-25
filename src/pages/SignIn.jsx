@@ -10,10 +10,10 @@ const SignIn = () => {
 				<h2 className="text-base mt-5">Enter your details below</h2>
 
 				<label htmlFor="email">
-					<input type="email" name="email" id="email" placeholder="Email" className="signUpInput" />
+					<input type="email" name="email" id="email" placeholder="Email" className="signInput" />
 				</label>
 				<label htmlFor="pass">
-					<input type="password" name="pass" id="pass" placeholder="Password" className="signUpInput" />
+					<input type="password" name="pass" id="pass" placeholder="Password" className="signInput" />
 				</label>
 
 				<div className="flex justify-evenly items-center py-4 mt-5 gap-4 w-full">
