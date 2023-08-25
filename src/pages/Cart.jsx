@@ -1,13 +1,11 @@
 import React, { useContext, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { cartData } from "../constants";
-import { State } from "../components";
+import { QuantityState } from "../components";
 import { ShopContext } from "../contexts/ShopContext";
 
 const Cart = () => {
 	const { cartItems, getTotalCartAmount } = useContext(ShopContext);
-
-	console.log(Object.entries(cartItems).map((key) => key));
 	const location = useLocation();
 	let currentLink = "";
 	const crumbs = location.pathname.split("/").filter((link) => link !== "");
@@ -37,13 +35,13 @@ const Cart = () => {
 					))}
 				</div>
 
-				{Object.entries(cartItems).map((product, index) => (
+				{cartItems.map((product, index) => (
 					<div key={index} className="grid grid-cols-5 place-items-center py-5  shadow-sm rounded-sm last:mb-0 ">
 						<div className="flex items-center col-span-2 justify-start px-20 w-full gap-5">
-							<img src={product[1]?.productImage} className="h-10 w-12" alt="" /> {product[1]?.productName}
+							<img src={product.productImage} className="h-10 w-12" alt="" /> {product.productName}
 						</div>
-						<p>{product[1]?.currentPrice}</p>
-						<State productId={product[1]?.id} quantity={product[1]?.quantity} productPrice={product[1]?.currentPrice.replace("$", "")} />
+						<p>{product.currentPrice}</p>
+						<QuantityState productId={product.id} quantity={product.quantity} productPrice={product.currentPrice.replace("$", "")} />
 					</div>
 				))}
 

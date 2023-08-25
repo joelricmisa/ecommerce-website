@@ -6,5 +6,8 @@ import instagram from "./instagram.svg";
 import linkedIn from "./linkedin.svg";
 import twitter from "./twitter.svg";
 import google from "./google.svg";
+import blackTwitter from "./b-twitter.svg";
+import blackInstagram from "./b-instagram.svg";
+import blackLinkedin from "./b-linkedin.svg";
 
-export { apple, appStore, playStore, facebook, instagram, linkedIn, twitter, google };
+export { apple, appStore, playStore, facebook, instagram, linkedIn, twitter, google, blackTwitter, blackInstagram, blackLinkedin };

@@ -19,9 +19,15 @@ import {
 	fourHalfStar,
 	fourStar,
 	threeStar,
+	person1,
+	person2,
+	person3,
 } from "../assets/images";
 
 import { category, category2, category3, category4, category5, category6 } from "../assets/categoriesImages";
+import { blackTwitter, blackInstagram, blackLinkedin } from "../assets/logo";
+import { customerService, delivery, moneyGuarantee } from "../assets/icons";
+import { shop, moneySign, moneyBag, shoppingBag } from "../assets/icons/SvgIconsList";
 
 export const ProductData = {
 	flashSales: [
@@ -34,7 +40,7 @@ export const ProductData = {
 			rating: fiveStar,
 			rateCount: "88",
 			discountPercentage: "-40%",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -46,7 +52,7 @@ export const ProductData = {
 			rating: fourStar,
 			rateCount: "75",
 			discountPercentage: "-35%",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -58,7 +64,7 @@ export const ProductData = {
 			rating: fiveStar,
 			rateCount: "99",
 			discountPercentage: "-40%",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -70,7 +76,7 @@ export const ProductData = {
 			rating: fourHalfStar,
 			rateCount: "99",
 			discountPercentage: "-25%",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 	],
@@ -110,7 +116,7 @@ export const ProductData = {
 			rating: fiveStar,
 			rateCount: "65",
 			discountPercentage: "",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -122,7 +128,7 @@ export const ProductData = {
 			rating: fourHalfStar,
 			rateCount: "65",
 			discountPercentage: "",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -134,7 +140,7 @@ export const ProductData = {
 			rating: fourHalfStar,
 			rateCount: "65",
 			discountPercentage: "",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -146,7 +152,7 @@ export const ProductData = {
 			rating: fiveStar,
 			rateCount: "65",
 			discountPercentage: "",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 	],
@@ -160,7 +166,7 @@ export const ProductData = {
 			rating: threeStar,
 			rateCount: "35",
 			discountPercentage: "",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -172,7 +178,7 @@ export const ProductData = {
 			rating: fourStar,
 			rateCount: "95",
 			discountPercentage: "",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -184,7 +190,7 @@ export const ProductData = {
 			rating: fiveStar,
 			rateCount: "325",
 			discountPercentage: "",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -196,7 +202,7 @@ export const ProductData = {
 			rating: fourStar,
 			rateCount: "145",
 			discountPercentage: "",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -208,7 +214,7 @@ export const ProductData = {
 			rating: fiveStar,
 			rateCount: "65",
 			discountPercentage: "",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -220,7 +226,7 @@ export const ProductData = {
 			rating: fiveStar,
 			rateCount: "35",
 			discountPercentage: "",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -232,7 +238,7 @@ export const ProductData = {
 			rating: fourHalfStar,
 			rateCount: "55",
 			discountPercentage: "",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -244,7 +250,7 @@ export const ProductData = {
 			rating: fourHalfStar,
 			rateCount: "55",
 			discountPercentage: "",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 	],
@@ -321,7 +327,7 @@ export const wishlistData = [
 		rating: fiveStar,
 		rateCount: "65",
 		discountPercentage: "",
-		quantity: "1",
+		quantity: 1,
 		subTotal: "",
 	},
 	{
@@ -333,7 +339,7 @@ export const wishlistData = [
 		rating: fourHalfStar,
 		rateCount: "65",
 		discountPercentage: "",
-		quantity: "1",
+		quantity: 1,
 		subTotal: "",
 	},
 	{
@@ -345,7 +351,7 @@ export const wishlistData = [
 		rating: fourHalfStar,
 		rateCount: "65",
 		discountPercentage: "",
-		quantity: "1",
+		quantity: 1,
 		subTotal: "",
 	},
 	{
@@ -357,7 +363,7 @@ export const wishlistData = [
 		rating: fiveStar,
 		rateCount: "65",
 		discountPercentage: "",
-		quantity: "1",
+		quantity: 1,
 		subTotal: "",
 	},
 ];
@@ -370,7 +376,7 @@ export const cartData = {
 			productName: "Small BookSelf",
 			productImage: product8,
 			currentPrice: "$360",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 		{
@@ -378,8 +384,80 @@ export const cartData = {
 			productName: "Gucci duffle bag",
 			productImage: product6,
 			currentPrice: "$960",
-			quantity: "1",
+			quantity: 1,
 			subTotal: "",
 		},
 	],
 };
+export const shopInfo = [
+	{
+		shopInfoIcon: shop(),
+		shopInfoNumber: "10.5k ",
+		shopInfoDescription: "Active sellers in our site",
+	},
+	{
+		shopInfoIcon: moneySign(),
+		shopInfoNumber: "33k",
+		shopInfoDescription: "Monthly Product Sales",
+	},
+	{
+		shopInfoIcon: shoppingBag(),
+		shopInfoNumber: "45.5k",
+		shopInfoDescription: "Active customers in our site",
+	},
+	{
+		shopInfoIcon: moneyBag(),
+		shopInfoNumber: "25k",
+		shopInfoDescription: "Anual gross sales in our site",
+	},
+];
+export const services = [
+	{
+		serviceImg: delivery,
+		serviceTitle: "FREE AND FAST DELIVERY",
+		serviceDescription: "Free delivery for all orders over $140",
+	},
+	{
+		serviceImg: customerService,
+		serviceTitle: "24/7 CUSTOMER SERVICE",
+		serviceDescription: "Friendly 24/7 customer support",
+	},
+	{
+		serviceImg: moneyGuarantee,
+		serviceTitle: "MONEY BACK GUARANTEE",
+		serviceDescription: "We reurn money within 30 days",
+	},
+];
+
+export const people = [
+	{
+		personImg: person1,
+		personName: "John Doe",
+		position: "Founder & Chairman",
+	},
+	{
+		personImg: person2,
+		personName: "Jane Watson",
+		position: "Managing Director",
+	},
+	{
+		personImg: person3,
+		personName: "Mike Rose",
+		position: "Product Designer",
+	},
+];
+
+export const socials = [
+	{
+		name: "Twitter",
+		icon: blackTwitter,
+	},
+	{
+		name: "Instagram",
+		icon: blackInstagram,
+	},
+	{
+		name: "LinkedIn",
+		icon: blackLinkedin,
+	},
+];

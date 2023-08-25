@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 
-const State = ({ productId, quantity, productPrice }) => {
+const QuantityState = ({ productId, quantity, productPrice }) => {
 	const { cartItems, setCartItems } = useContext(ShopContext);
 	const [state, setState] = useState(quantity);
 	const subTotalVal = Number(productPrice) * Number(state);
@@ -11,19 +11,9 @@ const State = ({ productId, quantity, productPrice }) => {
 	useEffect(() => {
 		setSubTotal(subTotalVal);
 
-		const tempCart = Object.entries(cartItems)
-			.map((item) => (item[1].id === productId ? { ...item, 1: { ...item[1], quantity: state } } : item))
-			.map((item) => item[1]);
-
-		let cartList = [];
-
-		for (let i = 0; i < tempCart.length; i++) {
-			cartList[tempCart[i].id] = tempCart[i];
-		}
-
+		const cartList = cartItems.map((item) => (item.id === productId ? { ...item, quantity: state } : item));
 		setCartItems(cartList);
-
-		console.log(cartItems);
+		// console.log(cartList);
 	}, [state]);
 
 	return (
@@ -34,4 +24,4 @@ const State = ({ productId, quantity, productPrice }) => {
 	);
 };
 
-export default State;
+export default QuantityState;
