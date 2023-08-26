@@ -36,21 +36,25 @@ const Checkout = () => {
 						? cartItems.map((item, index) => (
 								<div key={index} className="flex items-center gap-4 mb-3 border-b border-black/10 pb-3 ">
 									<img src={item.productImage} alt="" className="w-14 h-14" />
-									<p>{item.productName}</p>
+									<p>
+										{item.productName} ({item.quantity})
+									</p>
 									<p className="ml-auto">{formatNumber.format(item.subTotal)}</p>
 								</div>
 						  ))
 						: slice.map((item, index) => (
 								<div key={index} className="flex items-center gap-4 mb-3 border-b border-black/10 pb-3">
 									<img src={item.productImage} alt="" className="w-14 h-14" />
-									<p>{item.productName}</p>
+									<p>
+										{item.productName} ({item.quantity})
+									</p>
 									<p className="ml-auto">{formatNumber.format(item.subTotal)}</p>
 								</div>
 						  ))}
 
 					{cartItems.length > 5 && (
 						<button onClick={() => setShow(!show)} className="bg-secondary text-white py-3 w-1/2 mx-auto rounded-md my-5">
-							{!show ? "Show More" : "Hide Product"} ({showVal})
+							{!show ? "Show More" : showVal > 1 ? "Hide Products" : "Hide Product"} ({showVal})
 						</button>
 					)}
 

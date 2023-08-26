@@ -4,7 +4,6 @@ import { navLinks } from "../constants";
 import { useContext, useEffect, useState } from "react";
 import { SvgIcon } from "./index";
 import { cart, search, heart } from "../assets/icons/SvgIconsList";
-import { wishlistData, cartData } from "../constants";
 import { ShopContext } from "../contexts/ShopContext";
 
 const Navbar = () => {
@@ -15,7 +14,7 @@ const Navbar = () => {
 	const [activeNav, setActiveNav] = useState(currentActive[0]?.label);
 	const wishlistPath = "/wishlist";
 	const cartPath = "/cart";
-	const { cartItems } = useContext(ShopContext);
+	const { cartItems, wishlistItems } = useContext(ShopContext);
 	useEffect(() => {
 		// run side-effect
 		setCurrentPath(window.location.pathname);
@@ -91,9 +90,9 @@ const Navbar = () => {
 						}`}>
 						<span
 							className={`z-20 absolute top-0 bg-red-400 font-poppins text-sm text-white rounded-full font-medium  ${
-								wishlistData.length <= 99 ? "px-1.5 -right-2" : "px-1 -right-4"
+								wishlistItems.length <= 99 ? "px-1.5 -right-2" : "px-1 -right-4"
 							} `}>
-							{wishlistData.length <= 99 ? wishlistData.length : "99"}
+							{wishlistItems.length <= 99 ? wishlistItems.length : "99"}
 						</span>
 						<SvgIcon icon={heart(`w-8 h-8 text-black ${filePath === wishlistPath ? "fill-black" : ""}`)} classVal={`relative `} />
 					</Link>

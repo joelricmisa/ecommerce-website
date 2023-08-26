@@ -14,7 +14,7 @@ const getDefaultCart = () => {
 const getDefaultWishlist = () => {
 	let wishlist = [];
 	for (let i = 0; i < wishlistData.length; i++) {
-		wishlist[wishlistData[i].id] = wishlistData[i];
+		wishlist.push(wishlistData[i]);
 	}
 	return wishlist;
 };
@@ -29,11 +29,21 @@ const ShopContextProvider = (props) => {
 	};
 
 	const addToWishlist = (data) => {
-		setWishlistItems((prev) => ({ ...prev, [data.id]: data }));
-
-		console.log(wishlistItems);
+		const filtered = wishlistItems.filter((item) => item.id === data.id);
+		filtered.length === 0 ? setWishlistItems([...wishlistItems, data]) : "";
+		// console.log(wishlistItems);
 	};
 
+	const removeToCart = (data) => {
+		const filtered = cartItems.filter((item) => data.id !== item.id);
+		setCartItems(filtered);
+	};
+
+	const removeToWishlist = (data) => {
+		const filtered = wishlistItems.filter((item) => data.id !== item.id);
+		setWishlistItems(filtered);
+		// console.log(filtered);
+	};
 	const getTotalCartAmount = () => {
 		let totalAmount = 0;
 		cartItems.map((product) => (totalAmount += product.quantity * product.currentPrice.replace("$", "")));
@@ -45,8 +55,11 @@ const ShopContextProvider = (props) => {
 		cartItems,
 		setCartItems,
 		wishlistItems,
+		setWishlistItems,
 		addToCart,
 		addToWishlist,
+		removeToWishlist,
+		removeToCart,
 		getTotalCartAmount,
 	};
 

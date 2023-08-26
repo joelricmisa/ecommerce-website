@@ -1,4 +1,4 @@
-import { Product } from "./index";
+import { ProductCard } from "./index";
 import { timerImg } from "../assets/images";
 import { v4 as uuid } from "uuid";
 import { SvgIcon } from "./index";
@@ -29,7 +29,7 @@ const ProductList = ({ data, category, title, timer, headerBtn, bottomBtn }) => 
 				{data.map((product) => {
 					// console.log(product);
 					return (
-						<Product
+						<ProductCard
 							key={uuid()}
 							id={product.id}
 							productName={product.productName}

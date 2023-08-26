@@ -13,7 +13,7 @@ export default {
 				customGreen: "#0F6",
 			},
 			backgroundImage: {
-				icon: "url('src/assets/icons/iconBg.png')",
+				icon: "url('/src/assets/icons/iconBg.png')",
 			},
 		},
 	},

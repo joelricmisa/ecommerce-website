@@ -369,7 +369,7 @@ export const wishlistData = [
 ];
 
 export const cartData = {
-	tableHeaders: [{ title: "Product" }, { title: "Price" }, { title: "Quantity" }, { title: "Subtotal" }],
+	tableHeaders: [{ title: "Product" }, { title: "Price" }, { title: "Quantity" }, { title: "Subtotal" }, { title: "Action" }],
 	cartProducts: [
 		{
 			id: 8,
@@ -390,26 +390,10 @@ export const cartData = {
 	],
 };
 export const shopInfo = [
-	{
-		shopInfoIcon: shop(),
-		shopInfoNumber: "10.5k ",
-		shopInfoDescription: "Active sellers in our site",
-	},
-	{
-		shopInfoIcon: moneySign(),
-		shopInfoNumber: "33k",
-		shopInfoDescription: "Monthly Product Sales",
-	},
-	{
-		shopInfoIcon: shoppingBag(),
-		shopInfoNumber: "45.5k",
-		shopInfoDescription: "Active customers in our site",
-	},
-	{
-		shopInfoIcon: moneyBag(),
-		shopInfoNumber: "25k",
-		shopInfoDescription: "Anual gross sales in our site",
-	},
+	{ label: "shop", shopInfoIcon: shop(), shopInfoNumber: "10.5k ", shopInfoDescription: "Active sellers in our site" },
+	{ label: "moneySign", shopInfoIcon: moneySign(), shopInfoNumber: "33k", shopInfoDescription: "Monthly Product Sales" },
+	{ label: "shoppingBag", shopInfoIcon: shoppingBag(), shopInfoNumber: "45.5k", shopInfoDescription: "Active customers in our site" },
+	{ label: "moneyBag", shopInfoIcon: moneyBag(), shopInfoNumber: "25k", shopInfoDescription: "Anual gross sales in our site" },
 ];
 export const services = [
 	{

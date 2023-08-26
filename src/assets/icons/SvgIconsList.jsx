@@ -1,4 +1,4 @@
-export { arrowLeft, arrowRight, cart, copyRight, heart, eye, search, send, trash, shop, moneySign, shoppingBag, moneyBag, phone, mail };
+export { arrowLeft, arrowRight, cart, copyRight, heart, eye, search, send, trash, shop, moneySign, shoppingBag, moneyBag, phone, mail, xMark };
 
 const arrowLeft = (styles) => (
 	<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" className={styles}>
@@ -210,5 +210,11 @@ const mail = (styles) => (
 	<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" className={styles}>
 		<rect width="40" height="40" rx="20" fill="#DB4444" />
 		<path d="M10 13L20 20L30 13M10 27H30V13H10V27Z" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+	</svg>
+);
+
+const xMark = (styles) => (
+	<svg fill="#fafafa" width="18" height="18" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+		<path d="M797.32 985.882 344.772 1438.43l188.561 188.562 452.549-452.549 452.548 452.549 188.562-188.562-452.549-452.548 452.549-452.549-188.562-188.561L985.882 797.32 533.333 344.772 344.772 533.333z" />
 	</svg>
 );

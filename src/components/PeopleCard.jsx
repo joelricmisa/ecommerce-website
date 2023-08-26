@@ -13,8 +13,8 @@ const PeopleCard = ({ personImg, personName, personPosition }) => {
 				<div
 					className="flex gap-4 items-center
                 ">
-					{socials.map((social) => (
-						<a key={social} href="#">
+					{socials.map((social, index) => (
+						<a key={index} href="#">
 							<img src={social.icon} alt={social.name} />
 						</a>
 					))}

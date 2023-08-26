@@ -1,23 +1,33 @@
 import { WishlistCard } from "../components";
 import { v4 as uuid } from "uuid";
-import { ProductData, wishlistData } from "../constants";
+import { ProductData } from "../constants";
 import { trash, eye } from "../assets/icons/SvgIconsList";
+import { ShopContext } from "../contexts/ShopContext";
+import { useContext, useEffect, useState } from "react";
 
 const Wishlist = () => {
+	const { wishlistItems, addToCart, cartItems } = useContext(ShopContext);
+	const [addAll, setAddAll] = useState(false);
+
+	useEffect(() => {
+		addAll && wishlistItems.map((product) => addToCart(product));
+	}, [addAll, addToCart]);
+
 	return (
 		<section>
 			<div className="flex flex-col padding mx-auto w-11/12   font-poppins border-b border-black/20 ">
 				<div className="text-secondary  font-semibold flex items-center mb-20 h-10  ">
-					<span className="text-black text-xl">Wishlist ({wishlistData.length})</span>
-
-					<button type="button" className="bg-secondary text-base text-white px-10 py-3 rounded-sm shaodw-sm ml-auto font-poppins mr-2">
-						Move All To Bag
+					<span className="text-black text-xl">Wishlist ({wishlistItems.length})</span>
+					<button
+						type="button"
+						className="bg-secondary text-base text-white px-10 py-3 rounded-sm shaodw-sm ml-auto font-poppins mr-2"
+						onClick={() => setAddAll(!addAll)}>
+						Move All To Cart
 					</button>
 				</div>
 
 				<div className="grid grid-cols-4 gap-10 ">
-					{wishlistData.map((product) => {
-						console.log(product);
+					{wishlistItems.map((product) => {
 						return (
 							<WishlistCard
 								key={uuid()}
@@ -28,6 +38,7 @@ const Wishlist = () => {
 								originalPrice={product.originalPrice}
 								discountPercentage={product.discountPercentage}
 								iconValue={trash()}
+								iconName={"trash"}
 								quantity={product.quantity}
 								subTotal={product.subTotal}
 							/>
@@ -47,7 +58,6 @@ const Wishlist = () => {
 
 				<div className="grid grid-cols-4 gap-10 ">
 					{ProductData.flashSales.map((product) => {
-						console.log(product);
 						return (
 							<WishlistCard
 								key={uuid()}
@@ -60,6 +70,7 @@ const Wishlist = () => {
 								rateCount={product.rateCount}
 								discountPercentage={product.discountPercentage}
 								iconValue={eye()}
+								iconName={"eye"}
 								quantity={product.quantity}
 								subTotal={product.subTotal}
 							/>

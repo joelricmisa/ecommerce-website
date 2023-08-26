@@ -22,18 +22,23 @@ const About = () => {
 				<img src={aboutCover} alt="" />
 			</div>
 			<div className="flex gap-8 my-32 w-11/12">
-				{shopInfo.map((info, index) => (
-					<ShopInfoCard key={index} iconVal={info.shopInfoIcon} numbers={info.shopInfoNumber} description={info.shopInfoDescription} />
+				{shopInfo.map((info) => (
+					<ShopInfoCard key={info.label} iconVal={info.shopInfoIcon} numbers={info.shopInfoNumber} description={info.shopInfoDescription} />
 				))}
 			</div>
 			<div className="flex gap-8 mt-32 mb-16 w-11/12">
-				{people.map((person, index) => (
-					<PeopleCard key={index} personName={person.personName} personImg={person.personImg} personPosition={person.position} />
+				{people.map((person) => (
+					<PeopleCard key={person.personName} personName={person.personName} personImg={person.personImg} personPosition={person.position} />
 				))}
 			</div>
 			<div className="flex w-11/12  gap-10 justify-center">
-				{services.map((service, index) => (
-					<ServiceCard key={index} serviceImg={service.serviceImg} serviceTitle={service.serviceTitle} serviceDescription={service.serviceDescription} />
+				{services.map((service) => (
+					<ServiceCard
+						key={service.serviceTitle}
+						serviceImg={service.serviceImg}
+						serviceTitle={service.serviceTitle}
+						serviceDescription={service.serviceDescription}
+					/>
 				))}
 			</div>
 		</div>
