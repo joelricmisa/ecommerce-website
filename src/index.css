@@ -11,13 +11,10 @@
 }
 
 .navLink {
-	@apply block  p-4  font-poppins text-lg;
+	@apply block py-4 px-2 xl:px-0 font-poppins text-lg;
 }
 
-.homeSideLink {
-	@apply text-base;
-}
-.bullet {
+.heroBullet {
 	@apply h-4 w-4 bg-gray-100 rounded-full cursor-pointer;
 }
 .footerLink {
@@ -27,7 +24,7 @@
 	@apply font-inter text-2xl font-medium block mb-6;
 }
 .footerLinkParent {
-	@apply space-y-6 pr-12;
+	@apply space-y-6 pr-12 mb-10;
 }
 .signInput {
 	@apply block w-full border-b py-3 px-4 mt-10 text-base rounded-sm outline-none focus:ring-1 focus:ring-secondary focus:bg-secondary/10;
@@ -35,43 +32,78 @@
 .checkLabel {
 	@apply block w-full py-3 text-base opacity-50;
 }
-.input {
-	@apply block w-full rounded-sm py-3 px-3 border border-black/10 outline-none focus:ring-1 focus:ring-secondary focus:bg-secondary/10 text-base bg-gray-100;
-}
-.flex-center {
-	@apply flex justify-center items-center;
-}
 
 @layer components {
 	.max-container {
 		max-width: 1440px;
 		margin: 0 auto;
 	}
+	.button {
+		@apply bg-secondary text-base text-white font-medium px-10 py-3.5 rounded-sm shadow-sm mx-auto font-poppins;
+	}
+
+	.input {
+		@apply block w-full rounded-sm py-3 px-3 border border-black/10 outline-none focus:ring-1 focus:ring-secondary focus:bg-secondary/10 text-base bg-gray-100;
+	}
+
+	.icon {
+		@apply bg-white rounded-full p-2  cursor-pointer shadow-md;
+	}
+
+	.link {
+		@apply font-medium underline underline-offset-2;
+	}
+
+	.timer {
+		@apply flex items-center justify-center flex-col font-medium;
+	}
+
+	.navActive {
+		@apply after:absolute after:-bottom-[10%] after:left-0 after:bg-black after:h-[1.5px] after:w-full font-medium;
+	}
+
+	.navNotActive {
+		@apply after:absolute after:-bottom-[10%] after:left-[50%] after:-translate-x-[50%]  after:w-0 after:bg-black after:h-[1.5px] hover:after:w-full after:transition-all after:duration-300;
+	}
+
+	.flex-center {
+		@apply flex justify-center items-center gap-4;
+	}
+	.flex-between {
+		@apply flex justify-between items-center;
+	}
+	.grid-center {
+		@apply grid place-items-center;
+	}
+
+	.border-bottom {
+		@apply border-b border-black/10;
+	}
 }
 
 @layer utilities {
 	.padding {
-		@apply px-8 py-12 sm:px-16 sm:py-24;
+		@apply px-5 sm:px-8 lg:px-16 py-10 sm:py-12 lg:py-24;
 	}
 
 	.padding-x {
-		@apply px-8 sm:px-16;
+		@apply px-5 sm:px-8 lg:px-16;
 	}
 
 	.padding-y {
-		@apply py-12 sm:py-24;
+		@apply py-10 sm:py-12 lg:py-24;
 	}
 
 	.padding-l {
-		@apply pl-8 sm:pl-16;
+		@apply pl-5 sm:pl-8 lg:pl-16;
 	}
 	.padding-r {
-		@apply pr-8 sm:pr-16;
+		@apply pr-5 sm:pr-8 lg:pl-16;
 	}
 	.padding-t {
-		@apply pt-12 sm:pt-24;
+		@apply pt-10 sm:pt-12 lg:py-24;
 	}
 	.padding-b {
-		@apply pb-12 sm:pb-24;
+		@apply pb-10 sm:pb-12 lg:py-24;
 	}
 }

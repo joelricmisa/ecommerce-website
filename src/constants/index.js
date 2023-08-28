@@ -27,7 +27,7 @@ import {
 import { category, category2, category3, category4, category5, category6 } from "../assets/categoriesImages";
 import { blackTwitter, blackInstagram, blackLinkedin } from "../assets/logo";
 import { customerService, delivery, moneyGuarantee } from "../assets/icons";
-import { shop, moneySign, moneyBag, shoppingBag } from "../assets/icons/SvgIconsList";
+import { cart, heart, shop, moneySign, moneyBag, shoppingBag } from "../assets/icons/SvgIconsList";
 
 export const ProductData = {
 	flashSales: [
@@ -263,6 +263,17 @@ export const navLinks = [
 	{ href: "signup", label: "Sign Up" },
 ];
 
+export const navIconLinks = [
+	{
+		href: "wishlist",
+		label: "Wishlist",
+		icon: (styles) => heart(styles),
+		storageName: "wishlistItems",
+	},
+	{ href: "cart", label: "Cart", icon: (styles) => cart(styles), storageName: "cartItems" },
+	// { href: "cart", label: "Cart2", icon: (styles) => cart(styles), storageName: "cartItems" },
+];
+
 export const sideLinks = [
 	{ href: "", label: "Women's Fashion" },
 	{ href: "", label: "Men's Fashion" },
@@ -286,7 +297,10 @@ export const footerLinks = [
 	{
 		title: "Support",
 		links: [
-			{ href: "", label: "20 Aurora Compound St., Metro Manila, Marikina, Philippines." },
+			{
+				href: "",
+				label: "20 Aurora Compound St., Metro Manila, Marikina, Philippines.",
+			},
 			{ href: "", label: "exclusive@gmail.com" },
 			{ href: "", label: "+99075-11111-77777" },
 		],
@@ -390,10 +404,30 @@ export const cartData = {
 	],
 };
 export const shopInfo = [
-	{ label: "shop", shopInfoIcon: shop(), shopInfoNumber: "10.5k ", shopInfoDescription: "Active sellers in our site" },
-	{ label: "moneySign", shopInfoIcon: moneySign(), shopInfoNumber: "33k", shopInfoDescription: "Monthly Product Sales" },
-	{ label: "shoppingBag", shopInfoIcon: shoppingBag(), shopInfoNumber: "45.5k", shopInfoDescription: "Active customers in our site" },
-	{ label: "moneyBag", shopInfoIcon: moneyBag(), shopInfoNumber: "25k", shopInfoDescription: "Anual gross sales in our site" },
+	{
+		label: "shop",
+		shopInfoIcon: shop(),
+		shopInfoNumber: "10.5k ",
+		shopInfoDescription: "Active sellers in our site",
+	},
+	{
+		label: "moneySign",
+		shopInfoIcon: moneySign(),
+		shopInfoNumber: "33k",
+		shopInfoDescription: "Monthly Product Sales",
+	},
+	{
+		label: "shoppingBag",
+		shopInfoIcon: shoppingBag(),
+		shopInfoNumber: "45.5k",
+		shopInfoDescription: "Active customers in our site",
+	},
+	{
+		label: "moneyBag",
+		shopInfoIcon: moneyBag(),
+		shopInfoNumber: "25k",
+		shopInfoDescription: "Anual gross sales in our site",
+	},
 ];
 export const services = [
 	{

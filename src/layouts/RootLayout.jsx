@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 
 const RootLayout = () => {
 	return (
-		<div className="overflow-hidden">
+		<div className="overflow-clip font-poppins text-base relative">
 			<Navbar />
 			<main>{<Outlet />}</main>
 			<Footer />

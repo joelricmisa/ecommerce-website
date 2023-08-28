@@ -9,4 +9,20 @@ import QuantityState from "./QuantityState";
 import ShopInfoCard from "./ShopInfoCard";
 import ServiceCard from "./ServiceCard";
 import Breadcrumb from "./Breadcrumb";
-export { CategoryCard, Footer, Navbar, ProductCard, ProductList, WishlistCard, SvgIcon, QuantityState, ShopInfoCard, ServiceCard, Breadcrumb };
+import Timer from "./Timer";
+import NewArrivalCardText from "./NewArrivalCardText";
+export {
+	CategoryCard,
+	Footer,
+	Navbar,
+	ProductCard,
+	ProductList,
+	WishlistCard,
+	SvgIcon,
+	QuantityState,
+	ShopInfoCard,
+	ServiceCard,
+	Breadcrumb,
+	Timer,
+	NewArrivalCardText,
+};

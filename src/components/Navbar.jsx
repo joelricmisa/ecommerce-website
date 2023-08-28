@@ -1,121 +1,131 @@
-import { NavLink, useLocation, Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
-import { navLinks } from "../constants";
+import { navLinks, navIconLinks } from "../constants";
 import { useContext, useEffect, useState } from "react";
 import { SvgIcon } from "./index";
-import { cart, search, heart } from "../assets/icons/SvgIconsList";
+import { cart, search, heart, menu } from "../assets/icons/SvgIconsList";
 import { ShopContext } from "../contexts/ShopContext";
 
 const Navbar = () => {
-	const { state } = useLocation();
-	const filePath = window.location.pathname;
-	const [currentPath, setCurrentPath] = useState(filePath);
+	const { cartItems, wishlistItems } = useContext(ShopContext);
+	const [currentPath, setCurrentPath] = useState(window.location.pathname);
 	const currentActive = navLinks.filter((link) => (link.href.includes("/") ? `${link.href}` : `/${link.href}`) === currentPath);
 	const [activeNav, setActiveNav] = useState(currentActive[0]?.label);
-	const wishlistPath = "/wishlist";
-	const cartPath = "/cart";
-	const { cartItems, wishlistItems } = useContext(ShopContext);
+	const [toggle, setToggle] = useState(false);
+
 	useEffect(() => {
-		// run side-effect
 		setCurrentPath(window.location.pathname);
 		currentActive;
 		setActiveNav(currentActive[0]?.label);
-		// console.log(currentPath);
-		// console.log("nagrerender");
-	}, [currentActive, currentPath, state]);
+	}, [currentActive, currentPath]);
 
-	const handleActiveNav = (label) => {
+	const handleActiveNav = (label = "") => {
 		setActiveNav(label);
+		setToggle(!toggle);
 	};
-	// console.log(currentActive);
-	// console.log(navLinks);
 
 	return (
-		<header>
-			<div className="bg-black text-white p-4 text-center w-full">
-				<p>
-					Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!
-					<a href="" className="underline ml-2 font-semibold">
-						ShopNow
-					</a>
-					<select className="bg-black ml-40 cursor-pointer px-2 font-poppins text-sm" name="english" id="">
+		<>
+			<button className="flex-center xl:hidden hidden" onClick={() => setToggle(!toggle)}>
+				<SvgIcon icon={menu("w-10 h-10")} />
+			</button>
+
+			<header className="sticky top-0 z-50 bg-white border-bottom shadow-md">
+				<div className="bg-black text-white p-2 xl:p-4 flex-center flex-col xl:flex-row justify-evenly text-center w-full">
+					<p>
+						Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!
+						<a href="" className="link ml-2">
+							ShopNow
+						</a>
+					</p>
+					<select className="bg-black cursor-pointer px-2 text-sm self-end" name="english" id="">
 						<option value="english">English</option>
 						<option value="tagalog">Tagalog</option>
 					</select>
-				</p>
-			</div>
-			<nav className="grid grid-cols-12  mx-auto items-center p-5 mt-2 border-b-2">
-				<NavLink to="/" className="font-bold text-2xl font-inter col-span-3  pl-24  -ml-2">
-					Exclusive
-				</NavLink>
-				<ul className="flex space-x-8 col-span-5 pl-6">
-					{navLinks.map((link) => (
-						<li key={link.label} className={`navLink`}>
-							<NavLink
-								className={` relative   ${
-									link.label === activeNav
-										? "after:absolute after:-bottom-[10%] after:left-0 after:bg-black after:h-[1.5px] after:w-full font-medium"
-										: "after:absolute after:-bottom-[10%] after:left-[50%] after:-translate-x-[50%]  after:w-0 after:bg-black after:h-[1.5px] hover:after:w-full after:transition-all after:duration-300"
-								} `}
-								to={link.href}
-								onClick={() => handleActiveNav(link.label)}>
-								{link.label}
-							</NavLink>
-						</li>
-					))}
-				</ul>
+				</div>
+				<div className="w-full py-8 flex-between padding-x xl:hidden ">
+					<NavLink to="/" className="font-bold text-2xl font-inter">
+						Exclusive
+					</NavLink>
+					<button className="flex-center xl:hidden" onClick={() => setToggle(!toggle)}>
+						<SvgIcon icon={menu("w-10 h-10")} />
+					</button>
+				</div>
+				<nav
+					className={`${
+						toggle ? "fixed xl:static xl:h-auto top-0 w-full h-[100dvh] z-50 visible bg-white" : "h-0 xl:h-auto xl:visible  invisible"
+					} transition-all flex flex-col xl:flex-row xl:items-center  xl:border-b-2 padding-x xl:h-auto `}>
+					<div className="w-full xl:w-3/12 py-8 flex-between ">
+						<NavLink to="/" className="font-bold text-2xl font-inter">
+							Exclusive
+						</NavLink>
+						<button className="flex-center xl:hidden" onClick={() => setToggle(!toggle)}>
+							<SvgIcon icon={menu("w-10 h-10")} />
+						</button>
+					</div>
 
-				<div className="flex gap-5 col-span-4 ">
-					<span className="w-3/4">
-						<label htmlFor="search" className="relative block">
+					<div className={`flex-center xl:w-4/12 w-full  justify-start `}>
+						<label htmlFor="search" className="relative block w-full xl:w-11/12 ">
 							<span className="sr-only">Search</span>
-							<button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2">
+							<button type="button" className="flex-center absolute inset-y-0 right-0  pr-2">
 								<SvgIcon icon={search()} />
 							</button>
 							<input
-								className="placeholder:text-slate-400 block placeholder:text-sm bg-gray-100 w-full border border-slate-300 rounded-md py-2 px-4 pr-9 shadow-sm focus:outline-none focus:border-gray-500 focus:ring-gray-500 focus:ring-1"
+								className="input placeholder:text-slate-400 placeholder:text-sm border border-slate-300 rounded-md py-2 pr-9 "
 								placeholder="What are you looking for?"
 								type="text"
 								name="search"
 							/>
 						</label>
-					</span>
+					</div>
 
-					<Link
-						to={"wishlist"}
-						className={`grid place-items-center ml-1 relative ${
-							filePath === wishlistPath
-								? "after:absolute after:bottom-1 after:left-0 after:bg-black after:h-[1.5px] after:w-full "
-								: "after:absolute after:bottom-1 after:left-[50%] after:-translate-x-[50%]  after:w-0 after:bg-black after:h-[1.5px] hover:after:w-full after:transition-all after:duration-300"
-						}`}>
-						<span
-							className={`z-20 absolute top-0 bg-red-400 font-poppins text-sm text-white rounded-full font-medium  ${
-								wishlistItems.length <= 99 ? "px-1.5 -right-2" : "px-1 -right-4"
-							} `}>
-							{wishlistItems.length <= 99 ? wishlistItems.length : "99"}
-						</span>
-						<SvgIcon icon={heart(`w-8 h-8 text-black ${filePath === wishlistPath ? "fill-black" : ""}`)} classVal={`relative `} />
-					</Link>
-
-					<Link
-						to={"/cart"}
-						className={`grid place-items-center relative ${
-							filePath === cartPath
-								? "after:absolute after:bottom-1 after:left-0 after:bg-black after:h-[1.5px] after:w-full "
-								: "after:absolute after:bottom-1 after:left-[50%] after:-translate-x-[50%]  after:w-0 after:bg-black after:h-[1.5px] hover:after:w-full after:transition-all after:duration-300"
-						}`}>
-						<span
-							className={`z-20 absolute top-0 bg-red-400 font-poppins text-sm text-white rounded-full font-medium  ${
-								Object.entries(cartItems).length <= 99 ? "px-1.5 -right-2" : "px-1 -right-4"
-							} `}>
-							{Object.entries(cartItems).length <= 99 ? Object.entries(cartItems).length : "99"}
-						</span>
-
-						<SvgIcon icon={cart(`w-8 h-8 text-black ${filePath === cartPath ? "fill-black" : ""}`)} />
-					</Link>
-				</div>
-			</nav>
-		</header>
+					<div className={`flex-center flex-col xl:flex-row xl:items-center items-start  xl:w-5/12 xl:py-8 py-5 w-full h-full justify-between`}>
+						<ul className="xl:flex-center xl:gap-6  xl:w-4/5 justify-start  w-full ">
+							{navLinks.map((link) => (
+								<li key={link.label}>
+									<NavLink className="navLink " to={link.href} onClick={() => handleActiveNav(link.label)}>
+										<span className={` relative  ${link.label === activeNav ? "navActive" : "navNotActive"} `}>{link.label}</span>
+									</NavLink>
+								</li>
+							))}
+						</ul>
+						<div className="flex-center xl:justify-end self-end xl:self-center  xl:w-1/5">
+							{navIconLinks.map((navIcon) => (
+								<Link
+									key={navIcon.label}
+									to={navIcon.href}
+									className={`grid-center block ml-1 w-[30px] relative ${currentPath === `/${navIcon.href}` ? "navActive" : "navNotActive"}`}
+									onClick={() => handleActiveNav()}>
+									<span
+										className={`z-20 absolute -top-1 bg-red-400  text-sm text-white rounded-full font-medium  ${
+											navIcon.storageName === "wishlistItems"
+												? wishlistItems.length <= 99
+													? "px-1.5 -right-2"
+													: "px-1 -right-4"
+												: navIcon.storageName === "cartItems"
+												? cartItems.length <= 99
+													? "px-1.5 -right-2"
+													: "px-1 -right-4"
+												: ""
+										} `}>
+										{navIcon.storageName === "wishlistItems"
+											? wishlistItems.length <= 99
+												? wishlistItems.length
+												: "99"
+											: navIcon.storageName === "cartItems"
+											? cartItems.length <= 99
+												? cartItems.length
+												: "99"
+											: ""}
+									</span>
+									<SvgIcon icon={navIcon.icon(`w-8 h-8 text-black ${currentPath === `/${navIcon.href}` ? "fill-black" : ""}`)} />
+								</Link>
+							))}
+						</div>
+					</div>
+				</nav>
+			</header>
+		</>
 	);
 };
 

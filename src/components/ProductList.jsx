@@ -3,29 +3,37 @@ import { timerImg } from "../assets/images";
 import { v4 as uuid } from "uuid";
 import { SvgIcon } from "./index";
 import { arrowLeft, arrowRight } from "../assets/icons/SvgIconsList";
+import Timer from "./Timer";
 
 const ProductList = ({ data, category, title, timer, headerBtn, bottomBtn }) => {
 	return (
-		<div className="flex flex-col padding mx-auto w-11/12   font-poppins border-b border-black/20">
-			<div className=" grid-cols-12 text-secondary font-semibold flex items-center mb-5 h-10 ">
-				<span className="w-5 h-10 bg-secondary inline-block rounded-sm mr-4"></span>
+		<div className="flex flex-col gap-8 padding mt-10 lg:mt-0 w-full  border-bottom ">
+			<div
+				className=" w-full text-secondary font-semibold flex-center !justify-start  h-10 
+			">
+				<span className="w-5 h-10 bg-secondary rounded-sm"></span>
 				{category}
 			</div>
-			<div className="flex items-end  font-inter text-4xl font-semibold mb-10 h-14">
-				{title}
-				{timer && <img src={timerImg} className="ml-10" alt="" />}
-				{headerBtn ? (
-					<button type="button" className="bg-secondary text-base text-white px-10 py-3 rounded-sm shaodw-sm ml-auto mr-10 font-poppins">
-						View All
-					</button>
-				) : (
-					<span className="flex ml-auto space-x-2 mr-10">
-						<SvgIcon icon={arrowLeft()} classVal={"bg-tertiary rounded-full p-1 cursor-pointer shadow-sm"} />
-						<SvgIcon icon={arrowRight()} classVal={"bg-tertiary rounded-full p-1 cursor-pointer shadow-sm"} />
-					</span>
-				)}
+
+			<div className="flex-center gap-2  flex-col items-start   w-full  ">
+				{timer && <Timer days={3} hours={12} minutes={30} seconds={15} />}
+
+				<div className={`${timer && "mt-5"} flex-between w-full `}>
+					<span className={`font-inter text-2xl sm:text-3xl lg:text-4xl font-semibold`}>{title} </span>
+					{headerBtn ? (
+						<button type="button" className="button  mx-0 ml-auto ">
+							View All
+						</button>
+					) : (
+						<span className="flex-center ">
+							<SvgIcon icon={arrowLeft()} classVal={"icon"} />
+							<SvgIcon icon={arrowRight()} classVal={"icon"} />
+						</span>
+					)}
+				</div>
 			</div>
-			<div className="grid grid-cols-4 gap-10 ">
+
+			<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-10 ">
 				{data.map((product) => {
 					// console.log(product);
 					return (
@@ -46,7 +54,7 @@ const ProductList = ({ data, category, title, timer, headerBtn, bottomBtn }) => 
 				})}
 			</div>
 			{bottomBtn && (
-				<button type="button" className="bg-secondary text-base text-white px-20 py-3 rounded-sm shaodw-sm mx-auto font-poppins mt-16 ">
+				<button type="button" className="button xl:px-20 mt-16 ">
 					View All Products
 				</button>
 			)}

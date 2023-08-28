@@ -4,7 +4,7 @@ const Breadcrumb = () => {
 	let currentLink = "";
 	const crumbs = location.pathname.split("/").filter((link) => link !== "");
 	return (
-		<p className="font-poppins -ml-2 mb-14">
+		<p className="-ml-2 mb-14">
 			<Link to="/" className="opacity-50 ">
 				Home /
 			</Link>

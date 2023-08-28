@@ -8,7 +8,7 @@ const Footer = () => {
 	const currentYear = new Date().getFullYear();
 	return (
 		<footer className="bg-black text-white">
-			<div className=" p-32 grid grid-cols-5">
+			<div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 padding">
 				{footerLinks.map((section, index) => (
 					<ul key={section.title} className="footerLinkParent">
 						<li>
@@ -25,15 +25,15 @@ const Footer = () => {
 							<li>
 								<label htmlFor="email" className="relative block">
 									<span className="sr-only">Email</span>
-									<button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2">
-										<SvgIcon icon={send()} />
-									</button>
 									<input
-										className="block placeholder:text-sm bg-black w-full border broder-slate-300 rounded-md py-2 px-4 pr-9 shadow-sm focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 font-poppins text-base"
+										className="input placeholder:text-sm bg-black py-2 px-4 pr-9 border border-slate-300 rounded-md"
 										type="email"
 										name="email"
 										placeholder="Enter your email"
 									/>
+									<button type="button" className="flex-center absolute inset-y-0 right-0 pr-2">
+										<SvgIcon icon={send()} />
+									</button>
 								</label>
 							</li>
 						) : (
@@ -44,12 +44,12 @@ const Footer = () => {
 							<>
 								<li className="flex">
 									<img src={githubQr} className="w-1/2" alt="my github qr code" />
-									<span className="flex flex-col items-center justify-center space-y-4 ml-4">
+									<span className="flex-center flex-col ml-4 w-1/2">
 										<img src={playStore} className="cursor-pointer" alt="playstore" />
 										<img src={appStore} className="cursor-pointer" alt="appstore" />
 									</span>
 								</li>
-								<li className="flex space-x-5 w-full pt-5">
+								<li className="flex-center justify-start">
 									<img src={facebook} className="cursor-pointer" alt="facebook icon" />
 									<img src={twitter} className="cursor-pointer" alt="twitter icon" />
 									<img src={instagram} className="cursor-pointer" alt="instagram icon" />
@@ -62,9 +62,8 @@ const Footer = () => {
 					</ul>
 				))}
 			</div>
-			<div className="flex items-center justify-center space-x-2 font-poppins text-base p-5 border-t opacity-40 ">
+			<div className="flex-center flex-wrap  text-center gap-2 p-5 border-t opacity-40">
 				<SvgIcon icon={copyRight()} />
-
 				<h2>Copyright Joelric {currentYear}. All right reserved</h2>
 			</div>
 		</footer>

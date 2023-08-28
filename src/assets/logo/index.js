@@ -12,4 +12,18 @@ import blackLinkedin from "./b-linkedin.svg";
 import masterCard from "./master-card.png";
 import visa from "./visa.png";
 
-export { apple, appStore, playStore, facebook, instagram, linkedIn, twitter, google, blackTwitter, blackInstagram, blackLinkedin, masterCard, visa };
+export {
+  apple,
+  appStore,
+  playStore,
+  facebook,
+  instagram,
+  linkedIn,
+  twitter,
+  google,
+  blackTwitter,
+  blackInstagram,
+  blackLinkedin,
+  masterCard,
+  visa,
+};

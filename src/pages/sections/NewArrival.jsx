@@ -1,48 +1,34 @@
-import { Link } from "react-router-dom";
 import { playStation, attractiveWoman, speaker, gucciPerfume } from "../../assets/images";
-Link;
+import { NewArrivalCardText } from "../../components";
+
 const NewArrival = () => {
 	return (
-		<div className="flex flex-col pt-32 pb-16 mx-auto w-10/12 font-poppins ">
-			<div className=" grid-cols-12 text-secondary font-semibold flex items-center mb-5 h-10 ">
-				<span className="w-5 h-10 bg-secondary inline-block rounded-sm mr-4"></span>
+		<div className="flex flex-col padding mx-auto  w-full gap-10  ">
+			<div className=" text-secondary font-semibold flex-center justify-start  h-10 ">
+				<span className="w-5 h-10 bg-secondary rounded-sm "></span>
 				Featured
 			</div>
-			<div className="flex items-end  font-inter text-4xl font-semibold mb-10 h-14">New Arrival</div>
-			<div className="grid w-full grid-cols-2 h-[600px]  gap-5 text-white rounded-sm">
-				<div className=" bg-black flex items-end justify-center relative rounded-sm">
+			<div className="font-inter text-4xl font-semibold">New Arrival</div>
+			<div className="flex flex-col md:flex-row md:h-[600px]  gap-5 text-white rounded-sm">
+				{/* 1 */}
+				<div className=" bg-black flex-center items-end  relative rounded-sm w-full lg:w-1/2 ">
 					<img src={playStation} alt="" />
-					<span className="bottom-0 left-0 absolute p-10 flex flex-col justify-end space-y-2 bg-black/30 h-full w-full">
-						<h1 className="text-2xl font-semibold">PlayStation 5</h1>
-						<p className="text-sm w-1/2">Black and White version of the PS5 coming out on sale.</p>
-						<Link className="text-base font-medium underline underline-offset-2">Shop Now</Link>
-					</span>
+					<NewArrivalCardText title={"PlayStation 5"} description={"Black and White version of the PS5 coming out on sale."} />
 				</div>
-				<div className="  grid grid-rows-2 ">
-					<div className="bg-black flex items-end justify-end relative rounded-sm">
+				{/* 2 */}
+				<div className="flex flex-col w-full  lg:w-1/2">
+					<div className="bg-black flex items-end justify-end relative rounded-sm h-1/2">
 						<img src={attractiveWoman} alt="" />
-						<span className="bottom-0 left-0 absolute p-5 flex flex-col justify-end space-y-2 bg-black/30 h-full w-full">
-							<h1 className="text-2xl font-semibold">Women’s Collections</h1>
-							<p className="text-sm w-1/2">Featured woman collections that give you another vibe.</p>
-							<Link className="text-base font-medium underline underline-offset-2">Shop Now</Link>
-						</span>
+						<NewArrivalCardText title={"Women’s Collections"} description={"Featured woman collections that give you another vibe."} />
 					</div>
-					<div className=" grid grid-cols-2 gap-5 mt-5">
-						<div className="bg-black grid place-items-center relative rounded-sm">
+					<div className=" flex gap-5 mt-5 h-1/2">
+						<div className="bg-black grid-center relative rounded-sm w-1/2 pt-14 px-5">
 							<img src={speaker} alt="" />
-							<span className="bottom-0 left-0 absolute p-5 flex flex-col justify-end space-y-2 bg-black/30 h-full w-full">
-								<h1 className="text-2xl font-semibold">Speakers</h1>
-								<p className="text-sm w-full">Amazon wireless speakers.</p>
-								<Link className="text-base font-medium underline underline-offset-2">Shop Now</Link>
-							</span>
+							<NewArrivalCardText title={"Speakers"} description={"Amazon wireless speakers."} />
 						</div>
-						<div className="bg-black grid place-items-center relative rounded-sm">
+						<div className="bg-black grid-center relative rounded-sm w-1/2 pt-14 px-5">
 							<img src={gucciPerfume} alt="" />
-							<span className="bottom-0 left-0 absolute p-5 flex flex-col justify-end space-y-2 bg-black/30 h-full w-full">
-								<h1 className="text-2xl font-semibold">Perfume</h1>
-								<p className="text-sm w-full capitalize">Gucci Intense Oud Edp</p>
-								<Link className="text-base font-medium underline underline-offset-2">Shop Now</Link>
-							</span>
+							<NewArrivalCardText title={"Perfume"} description={"Gucci Intense Oud Edp"} />
 						</div>
 					</div>
 				</div>

@@ -14,6 +14,10 @@ export default {
 			},
 			backgroundImage: {
 				icon: "url('/src/assets/icons/iconBg.png')",
+				light: "url('/src/assets/images/light.png')",
+			},
+			screens: {
+				xs: "500px",
 			},
 		},
 	},
