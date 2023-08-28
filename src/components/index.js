@@ -11,6 +11,7 @@ import ServiceCard from "./ServiceCard";
 import Breadcrumb from "./Breadcrumb";
 import Timer from "./Timer";
 import NewArrivalCardText from "./NewArrivalCardText";
+import CartCard from "./CartCard";
 export {
 	CategoryCard,
 	Footer,
@@ -25,4 +26,5 @@ export {
 	Breadcrumb,
 	Timer,
 	NewArrivalCardText,
+	CartCard,
 };

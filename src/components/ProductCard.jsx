@@ -6,10 +6,10 @@ import { useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 
 const ProductCard = ({ id, productName, productImage, currentPrice, originalPrice, rating, rateCount, discountPercentage, quantity, subTotal }) => {
-	const [toggle, setToggle] = useState(false);
 	const { addToCart, cartItems, removeToCart, addToWishlist, wishlistItems } = useContext(ShopContext);
 	const [activeWishlist, setActiveWishlist] = useState(false);
 	const [inCart, setInCart] = useState(false);
+	const [toggle, setToggle] = useState(false);
 
 	useEffect(() => {
 		const filterWishlist = wishlistItems.filter((item) => item.id === id);
@@ -84,8 +84,8 @@ const ProductCard = ({ id, productName, productImage, currentPrice, originalPric
 					{currentPrice}
 					<span className="text-black/50 line-through ml-3">{originalPrice}</span>
 				</p>
-				<div className="flex-center justify-start ">
-					<img src={rating} alt="" className="-ml-1 scale-75 xs:scale-90 xl:scale-95" /> <span className="ml-1 text-black/50">({rateCount})</span>
+				<div className="flex-center gap-1 justify-start ">
+					<img src={rating} alt="" className="-ml-1 scale-75 xs:scale-90 xl:scale-95" /> <span className="text-black/50">({rateCount})</span>
 				</div>
 			</div>
 		</div>

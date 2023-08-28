@@ -383,7 +383,7 @@ export const wishlistData = [
 ];
 
 export const cartData = {
-	tableHeaders: [{ title: "Product" }, { title: "Price" }, { title: "Quantity" }, { title: "Subtotal" }, { title: "Action" }],
+	tableHeaders: [{ title: "Product" }, { title: "Product" }, { title: "Price" }, { title: "Quantity" }, { title: "Subtotal" }, { title: "Action" }],
 	cartProducts: [
 		{
 			id: 8,

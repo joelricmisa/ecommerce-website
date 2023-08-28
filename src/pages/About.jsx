@@ -5,10 +5,10 @@ import PeopleCard from "../components/PeopleCard";
 
 const About = () => {
 	return (
-		<div className="w-11/12  ml-auto py-20">
+		<div className="w-full padding-x">
 			<Breadcrumb />
-			<div className="flex -mt-10">
-				<div className="flex-center flex-col items-start pr-20">
+			<div className="flex-center padding-b flex-col xl:flex-row gap-10">
+				<div className="flex-center flex-col items-start xl:pr-20">
 					<h1 className="text-5xl mb-10 font-inter">Our Story</h1>
 					<p className="mb-6">
 						Launched in 2015, Exclusive is South Asia’s premier online shopping marketplace with an active presence in Philippines. Supported by wide range of
@@ -19,19 +19,19 @@ const About = () => {
 						consumer.
 					</p>
 				</div>
-				<img src={aboutCover} alt="" />
+				<img src={aboutCover} className="object-contain" alt="" />
 			</div>
-			<div className="flex-center gap-8 my-32 w-11/12">
+			<div className="grid sm:grid-cols-2 xl:grid-cols-4  gap-8  w-full padding-y">
 				{shopInfo.map((info) => (
 					<ShopInfoCard key={info.label} iconVal={info.shopInfoIcon} numbers={info.shopInfoNumber} description={info.shopInfoDescription} />
 				))}
 			</div>
-			<div className="flex-center gap-8 mt-32 mb-16 w-11/12">
+			<div className="flex-center flex-col xl:flex-row  w-full padding-y  gap-10">
 				{people.map((person) => (
 					<PeopleCard key={person.personName} personName={person.personName} personImg={person.personImg} personPosition={person.position} />
 				))}
 			</div>
-			<div className="flex-center w-11/12  gap-10 justify-center">
+			<div className="flex-center flex-col xl:flex-row  w-full padding-b  gap-10 ">
 				{services.map((service) => (
 					<ServiceCard
 						key={service.serviceTitle}

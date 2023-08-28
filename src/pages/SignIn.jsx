@@ -3,9 +3,9 @@ import { signUpImg } from "../assets/images";
 
 const SignIn = () => {
 	return (
-		<div className="flex h-[700px] ">
-			<img src={signUpImg} alt="" className="w-7/12 " />
-			<div className="w-5/12 sm:px-20 px-10 my-auto">
+		<div className="flex flex-col xl:flex-row ">
+			<img src={signUpImg} alt="" className="xl:w-7/12 min-h-[100px] " />
+			<div className="xl:w-5/12 sm:px-20 px-10 my-auto padding-y">
 				<h1 className="text-4xl font-medium">Log in to Exclusive</h1>
 				<h2 className="mt-5">Enter your details below</h2>
 
@@ -16,8 +16,8 @@ const SignIn = () => {
 					<input type="password" name="pass" id="pass" placeholder="Password" className="signInput" />
 				</label>
 
-				<div className="flex-center py-4 mt-5  w-full">
-					<button className="button w-1/2">Log in</button>
+				<div className="flex-center flex-wrap py-4 mt-5  w-full">
+					<button className="button xl:w-1/2">Log in</button>
 					<Link to={"/forgot"} className="link text-secondary">
 						Forget Password?
 					</Link>

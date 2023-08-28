@@ -26,10 +26,6 @@ const Navbar = () => {
 
 	return (
 		<>
-			<button className="flex-center xl:hidden hidden" onClick={() => setToggle(!toggle)}>
-				<SvgIcon icon={menu("w-10 h-10")} />
-			</button>
-
 			<header className="sticky top-0 z-50 bg-white border-bottom shadow-md">
 				<div className="bg-black text-white p-2 xl:p-4 flex-center flex-col xl:flex-row justify-evenly text-center w-full">
 					<p>
@@ -43,7 +39,7 @@ const Navbar = () => {
 						<option value="tagalog">Tagalog</option>
 					</select>
 				</div>
-				<div className="w-full py-8 flex-between padding-x xl:hidden ">
+				<div className="w-full py-3 flex-between padding-x xl:hidden ">
 					<NavLink to="/" className="font-bold text-2xl font-inter">
 						Exclusive
 					</NavLink>
@@ -55,7 +51,7 @@ const Navbar = () => {
 					className={`${
 						toggle ? "fixed xl:static xl:h-auto top-0 w-full h-[100dvh] z-50 visible bg-white" : "h-0 xl:h-auto xl:visible  invisible"
 					} transition-all flex flex-col xl:flex-row xl:items-center  xl:border-b-2 padding-x xl:h-auto `}>
-					<div className="w-full xl:w-3/12 py-8 flex-between ">
+					<div className="w-full xl:w-3/12 py-3 flex-between ">
 						<NavLink to="/" className="font-bold text-2xl font-inter">
 							Exclusive
 						</NavLink>
@@ -79,7 +75,7 @@ const Navbar = () => {
 						</label>
 					</div>
 
-					<div className={`flex-center flex-col xl:flex-row xl:items-center items-start  xl:w-5/12 xl:py-8 py-5 w-full h-full justify-between`}>
+					<div className={`flex-center flex-col xl:flex-row xl:items-center items-start  xl:w-5/12 xl:py-3 py-5 w-full h-full justify-between`}>
 						<ul className="xl:flex-center xl:gap-6  xl:w-4/5 justify-start  w-full ">
 							{navLinks.map((link) => (
 								<li key={link.label}>

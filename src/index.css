@@ -98,12 +98,12 @@
 		@apply pl-5 sm:pl-8 lg:pl-16;
 	}
 	.padding-r {
-		@apply pr-5 sm:pr-8 lg:pl-16;
+		@apply pr-5 sm:pr-8 lg:pr-16;
 	}
 	.padding-t {
-		@apply pt-10 sm:pt-12 lg:py-24;
+		@apply pt-10 sm:pt-12 lg:pt-24;
 	}
 	.padding-b {
-		@apply pb-10 sm:pb-12 lg:py-24;
+		@apply pb-10 sm:pb-12 lg:pb-24;
 	}
 }

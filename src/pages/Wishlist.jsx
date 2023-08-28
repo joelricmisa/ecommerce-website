@@ -15,15 +15,15 @@ const Wishlist = () => {
 
 	return (
 		<section>
-			<div className="flex flex-col padding mx-auto w-11/12   border-b border-black/20 ">
-				<div className="text-secondary  font-semibold flex-between mb-20 h-10  ">
+			<div className="flex flex-col padding border-bottom ">
+				<div className="text-secondary  font-semibold flex-center xl:flex-between flex-wrap mb-20 h-10  ">
 					<span className="text-black text-xl">Wishlist ({wishlistItems.length})</span>
-					<button type="button" className="button mr-2" onClick={() => setAddAll(!addAll)}>
+					<button type="button" className="button mx-0" onClick={() => setAddAll(!addAll)}>
 						Move All To Cart
 					</button>
 				</div>
 
-				<div className="grid grid-cols-4 gap-10 ">
+				<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-10 ">
 					{wishlistItems.map((product) => {
 						return (
 							<WishlistCard
@@ -44,18 +44,18 @@ const Wishlist = () => {
 				</div>
 			</div>
 
-			<div className="flex flex-col padding mx-auto w-11/12   border-b border-black/20">
-				<div className=" grid-cols-12 text-secondary font-semibold flex-between mb-20 h-10 ">
+			<div className="flex flex-col padding ">
+				<div className=" text-secondary font-semibold flex-between mb-20 ">
 					<div className="flex-center">
 						<span className="w-5 h-10 bg-secondary rounded-sm"></span>
 						Just For You
 					</div>
-					<button type="button" className="button mr-2">
+					<button type="button" className="button mx-0">
 						See All
 					</button>
 				</div>
 
-				<div className="grid grid-cols-4 gap-10 ">
+				<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-10  ">
 					{ProductData.flashSales.map((product) => {
 						return (
 							<WishlistCard

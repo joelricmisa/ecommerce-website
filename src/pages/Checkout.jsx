@@ -17,11 +17,11 @@ const Checkout = () => {
 	const showVal = cartItems.length - 5;
 	const [show, setShow] = useState(false);
 	return (
-		<div className="w-10/12 mx-auto py-20">
+		<div className="padding-x">
 			<Breadcrumb />
-			<h1 className="text-3xl font-inter font-medium -ml-2">Billing Details</h1>
-			<div className="flex-between items-start -ml-2 w-full mt-10">
-				<div className="flex flex-col w-2/5 ">
+			<h1 className="text-3xl font-inter font-medium ">Billing Details</h1>
+			<div className="flex-between xl:flex-row flex-col items-start w-full mt-10">
+				<div className="flex flex-col xl:w-2/5 w-full ">
 					{billingDetails.map((input, index) => (
 						<label key={index} htmlFor={input.id} className="checkLabel">
 							{input.label}
@@ -29,8 +29,8 @@ const Checkout = () => {
 						</label>
 					))}
 				</div>
-				<div className="flex flex-col w-1/2 p-5">
-					<h1 className=" ml-auto -mt-14 mb-10 text-xl font-medium flex-center">
+				<div className="flex flex-col xl:w-1/2 w-full padding-y xl:py-0 xl:pb-24">
+					<h1 className=" xl:ml-auto xl:-mt-10 mb-10 text-xl font-medium flex-center justify-start">
 						<SvgIcon icon={cart()} />
 						Cart
 					</h1>
@@ -92,7 +92,7 @@ const Checkout = () => {
 						<input type="text" placeholder="Coupon Code" className="input w-3/5" />
 						<button className="button w-2/5">Apply Coupon</button>
 					</div>
-					<button className="button w-2/5 mt-10 mx-0">Place Order</button>
+					<button className="button xl:w-2/5 mt-10 mx-0">Place Order</button>
 				</div>
 			</div>
 		</div>

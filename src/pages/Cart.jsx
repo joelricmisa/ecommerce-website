@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { cartData } from "../constants";
-import { Breadcrumb, QuantityState } from "../components";
+import { Breadcrumb, QuantityState, CartCard } from "../components";
 import { ShopContext } from "../contexts/ShopContext";
 
 const Cart = () => {
@@ -16,40 +16,34 @@ const Cart = () => {
 		setTotalAmount(getTotalCartAmount());
 	}, [cartItems]);
 	return (
-		<div className="w-10/12 mx-auto py-20">
+		<div className="padding-x">
 			<Breadcrumb />
-			<div className="w-full  text-center font-poppins  rounded-sm  border [&>div]:mb-5 border-black  ">
-				<div className="grid grid-cols-6 py-5  shadow-sm rounded-sm font-medium border-b">
-					{cartData.tableHeaders.map((head, index) => (
-						<h1 key={index} className="first:col-span-2 ">
-							{head.title}
-						</h1>
-					))}
-				</div>
+			<div className="w-full  text-center font-poppins  rounded-sm  border  border-black  ">
+				<h1 className="py-5 shadow-sm rounded-sm font-medium border-b">
+					Shopping Cart ({cartItems.length} {cartItems.length > 1 ? "products" : "product"})
+				</h1>
 
 				{cartItems.map((product, index) => (
-					<div key={index} className="grid grid-cols-6  py-5  shadow-sm rounded-sm last:mb-0">
-						<div className="flex-center col-span-2 justify-start pl-24  w-full">
-							<img src={product.productImage} className="h-10 w-12" alt="" /> {product.productName}
-						</div>
-						<p className="flex-center">{product.currentPrice}</p>
-						<QuantityState productId={product.id} quantity={product.quantity} productPrice={product.currentPrice.replace("$", "")} />
-					</div>
+					<CartCard
+						key={index}
+						id={product.id}
+						productImage={product.productImage}
+						productName={product.productName}
+						currentPrice={product.currentPrice.replace("$", "")}
+						quantity={product.quantity}
+					/>
 				))}
 
-				<div className="grid grid-cols-6 ">
-					<div className="col-span-5"></div>
-					<Link to={"/"} className="py-3 w-[95%] border border-black/30 rounded-sm">
-						Return to Shop
-					</Link>
-				</div>
+				<Link to={"/"} className="button block ">
+					Return to Shop
+				</Link>
 			</div>
-			<div className="flex-between mt-20 items-start">
-				<div className="flex items-start w-1/2  gap-4">
+			<div className="flex-between  flex-col xl:flex-row  gap-10 items-start padding-y">
+				<div className="flex xl:items-start items-center xl:w-1/2 w-full gap-4">
 					<input type="text" placeholder="Coupon Code" className="input w-3/5 py-3.5 rounded-sm" />
-					<button className="w-2/5 button">Apply Coupon</button>
+					<button className="w-2/5 button px-5">Apply Coupon</button>
 				</div>
-				<div className="w-2/5  px-5 py-10 flex flex-col  border-black rounded-md border">
+				<div className="xl:w-2/5 w-full  px-5 py-10 flex flex-col  border-black rounded-md border">
 					<h1 className="font-medium mb-7 text-xl">Cart Total</h1>
 					<p className="flex-between w-full  mb-4 pb-4 border-black/30 border-b">
 						Subtotal: <span>{formatNumber.format(totalAmount)}</span>
