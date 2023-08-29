@@ -7,15 +7,7 @@ import SignIn from "./SignIn";
 import Wishlist from "./Wishlist";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
+import ProductPreview from "./ProductPreview";
+import ShopProducts from "./ShopProducts";
 
-export {
-  Home,
-  NotFound,
-  Contact,
-  About,
-  SignUp,
-  SignIn,
-  Wishlist,
-  Cart,
-  Checkout,
-};
+export { Home, NotFound, Contact, About, SignUp, SignIn, Wishlist, Cart, Checkout, ProductPreview, ShopProducts };

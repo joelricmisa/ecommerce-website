@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 
 const ProductCard = ({ id, productName, productImage, currentPrice, originalPrice, rating, rateCount, discountPercentage, quantity, subTotal }) => {
-	const { addToCart, cartItems, removeToCart, addToWishlist, wishlistItems } = useContext(ShopContext);
+	const { addToCart, cartItems, removeToCart, addToWishlist, removeToWishlist, wishlistItems } = useContext(ShopContext);
 	const [activeWishlist, setActiveWishlist] = useState(false);
 	const [inCart, setInCart] = useState(false);
 	const [toggle, setToggle] = useState(false);
@@ -23,39 +23,41 @@ const ProductCard = ({ id, productName, productImage, currentPrice, originalPric
 			className="flex flex-col min-h-[300px]  rounded-sm  hover:scale-105 transition-transform hover:ring-offset-2  hover:ring-1 hover:ring-black/10 hover:shadow-sm relative"
 			onMouseOver={() => setToggle(true)}
 			onMouseOut={() => setToggle(false)}>
-			<div className="bg-tertiary w-full h-[270px]  grid-center relative">
+			<div className="bg-extraColor w-full h-[270px]  grid-center relative">
 				{discountPercentage && (
-					<span className="w-14 h-6 bg-secondary text-white text-xs grid-center rounded-sm absolute top-3 left-3">{discountPercentage}</span>
+					<span className="w-14 h-6 bg-tertiary-100 text-primary text-xs grid-center rounded-sm absolute top-3 left-3">{discountPercentage}</span>
 				)}
 				<div className="flex flex-col gap-2 absolute top-3 right-3">
 					<span
-						className={`icon grid-center ${activeWishlist ? "text-red-500" : "hover:text-red-500"} `}
+						className={`icon grid-center ${activeWishlist ? "text-tertiary-100" : "hover:text-tertiary-100"} `}
 						onClick={() =>
-							addToWishlist({
-								id,
-								productName,
-								productImage,
-								currentPrice,
-								originalPrice,
-								rating,
-								rateCount,
-								discountPercentage,
-								quantity,
-								subTotal,
-							})
+							activeWishlist
+								? removeToWishlist({ id })
+								: addToWishlist({
+										id,
+										productName,
+										productImage,
+										currentPrice,
+										originalPrice,
+										rating,
+										rateCount,
+										discountPercentage,
+										quantity,
+										subTotal,
+								  })
 						}>
-						<SvgIcon icon={heart(`${activeWishlist ? "fill-red-500" : "hover:fill-red-500"}`)} />
+						<SvgIcon icon={heart(` ${activeWishlist ? "fill-tertiary-100" : "text-tertiary-200 fill-none hover:fill-tertiary-100"}`)} />
 					</span>
 
-					<span className="icon grid-center hover:bg-secondary hover:text-white ">
-						<SvgIcon icon={eye()} />
+					<span className="icon grid-center  ">
+						<SvgIcon icon={eye("text-white fill-tertiary-200 ")} />
 					</span>
 				</div>
 				<img src={productImage} className="scale-75 xs:scale-90 xl:scale-95" alt="" />
 				{toggle && (
 					<button
 						type="button"
-						className="button bg-black flex-center py-2 gap-2 absolute bottom-0 inset-x-0 px-0"
+						className="button bg-secondary flex-center py-2 gap-2 absolute bottom-0 inset-x-0 px-0"
 						onClick={() =>
 							inCart
 								? removeToCart({ id })
@@ -80,7 +82,7 @@ const ProductCard = ({ id, productName, productImage, currentPrice, originalPric
 
 			<div className="w-full  flex flex-col gap-2 p-2">
 				<h1 className="font-medium">{productName}</h1>
-				<p className="font-medium text-secondary">
+				<p className="font-medium text-secondary-100">
 					{currentPrice}
 					<span className="text-black/50 line-through ml-3">{originalPrice}</span>
 				</p>

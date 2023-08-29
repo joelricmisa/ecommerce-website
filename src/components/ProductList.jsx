@@ -9,9 +9,9 @@ const ProductList = ({ data, category, title, timer, headerBtn, bottomBtn }) => 
 	return (
 		<div className="flex flex-col gap-8 padding mt-10 lg:mt-0 w-full  border-bottom ">
 			<div
-				className=" w-full text-secondary font-semibold flex-center !justify-start  h-10 
+				className=" w-full text-tertiary-100 font-semibold flex-center !justify-start  h-10 
 			">
-				<span className="w-5 h-10 bg-secondary rounded-sm"></span>
+				<span className="w-5 h-10 bg-tertiary-100 rounded-sm"></span>
 				{category}
 			</div>
 

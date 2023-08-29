@@ -1,10 +1,10 @@
 import { useLocation, Link } from "react-router-dom";
-const Breadcrumb = () => {
+const Breadcrumb = ({ padding = "padding-y" }) => {
 	const location = useLocation();
 	let currentLink = "";
 	const crumbs = location.pathname.split("/").filter((link) => link !== "");
 	return (
-		<p className="padding-y">
+		<p className={`${padding}`}>
 			<Link to="/" className="opacity-50 ">
 				Home /
 			</Link>

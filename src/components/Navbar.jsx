@@ -26,15 +26,15 @@ const Navbar = () => {
 
 	return (
 		<>
-			<header className="sticky top-0 z-50 bg-white border-bottom shadow-md">
-				<div className="bg-black text-white p-2 xl:p-4 flex-center flex-col xl:flex-row justify-evenly text-center w-full">
+			<header className="sticky top-0 z-50 bg-primary border-bottom shadow-md">
+				<div className="bg-secondary text-primary p-2 xl:p-4 flex-center flex-col xl:flex-row justify-evenly text-center w-full">
 					<p>
 						Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!
 						<a href="" className="link ml-2">
 							ShopNow
 						</a>
 					</p>
-					<select className="bg-black cursor-pointer px-2 text-sm self-end" name="english" id="">
+					<select className="bg-secondary cursor-pointer px-2 text-sm self-end" name="english" id="">
 						<option value="english">English</option>
 						<option value="tagalog">Tagalog</option>
 					</select>
@@ -49,7 +49,7 @@ const Navbar = () => {
 				</div>
 				<nav
 					className={`${
-						toggle ? "fixed xl:static xl:h-auto top-0 w-full h-[100dvh] z-50 visible bg-white" : "h-0 xl:h-auto xl:visible  invisible"
+						toggle ? "fixed xl:static xl:h-auto top-0 w-full h-[100dvh] z-50 visible bg-primary" : "h-0 xl:h-auto xl:visible  invisible"
 					} transition-all flex flex-col xl:flex-row xl:items-center  xl:border-b-2 padding-x xl:h-auto `}>
 					<div className="w-full xl:w-3/12 py-3 flex-between ">
 						<NavLink to="/" className="font-bold text-2xl font-inter">
@@ -93,7 +93,7 @@ const Navbar = () => {
 									className={`grid-center block ml-1 w-[30px] relative ${currentPath === `/${navIcon.href}` ? "navActive" : "navNotActive"}`}
 									onClick={() => handleActiveNav()}>
 									<span
-										className={`z-20 absolute -top-1 bg-red-400  text-sm text-white rounded-full font-medium  ${
+										className={`z-20 absolute -top-1 bg-tertiary-100  text-sm text-primary rounded-full font-medium  ${
 											navIcon.storageName === "wishlistItems"
 												? wishlistItems.length <= 99
 													? "px-1.5 -right-2"
@@ -114,7 +114,7 @@ const Navbar = () => {
 												: "99"
 											: ""}
 									</span>
-									<SvgIcon icon={navIcon.icon(`w-8 h-8 text-black ${currentPath === `/${navIcon.href}` ? "fill-black" : ""}`)} />
+									<SvgIcon icon={navIcon.icon(`w-8 h-8 text-secondary ${currentPath === `/${navIcon.href}` ? "fill-secondary" : ""}`)} />
 								</Link>
 							))}
 						</div>

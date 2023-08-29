@@ -27,7 +27,7 @@ const QuantityState = ({ productId, quantity, productPrice }) => {
 			{console.log(cartItems)}
 			<input type="number" min={1} value={state} className="text-center w-16 mx-auto py-1 border" onChange={(e) => setState(e.target.value)} />
 			<p className="flex-center">{formatNumer.format(productSubTotal)} </p>
-			<span className="flex-center bg-secondary w-8 h-8 mx-auto  shadow-sm p-0.5 cursor-pointer" onClick={() => removeToCart({ id: productId })}>
+			<span className="flex-center bg-secondary-100 w-8 h-8 mx-auto  shadow-sm p-0.5 cursor-pointer" onClick={() => removeToCart({ id: productId })}>
 				<SvgIcon icon={xMark()} />
 			</span>
 		</div>

@@ -18,7 +18,7 @@ const SignIn = () => {
 
 				<div className="flex-center flex-wrap py-4 mt-5  w-full">
 					<button className="button xl:w-1/2">Log in</button>
-					<Link to={"/forgot"} className="link text-secondary">
+					<Link to={"/forgot"} className="link text-tertiary-100">
 						Forget Password?
 					</Link>
 				</div>

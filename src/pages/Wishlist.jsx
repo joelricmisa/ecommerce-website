@@ -16,7 +16,7 @@ const Wishlist = () => {
 	return (
 		<section>
 			<div className="flex flex-col padding border-bottom ">
-				<div className="text-secondary  font-semibold flex-center xl:flex-between flex-wrap mb-20 h-10  ">
+				<div className="text-tertiary-100  font-semibold flex-center xl:flex-between flex-wrap mb-20 h-10  ">
 					<span className="text-black text-xl">Wishlist ({wishlistItems.length})</span>
 					<button type="button" className="button mx-0" onClick={() => setAddAll(!addAll)}>
 						Move All To Cart
@@ -45,9 +45,9 @@ const Wishlist = () => {
 			</div>
 
 			<div className="flex flex-col padding ">
-				<div className=" text-secondary font-semibold flex-between mb-20 ">
+				<div className=" text-tertiary-100 font-semibold flex-between mb-20 ">
 					<div className="flex-center">
-						<span className="w-5 h-10 bg-secondary rounded-sm"></span>
+						<span className="w-5 h-10 bg-tertiary-100 rounded-sm"></span>
 						Just For You
 					</div>
 					<button type="button" className="button mx-0">

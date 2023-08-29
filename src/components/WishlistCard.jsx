@@ -27,16 +27,16 @@ const WishlistCard = ({
 
 	return (
 		<div className="flex flex-col min-h-[300px]  rounded-sm  hover:scale-105 transition-transform hover:ring-offset-2  hover:ring-1 hover:ring-black/10 hover:shadow-sm">
-			<div className="bg-tertiary w-full h-[270px] grid-center relative">
+			<div className="bg-extraColor w-full h-[270px] grid-center relative">
 				{discountPercentage && (
-					<span className="w-14 h-6 bg-secondary text-white text-xs grid-center rounded-sm absolute top-3 left-3">{discountPercentage}</span>
+					<span className="w-14 h-6 bg-tertiary-100 text-primary text-xs grid-center rounded-sm absolute top-3 left-3">{discountPercentage}</span>
 				)}
 				<span
 					className="flex flex-col space-y-2 absolute top-3 right-3"
 					onClick={() => {
 						iconName === "trash" ? removeToWishlist({ id }) : "";
 					}}>
-					<SvgIcon icon={iconValue} classVal={"bg-white p-2 grid-center rounded-full cursor-pointer"} />
+					<SvgIcon icon={iconValue} classVal={"bg-primary p-2 grid-center rounded-full cursor-pointer"} />
 				</span>
 				<img src={productImage} alt="" className="scale-75 xs:scale-90 xl:scale-95" />
 				{/* 
@@ -86,7 +86,7 @@ const WishlistCard = ({
 
 			<div className="w-full  grid grid-rows-3 p-2">
 				<h1 className="font-medium">{productName}</h1>
-				<p className="font-medium text-secondary">
+				<p className="font-medium text-tertiary-100">
 					{currentPrice}
 					<span className="text-black/50 line-through ml-3">{originalPrice}</span>
 				</p>

@@ -8,13 +8,18 @@ export default {
 				inter: "Inter, sans-serif",
 			},
 			colors: {
-				secondary: "#DB4444",
-				tertiary: "#F5F5F5",
-				customGreen: "#0F6",
+				primary: "#FFF",
+				secondary: "#000",
+				tertiary: {
+					100: "hsl(0, 68%, 56%)",
+					200: "hsl(0, 78%, 56%)",
+					300: "hsl(0, 68%, 80%)",
+				},
+
+				extraColor: "#F5F5F5",
 			},
 			backgroundImage: {
 				icon: "url('/src/assets/icons/iconBg.png')",
-				light: "url('/src/assets/images/light.png')",
 			},
 			screens: {
 				xs: "500px",

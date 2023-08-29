@@ -7,7 +7,7 @@ import { send, copyRight } from "../assets/icons/SvgIconsList";
 const Footer = () => {
 	const currentYear = new Date().getFullYear();
 	return (
-		<footer className="bg-black text-white">
+		<footer className="bg-secondary text-primary">
 			<div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 padding">
 				{footerLinks.map((section, index) => (
 					<ul key={section.title} className="footerLinkParent">
@@ -26,7 +26,7 @@ const Footer = () => {
 								<label htmlFor="email" className="relative block">
 									<span className="sr-only">Email</span>
 									<input
-										className="input placeholder:text-sm bg-black py-2 px-4 pr-9 border border-slate-300 rounded-md"
+										className="input placeholder:text-sm bg-secondary py-2 px-4 pr-9 border border-slate-300 rounded-md"
 										type="email"
 										name="email"
 										placeholder="Enter your email"

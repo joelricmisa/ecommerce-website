@@ -44,7 +44,7 @@ const CartCard = ({ id, productName, productImage, currentPrice, quantity }) => 
 						<span className="font-semibold mr-1">Subtotal:</span> {formatNumber.format(productSubTotal)}{" "}
 					</p>
 					<span
-						className="absolute xl:static  top-0 right-0  flex-center bg-secondary w-8 h-8 shadow-sm p-0.5 cursor-pointer"
+						className="absolute xl:static  top-0 right-0  flex-center bg-tertiary-100 w-8 h-8 shadow-sm p-0.5 cursor-pointer hover:bg-tertiary-200 hover:ring hover:ring-black/70 active:bg-tertiary-300"
 						onClick={() => removeToCart({ id: id })}>
 						<SvgIcon icon={xMark()} />
 					</span>

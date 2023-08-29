@@ -4,7 +4,7 @@ import { socials } from "../constants";
 const PeopleCard = ({ personImg, personName, personPosition }) => {
 	return (
 		<div className="flex flex-col w-full rounded-sm shadow-md">
-			<div className="bg-gray-100 flex-center pt-10 ">
+			<div className="bg-extraColor flex-center pt-10 ">
 				<img src={personImg} alt="" />
 			</div>
 			<div className="p-5 ">
