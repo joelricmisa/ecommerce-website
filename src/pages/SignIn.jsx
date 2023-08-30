@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { signUpImg } from "../assets/images";
-
+import { motion } from "framer-motion";
 const SignIn = () => {
 	return (
-		<div className="flex flex-col xl:flex-row ">
+		<div className="flex flex-col xl:flex-row animate">
 			<img src={signUpImg} alt="" className="xl:w-7/12 min-h-[100px] " />
 			<div className="xl:w-5/12 sm:px-20 px-10 my-auto padding-y">
 				<h1 className="text-4xl font-medium">Log in to Exclusive</h1>

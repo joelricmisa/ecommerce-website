@@ -14,8 +14,8 @@ const Wishlist = () => {
 	}, [addAll, addToCart]);
 
 	return (
-		<section>
-			<div className="flex flex-col padding border-bottom ">
+		<section className="animate">
+			<div className="flex flex-col padding border-bottom  ">
 				<div className="text-tertiary-100  font-semibold flex-center xl:flex-between flex-wrap mb-20 h-10  ">
 					<span className="text-black text-xl">Wishlist ({wishlistItems.length})</span>
 					<button type="button" className="button mx-0" onClick={() => setAddAll(!addAll)}>

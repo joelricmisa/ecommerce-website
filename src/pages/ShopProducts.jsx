@@ -3,7 +3,6 @@ import { shopProductsData, sideLinks } from "../constants";
 import { ProductCard, Breadcrumb, SvgIcon } from "../components";
 import { box } from "../assets/icons/SvgIconsList";
 import { ShopContext } from "../contexts/ShopContext";
-
 const ShopProducts = () => {
 	const { category } = useContext(ShopContext);
 	const [products, setProducts] = useState(shopProductsData);
@@ -14,7 +13,7 @@ const ShopProducts = () => {
 	}, [currentCategory]);
 
 	return (
-		<section className="padding">
+		<div className="padding animate">
 			<Breadcrumb padding="" />
 
 			<div className="w-full flex-center gap-5 justify-start flex-wrap  py-5 my-10  border-y border-black/10">
@@ -60,7 +59,7 @@ const ShopProducts = () => {
 					""
 				)}
 			</div>
-		</section>
+		</div>
 	);
 };
 

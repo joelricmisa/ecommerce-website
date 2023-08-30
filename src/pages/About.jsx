@@ -5,7 +5,7 @@ import PeopleCard from "../components/PeopleCard";
 
 const About = () => {
 	return (
-		<div className="w-full padding-x">
+		<div className="w-full padding-x animate">
 			<Breadcrumb />
 			<div className="flex-center padding-b flex-col xl:flex-row gap-10">
 				<div className="flex-center flex-col items-start xl:pr-20">

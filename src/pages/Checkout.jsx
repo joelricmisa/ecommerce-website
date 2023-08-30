@@ -17,7 +17,7 @@ const Checkout = () => {
 	const showVal = cartItems.length - 5;
 	const [show, setShow] = useState(false);
 	return (
-		<div className="padding-x">
+		<div className="padding-x animate">
 			<Breadcrumb />
 			<h1 className="text-3xl font-inter font-medium ">Billing Details</h1>
 			<div className="flex-between xl:flex-row flex-col items-start w-full mt-10">

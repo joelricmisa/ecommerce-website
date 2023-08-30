@@ -1,9 +1,9 @@
-import React from "react";
 import { Breadcrumb, SvgIcon } from "../components/index";
 import { mail, phone } from "../assets/icons/SvgIconsList";
+
 const Contact = () => {
 	return (
-		<div className=" w-full padding  !py-0 mb-20">
+		<div className=" w-full padding  !py-0 mb-20 animate">
 			<Breadcrumb />
 			<div className="flex  flex-col xl:flex-row gap-10">
 				<div className="xl:w-4/12  shadow-md px-8 py-10  text-sm">

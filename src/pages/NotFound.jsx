@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const NotFound = () => {
 	return (
-		<div className="w-11/12  ml-auto py-20">
+		<div className="w-11/12  ml-auto py-20 animate">
 			<p className="-ml-2 mb-14">
 				<Link to="/" className="opacity-50 ">
 					Home /

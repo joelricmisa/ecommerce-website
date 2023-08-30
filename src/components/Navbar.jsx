@@ -3,11 +3,11 @@ import { NavLink, Link } from "react-router-dom";
 import { navLinks, navIconLinks } from "../constants";
 import { useContext, useEffect, useState } from "react";
 import { SvgIcon } from "./index";
-import { cart, search, heart, menu } from "../assets/icons/SvgIconsList";
+import { search, menu } from "../assets/icons/SvgIconsList";
 import { ShopContext } from "../contexts/ShopContext";
 
 const Navbar = () => {
-	const { cartItems, wishlistItems } = useContext(ShopContext);
+	const { cartItems, wishlistItems, setCategory } = useContext(ShopContext);
 	const [currentPath, setCurrentPath] = useState(window.location.pathname);
 	const currentActive = navLinks.filter((link) => (link.href.includes("/") ? `${link.href}` : `/${link.href}`) === currentPath);
 	const [activeNav, setActiveNav] = useState(currentActive[0]?.label);
@@ -22,6 +22,7 @@ const Navbar = () => {
 	const handleActiveNav = (label = "") => {
 		setActiveNav(label);
 		setToggle(!toggle);
+		setCategory("all");
 	};
 
 	return (

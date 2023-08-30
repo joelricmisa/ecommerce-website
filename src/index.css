@@ -33,7 +33,23 @@
 	@apply block w-full py-3 text-base opacity-50;
 }
 
+@keyframes opacityAnimate {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 0.5;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
 @layer components {
+	.animate {
+		animation-name: opacityAnimate;
+		animation-duration: 300ms;
+	}
 	.button {
 		@apply bg-tertiary-100 text-base text-white font-medium px-10 py-3.5 rounded-sm  mx-auto font-poppins hover:bg-tertiary-200 active:bg-tertiary-300 focus:outline-none focus:ring-1 focus:ring-tertiary-300 shadow-md;
 	}

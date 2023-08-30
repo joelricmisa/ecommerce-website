@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { cartData } from "../constants";
-import { Breadcrumb, QuantityState, CartCard } from "../components";
+import { Breadcrumb, CartCard } from "../components";
 import { ShopContext } from "../contexts/ShopContext";
 
 const Cart = () => {
@@ -16,7 +15,7 @@ const Cart = () => {
 		setTotalAmount(getTotalCartAmount());
 	}, [cartItems]);
 	return (
-		<div className="padding-x">
+		<div className="padding-x animate">
 			<Breadcrumb />
 			<div className="w-full  text-center font-poppins  rounded-sm  border  border-black  ">
 				<h1 className="py-5 shadow-sm rounded-sm font-medium border-b">
