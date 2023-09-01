@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { signUpImg } from "../assets/images";
-import { motion } from "framer-motion";
+
 const SignIn = () => {
 	return (
 		<div className="flex flex-col xl:flex-row animate">

@@ -1,6 +1,6 @@
 import { NavLink, Link } from "react-router-dom";
 
-import { navLinks, navIconLinks } from "../constants";
+import { navLinks, navIconLinks, shopProductsData } from "../constants";
 import { useContext, useEffect, useState } from "react";
 import { SvgIcon } from "./index";
 import { search, menu } from "../assets/icons/SvgIconsList";
@@ -12,12 +12,22 @@ const Navbar = () => {
 	const currentActive = navLinks.filter((link) => (link.href.includes("/") ? `${link.href}` : `/${link.href}`) === currentPath);
 	const [activeNav, setActiveNav] = useState(currentActive[0]?.label);
 	const [toggle, setToggle] = useState(false);
+	const [searchInput, setSearchInput] = useState("");
+	const [searchResult, setSearchResult] = useState([1, 2, 3]);
+	const [searchFocus, setSearchFocus] = useState(false);
 
 	useEffect(() => {
 		setCurrentPath(window.location.pathname);
 		currentActive;
 		setActiveNav(currentActive[0]?.label);
 	}, [currentActive, currentPath]);
+
+	useEffect(() => {
+		const filtered = shopProductsData.filter((product) => product.productName.toLowerCase().includes(searchInput.toLowerCase()));
+
+		filtered.length !== 0 ? setSearchResult(filtered) : setSearchResult([]);
+		console.log(filtered);
+	}, [searchInput]);
 
 	const handleActiveNav = (label = "") => {
 		setActiveNav(label);
@@ -61,19 +71,37 @@ const Navbar = () => {
 						</button>
 					</div>
 
-					<div className={`flex-center xl:w-4/12 w-full  justify-start `}>
+					<div className={`flex-center xl:w-4/12 w-full  justify-start  relative`}>
 						<label htmlFor="search" className="relative block w-full xl:w-11/12 ">
 							<span className="sr-only">Search</span>
 							<button type="button" className="flex-center absolute inset-y-0 right-0  pr-2">
 								<SvgIcon icon={search()} />
 							</button>
 							<input
-								className="input placeholder:text-slate-400 placeholder:text-sm border border-slate-300 rounded-md py-2 pr-9 "
+								className="input placeholder:text-slate-400 placeholder:text-sm border border-slate-300 rounded-md py-2 pr-9"
 								placeholder="What are you looking for?"
 								type="text"
 								name="search"
+								onChange={(e) => setSearchInput(e.target.value)}
+								onFocus={() => setSearchFocus(true)}
+								onBlur={() => setSearchFocus(false)}
 							/>
 						</label>
+						{searchInput && searchFocus && (
+							<div className="absolute top-[100%] bg-extraColor rounded-md z-50 w-full xl:w-11/12">
+								{searchResult.length === 0 ? (
+									<span className="searchResultLink ">
+										No results found <SvgIcon icon={search()} />
+									</span>
+								) : (
+									searchResult.map((item, index) => (
+										<Link key={index} className="searchResultLink ">
+											{item.productName} <SvgIcon icon={search()} />
+										</Link>
+									))
+								)}
+							</div>
+						)}
 					</div>
 
 					<div className={`flex-center flex-col xl:flex-row xl:items-center items-start  xl:w-5/12 xl:py-3 py-5 w-full h-full justify-between`}>
