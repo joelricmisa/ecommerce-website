@@ -1,4 +1,4 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 
 import { navLinks, navIconLinks, shopProductsData } from "../constants";
 import { useContext, useEffect, useState } from "react";
@@ -7,17 +7,19 @@ import { search, menu } from "../assets/icons/SvgIconsList";
 import { ShopContext } from "../contexts/ShopContext";
 
 const Navbar = () => {
+	const location = useLocation();
 	const { cartItems, wishlistItems, setCategory } = useContext(ShopContext);
-	const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+	const [currentPath, setCurrentPath] = useState(location.pathname);
 	const currentActive = navLinks.filter((link) => (link.href.includes("/") ? `${link.href}` : `/${link.href}`) === currentPath);
 	const [activeNav, setActiveNav] = useState(currentActive[0]?.label);
 	const [toggle, setToggle] = useState(false);
 	const [searchInput, setSearchInput] = useState("");
-	const [searchResult, setSearchResult] = useState([1, 2, 3]);
+	const [searchResult, setSearchResult] = useState([]);
 	const [searchFocus, setSearchFocus] = useState(false);
 
 	useEffect(() => {
-		setCurrentPath(window.location.pathname);
+		setCurrentPath(location.pathname);
 		currentActive;
 		setActiveNav(currentActive[0]?.label);
 	}, [currentActive, currentPath]);
@@ -82,9 +84,16 @@ const Navbar = () => {
 								placeholder="What are you looking for?"
 								type="text"
 								name="search"
+								autoComplete="off"
+								value={searchInput}
 								onChange={(e) => setSearchInput(e.target.value)}
 								onFocus={() => setSearchFocus(true)}
-								onBlur={() => setSearchFocus(false)}
+								onBlur={() =>
+									setTimeout(() => {
+										setSearchFocus(false);
+										setSearchInput("");
+									}, 150)
+								}
 							/>
 						</label>
 						{searchInput && searchFocus && (
@@ -95,7 +104,14 @@ const Navbar = () => {
 									</span>
 								) : (
 									searchResult.map((item, index) => (
-										<Link key={index} className="searchResultLink ">
+										<Link
+											key={index}
+											className="searchResultLink "
+											to={`/products/${item.id}`}
+											onClick={() => {
+												setSearchFocus(false);
+												setSearchInput("");
+											}}>
 											{item.productName} <SvgIcon icon={search()} />
 										</Link>
 									))

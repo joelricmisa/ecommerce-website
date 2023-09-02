@@ -32,7 +32,7 @@ const ShopContextProvider = (props) => {
 	const addToWishlist = (data) => {
 		const filtered = wishlistItems.filter((item) => item.id === data.id);
 		filtered.length === 0 ? setWishlistItems([...wishlistItems, data]) : "";
-		// console.log(wishlistItems);
+		console.log(wishlistItems);
 	};
 
 	const removeToCart = (data) => {

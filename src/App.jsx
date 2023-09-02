@@ -1,6 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
-import { Home, NotFound, Contact, About, SignUp, SignIn, Wishlist, Cart, Checkout, ShopProducts } from "./pages";
+import { Home, NotFound, Contact, About, SignUp, SignIn, Wishlist, Cart, Checkout, ShopProducts, ProductPreview } from "./pages";
 import ShopContextProvider from "./contexts/ShopContext";
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -11,7 +11,10 @@ const router = createBrowserRouter(
 				<Route path="checkout" element={<Checkout />} />
 			</Route>
 			<Route path="wishlist" element={<Wishlist />} />
-			<Route path="products" element={<ShopProducts />} />
+			<Route path="products">
+				<Route index element={<ShopProducts />} />
+				<Route path=":id" element={<ProductPreview />} />
+			</Route>
 			<Route path="contact" element={<Contact />} />
 			<Route path="about" element={<About />} />
 			<Route path="signup" element={<SignUp />} />

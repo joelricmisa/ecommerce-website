@@ -2,6 +2,7 @@ import { SvgIcon } from "./index";
 import { cart, xMark } from "../assets/icons/SvgIconsList";
 import { ShopContext } from "../contexts/ShopContext";
 import { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 const WishlistCard = ({
 	id,
 	productName,
@@ -19,6 +20,7 @@ const WishlistCard = ({
 	const { cartItems, addToCart, removeToCart, removeToWishlist } = useContext(ShopContext);
 	const [inCart, setInCart] = useState(false);
 	const [toggle, setToggle] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const filterCart = cartItems.filter((item) => item.id === id);
@@ -32,13 +34,16 @@ const WishlistCard = ({
 					<span className="w-14 h-6 bg-tertiary-100 text-primary text-xs grid-center rounded-sm absolute top-3 left-3">{discountPercentage}</span>
 				)}
 				<span
-					className="flex flex-col space-y-2 absolute top-3 right-3"
+					className="icon grid-center absolute top-3 right-3"
 					onClick={() => {
-						iconName === "trash" ? removeToWishlist({ id }) : "";
+						iconName === "trash" ? removeToWishlist({ id }) : navigate(`/products/${id}`);
 					}}>
-					<SvgIcon icon={iconValue} classVal={"bg-primary p-2 grid-center rounded-full cursor-pointer"} />
+					<SvgIcon icon={iconValue} />
 				</span>
 				<img src={productImage} alt="" className="scale-75 xs:scale-90 xl:scale-95" />
+				{/* <span className="icon grid-center  ">
+					<SvgIcon icon={eye("text-white fill-tertiary-200 ")} />
+				</span> */}
 				{/* 
 				<button
 					type="button"

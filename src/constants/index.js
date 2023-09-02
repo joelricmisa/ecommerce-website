@@ -275,15 +275,15 @@ export const navIconLinks = [
 ];
 
 export const sideLinks = [
-	{ label: "Women's Fashion", category: "womens" },
-	{ label: "Men's Fashion", category: "mens" },
-	{ label: "Electronics", category: "electronics" },
-	{ label: "Home & Lifestyle", category: "home&lifestyle" },
-	{ label: "Medicine", category: "medicine" },
-	{ label: "Sports & Outdoor", category: "sports&outdoor" },
-	{ label: "Baby’s & Toys", category: "babys&toys" },
-	{ label: "Groceries & Pets", category: "groceries&pets" },
-	{ label: "Health & Beauty", category: "health&beauty" },
+	{ label: "Women's Fashion", category: "Women's Fashion" },
+	{ label: "Men's Fashion", category: "Men's Fashion" },
+	{ label: "Electronics", category: "Electronics" },
+	{ label: "Home & Lifestyle", category: "Home & Lifestyle" },
+	{ label: "Medicine", category: "Medicine" },
+	{ label: "Sports & Outdoor", category: "Sports & Outdoor" },
+	{ label: "Baby’s & Toys", category: "Baby's & Toys" },
+	{ label: "Groceries & Pets", category: "Groceries & Pets" },
+	{ label: "Health & Beauty", category: "Health & Beauty" },
 ];
 
 export const footerLinks = [
@@ -491,7 +491,8 @@ export const shopProductsData = [
 		rateCount: "88",
 		discountPercentage: "-40%",
 		quantity: 1,
-		category: "electronics",
+		description: `The HAVIT HV-G92 is a gamepad designed for gaming enthusiasts seeking an enhanced gaming experience. This gamepad features a ergonomic design and a comfortable grip, allowing for extended gaming sessions without discomfort.`,
+		category: "Electronics",
 		subTotal: 120,
 	},
 	{
@@ -504,7 +505,9 @@ export const shopProductsData = [
 		rateCount: "75",
 		discountPercentage: "-35%",
 		quantity: 1,
-		category: "electronics",
+		description:
+			"K-900 Gaming Keyboard comes with USB Wired. Its cable length is 135cm. This is one kind of Luminescent Gaming Keyboard. This iMICE AK-900 has 104 keys, 100mA with DC 5V voltage. It is one of the perfect choices for gaming at a reasonable price. ",
+		category: "Electronics",
 		subTotal: 960,
 	},
 	{
@@ -517,7 +520,9 @@ export const shopProductsData = [
 		rateCount: "99",
 		discountPercentage: "-40%",
 		quantity: 1,
-		category: "electronics",
+		description:
+			"An in-plane switching (IPS) monitor is a type of LCD (liquid-crystal display) monitor. It's made up of backlighting or a mirror behind a polarizer. These sit behind the liquid with crystals mixed into it. The monitor relies on perfect alignment of the liquid crystals to pass along the light to the next polarizer.",
+		category: "Electronics",
 		subTotal: 370,
 	},
 	{
@@ -530,7 +535,9 @@ export const shopProductsData = [
 		rateCount: "99",
 		discountPercentage: "-25%",
 		quantity: 1,
-		category: "home&lifestyle",
+		description:
+			"The S Series chair combines ergonomic adjustments with a sleek design from Denmark. The armrests, seat height, seat depth, and tilt help you maintain optimal posture, and the high-density internet back provides warmth so you can focus on the tasks at hand.",
+		category: "Home & Lifestyle",
 		subTotal: 375,
 	},
 	{
@@ -543,7 +550,9 @@ export const shopProductsData = [
 		rateCount: "65",
 		discountPercentage: "",
 		quantity: 1,
-		category: "womens",
+		description:
+			"The North jacket is made from a low-noise, very soft fabric, making a stylish shell garment, with a windproof and waterproof membrane to protect you from the rain and cold. It is accompanied by a thick fleece that can be zipped into the jacket or removed, depending on the weather and how active you are.",
+		category: "Women's Fashion",
 		subTotal: 260,
 	},
 	{
@@ -556,7 +565,9 @@ export const shopProductsData = [
 		rateCount: "65",
 		discountPercentage: "",
 		quantity: 1,
-		category: "womens",
+		description:
+			"Incredibly malleable, this large duffle is made in soft GG Supreme, a softer version of GG Supreme canvas, crafted from a coated microfiber fabric with the GG motif. Comes with a removable Web shoulder strap.",
+		category: "Women's Fashion",
 		subTotal: 960,
 	},
 	{
@@ -569,7 +580,9 @@ export const shopProductsData = [
 		rateCount: "65",
 		discountPercentage: "",
 		quantity: 1,
-		category: "electronics",
+		description:
+			"RGB liquid CPU Cooler is a series of durable CPU liquid coolers designed for mid-sized gaming builds. Each cooler brings the performance, features and design needed to be an essential part of your gaming system. ",
+		category: "Electronics",
 		subTotal: 160,
 	},
 	{
@@ -582,7 +595,9 @@ export const shopProductsData = [
 		rateCount: "65",
 		discountPercentage: "",
 		quantity: 1,
-		category: "home&lifestyle",
+		description:
+			"This item Small Bookshelf for Small Spaces, 3 Tier Book Shelf Organizer, Wooden Narrow Bookcase, Short Bookshelf for Bedroom, Living Room, Home, Office, Dark Brown",
+		category: "Home & Lifestyle",
 		subTotal: 360,
 	},
 	{
@@ -595,7 +610,9 @@ export const shopProductsData = [
 		rateCount: "35",
 		discountPercentage: "",
 		quantity: 1,
-		category: "groceries&pets",
+		description:
+			"It is made of ground up ingredients, including meat, grains, legumes, vegetables, and fruits. These ingredients are mixed, shaped into pellets, and then cooked in a process called extrusion",
+		category: "Groceries & Pets",
 		subTotal: 100,
 	},
 	{
@@ -608,7 +625,9 @@ export const shopProductsData = [
 		rateCount: "95",
 		discountPercentage: "",
 		quantity: 1,
-		category: "electronics",
+		description:
+			"Canon EOS (Electro-Optical System) is an autofocus single-lens reflex camera (SLR) and mirrorless camera series produced by Canon Inc. Introduced in 1987 with the Canon EOS 650, all EOS cameras used 35 mm film until October 1996 when the EOS IX was released using the new and short-lived APS film.",
+		category: "Electronics",
 		subTotal: 360,
 	},
 	{
@@ -621,7 +640,9 @@ export const shopProductsData = [
 		rateCount: "325",
 		discountPercentage: "",
 		quantity: 1,
-		category: "electronics",
+		description:
+			"Asus has packed its high-end laptops with its Nebula HDR Mini-LED display this year. That means excellent contrast, vivid colors, and slick attention to detailing. This is one of the best laptop screens we've come across, and paired with a silky smooth 240Hz refresh rate there's plenty to love.",
+		category: "Electronics",
 		subTotal: 700,
 	},
 	{
@@ -634,7 +655,9 @@ export const shopProductsData = [
 		rateCount: "145",
 		discountPercentage: "",
 		quantity: 1,
-		category: "health&beauty",
+		description:
+			"The set includes a promo for a 30 day trial of a tailored formula. This is such a cute set for anyone interested in Curology. There's a gentle cleanser, gel moisturizer, and hydrocoloid patches. I think this would be perfect for those who don't like heavy products.",
+		category: "Health & Beauty",
 		subTotal: 500,
 	},
 	{
@@ -647,7 +670,8 @@ export const shopProductsData = [
 		rateCount: "65",
 		discountPercentage: "",
 		quantity: 1,
-		category: "babys&toys",
+		description: `An electric vehicle is a vehicle that uses electricity to move. Its wheels are driven by electric motors. Electric vehicles were one of the first kinds that did not use horse or human power.`,
+		category: "Baby's & Toys",
 		subTotal: 960,
 	},
 	{
@@ -660,7 +684,9 @@ export const shopProductsData = [
 		rateCount: "35",
 		discountPercentage: "",
 		quantity: 1,
-		category: "sports&outdoor",
+		description:
+			"Pull tabs and dual straps combine for an easy-on design that eliminates the need for laces and helps get you on the pitch fast. Plus, a Zoom Air unit adds extra comfort and bounce to a variety of fields—from real grass to artificial grass.",
+		category: "Sports & Outdoor",
 		subTotal: 1160,
 	},
 	{
@@ -673,7 +699,9 @@ export const shopProductsData = [
 		rateCount: "55",
 		discountPercentage: "",
 		quantity: 1,
-		category: "electronics",
+		description:
+			"Fantech GP11 Shooter USB Gamepad is best for Gaming like PC and PS3. This gamepad comes with ergonomic shape & weight favored by esports athletes like – Play In Comfort, Feel Comfortable in your hands for hours of gaming, Feel The Action and vibration feedback gives you a riveting gaming experience.",
+		category: "Electronics",
 		subTotal: 660,
 	},
 	{
@@ -686,7 +714,9 @@ export const shopProductsData = [
 		rateCount: "55",
 		discountPercentage: "",
 		quantity: 1,
-		category: "mens",
+		description:
+			"Quilted satin bomber jacket with a ribbed stand-up collar, zip down the front, zipped side pockets and ribbing at the cuffs and hem. Jersey lining.",
+		category: "Men's Fashion",
 		subTotal: 660,
 	},
 ];

@@ -4,6 +4,7 @@ import { SvgIcon } from "./index";
 import { heart, eye, cart, xMark } from "../assets/icons/SvgIconsList";
 import { useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ id, productName, productImage, currentPrice, originalPrice, rating, rateCount, discountPercentage, quantity, subTotal }) => {
 	const { addToCart, cartItems, removeToCart, addToWishlist, removeToWishlist, wishlistItems } = useContext(ShopContext);
@@ -49,9 +50,9 @@ const ProductCard = ({ id, productName, productImage, currentPrice, originalPric
 						<SvgIcon icon={heart(` ${activeWishlist ? "fill-tertiary-100" : "text-tertiary-200 fill-none hover:fill-tertiary-100"}`)} />
 					</span>
 
-					<span className="icon grid-center  ">
+					<Link to={`/products/${id}`} className="icon grid-center  ">
 						<SvgIcon icon={eye("text-white fill-tertiary-200 ")} />
-					</span>
+					</Link>
 				</div>
 				<img src={productImage} className="scale-75 xs:scale-90 xl:scale-95" alt="" />
 				{toggle && (

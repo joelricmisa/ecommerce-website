@@ -34,7 +34,7 @@ const Wishlist = () => {
 								currentPrice={product.currentPrice}
 								originalPrice={product.originalPrice}
 								discountPercentage={product.discountPercentage}
-								iconValue={trash()}
+								iconValue={trash("text-white fill-tertiary-200 ")}
 								iconName={"trash"}
 								quantity={product.quantity}
 								subTotal={product.subTotal}
@@ -68,7 +68,7 @@ const Wishlist = () => {
 								rating={product.rating}
 								rateCount={product.rateCount}
 								discountPercentage={product.discountPercentage}
-								iconValue={eye()}
+								iconValue={eye("text-white fill-tertiary-200 ")}
 								iconName={"eye"}
 								quantity={product.quantity}
 								subTotal={product.subTotal}
