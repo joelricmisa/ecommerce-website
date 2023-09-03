@@ -3,7 +3,7 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 import { navLinks, navIconLinks, shopProductsData } from "../constants";
 import { useContext, useEffect, useState } from "react";
 import { SvgIcon } from "./index";
-import { search, menu } from "../assets/icons/SvgIconsList";
+import { search, menu, user, signIn, signUp } from "../assets/icons/SvgIconsList";
 import { ShopContext } from "../contexts/ShopContext";
 
 const Navbar = () => {
@@ -17,6 +17,7 @@ const Navbar = () => {
 	const [searchInput, setSearchInput] = useState("");
 	const [searchResult, setSearchResult] = useState([]);
 	const [searchFocus, setSearchFocus] = useState(false);
+	const [userIconFocus, setUserIconFocus] = useState(false);
 
 	useEffect(() => {
 		setCurrentPath(location.pathname);
@@ -63,7 +64,7 @@ const Navbar = () => {
 				<nav
 					className={`${
 						toggle ? "fixed xl:static xl:h-auto top-0 w-full h-[100dvh] z-50 visible bg-primary" : "h-0 xl:h-auto xl:visible  invisible"
-					} transition-all flex flex-col xl:flex-row xl:items-center  xl:border-b-2 padding-x xl:h-auto `}>
+					} transition-all flex flex-col xl:flex-row xl:items-center  xl:border-b-2 padding-x xl:h-auto`}>
 					<div className="w-full xl:w-3/12 py-3 flex-between ">
 						<NavLink to="/" className="font-bold text-2xl font-inter">
 							Exclusive
@@ -120,8 +121,8 @@ const Navbar = () => {
 						)}
 					</div>
 
-					<div className={`flex-center flex-col xl:flex-row xl:items-center items-start  xl:w-5/12 xl:py-3 py-5 w-full h-full justify-between`}>
-						<ul className="xl:flex-center xl:gap-6  xl:w-4/5 justify-start  w-full ">
+					<div className={`flex-center flex-col xl:flex-row xl:items-center items-start  xl:w-5/12 xl:py-3 py-5 w-full h-full justify-between  `}>
+						<ul className="xl:flex-center xl:gap-6  xl:w-4/6 justify-start  w-full ">
 							{navLinks.map((link) => (
 								<li key={link.label}>
 									<NavLink className="navLink " to={link.href} onClick={() => handleActiveNav(link.label)}>
@@ -130,7 +131,7 @@ const Navbar = () => {
 								</li>
 							))}
 						</ul>
-						<div className="flex-center xl:justify-end self-end xl:self-center  xl:w-1/5">
+						<div className=" w-8 flex-center  xl:justify-end self-end xl:self-center  xl:w-2/6 ">
 							{navIconLinks.map((navIcon) => (
 								<Link
 									key={navIcon.label}
@@ -162,6 +163,28 @@ const Navbar = () => {
 									<SvgIcon icon={navIcon.icon(`w-8 h-8 text-secondary ${currentPath === `/${navIcon.href}` ? "fill-secondary" : ""}`)} />
 								</Link>
 							))}
+
+							<Link
+								to={"#"}
+								className="grid-center block ml-1 w-[30px] relative navNotActive "
+								onClick={() => setUserIconFocus(!userIconFocus)}
+								onBlur={() =>
+									setTimeout(() => {
+										setUserIconFocus(false);
+									}, 150)
+								}>
+								<SvgIcon icon={user()} />
+								{userIconFocus && (
+									<span className="absolute top-[110%]  right-0 w-[120px]">
+										<Link to={"/signin"} className="flex-center gap-2 justify-start p-2 bg-extraColor hover:font-medium">
+											<SvgIcon icon={signIn("w-7 h-7")} /> <p>Log In</p>
+										</Link>
+										<Link to={"/signup"} className="flex-center gap-2 justify-start p-2 bg-extraColor hover:font-medium">
+											<SvgIcon icon={signUp("w-7 h-7")} /> <p>Sign Up</p>
+										</Link>
+									</span>
+								)}
+							</Link>
 						</div>
 					</div>
 				</nav>

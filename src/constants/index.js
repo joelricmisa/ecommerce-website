@@ -271,7 +271,6 @@ export const navIconLinks = [
 		storageName: "wishlistItems",
 	},
 	{ href: "cart", label: "Cart", icon: (styles) => cart(styles), storageName: "cartItems" },
-	// { href: "cart", label: "Cart2", icon: (styles) => cart(styles), storageName: "cartItems" },
 ];
 
 export const sideLinks = [

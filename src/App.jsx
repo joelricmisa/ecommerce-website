@@ -2,6 +2,7 @@ import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } 
 import RootLayout from "./layouts/RootLayout";
 import { Home, NotFound, Contact, About, SignUp, SignIn, Wishlist, Cart, Checkout, ShopProducts, ProductPreview } from "./pages";
 import ShopContextProvider from "./contexts/ShopContext";
+
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path="/" element={<RootLayout />}>

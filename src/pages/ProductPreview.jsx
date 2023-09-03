@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { ProductCard, SvgIcon } from "../components";
+import { ProductCard, ScrollToTop, SvgIcon } from "../components";
 import { shopProductsData } from "../constants";
 import { box, heart, cart, xMark } from "../assets/icons/SvgIconsList";
 import { useLocation, Link } from "react-router-dom";
@@ -44,7 +44,7 @@ const ProductPreview = () => {
 	}, [id]);
 
 	return (
-		<section className="padding">
+		<section className="padding animate">
 			<p>
 				{crumbsList.map((link, index) => {
 					return (

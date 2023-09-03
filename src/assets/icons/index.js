@@ -5,5 +5,6 @@ import moneyGuarantee from "./money-guarantee.png";
 import iconBg from "./iconBg.png";
 import truck from "./truck.png";
 import returnIcon from "./return.png";
+import user from "./user.png";
 
-export { githubQr, customerService, delivery, moneyGuarantee, iconBg, truck, returnIcon };
+export { githubQr, customerService, delivery, moneyGuarantee, iconBg, truck, returnIcon, user };

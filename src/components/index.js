@@ -12,6 +12,7 @@ import Breadcrumb from "./Breadcrumb";
 import Timer from "./Timer";
 import NewArrivalCardText from "./NewArrivalCardText";
 import CartCard from "./CartCard";
+import ScrollToTop from "./ScrollToTop";
 
 export {
 	CategoryCard,
@@ -28,5 +29,5 @@ export {
 	Timer,
 	NewArrivalCardText,
 	CartCard,
-
+	ScrollToTop,
 };
