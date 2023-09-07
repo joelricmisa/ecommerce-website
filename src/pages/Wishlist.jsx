@@ -1,12 +1,13 @@
-import { WishlistCard } from "../components";
+import { SvgIcon, WishlistCard } from "../components";
 import { v4 as uuid } from "uuid";
 import { ProductData } from "../constants";
-import { trash, eye } from "../assets/icons/SvgIconsList";
+import { trash, eye, box } from "../assets/icons/SvgIconsList";
 import { ShopContext } from "../contexts/ShopContext";
 import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Wishlist = () => {
-	const { wishlistItems, addToCart, cartItems } = useContext(ShopContext);
+	const { wishlistItems, addToCart } = useContext(ShopContext);
 	const [addAll, setAddAll] = useState(false);
 
 	useEffect(() => {
@@ -22,26 +23,31 @@ const Wishlist = () => {
 						Move All To Cart
 					</button>
 				</div>
-
-				<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-10 ">
-					{wishlistItems.map((product) => {
-						return (
-							<WishlistCard
-								key={uuid()}
-								id={product.id}
-								productName={product.productName}
-								productImage={product.productImage}
-								currentPrice={product.currentPrice}
-								originalPrice={product.originalPrice}
-								discountPercentage={product.discountPercentage}
-								iconValue={trash("text-white fill-tertiary-200 ")}
-								iconName={"trash"}
-								quantity={product.quantity}
-								subTotal={product.subTotal}
-							/>
-						);
-					})}
-				</div>
+				{wishlistItems.length !== 0 ? (
+					<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-10 ">
+						{wishlistItems.map((product) => {
+							return (
+								<WishlistCard
+									key={uuid()}
+									id={product.id}
+									productName={product.productName}
+									productImage={product.productImage}
+									currentPrice={product.currentPrice}
+									originalPrice={product.originalPrice}
+									discountPercentage={product.discountPercentage}
+									iconValue={trash("text-white fill-tertiary-200 ")}
+									iconName={"trash"}
+									quantity={product.quantity}
+									subTotal={product.subTotal}
+								/>
+							);
+						})}
+					</div>
+				) : (
+					<p className="text-center flex-center">
+						<SvgIcon icon={box("w-10 h-10")} /> Your wishlist is empty.
+					</p>
+				)}
 			</div>
 
 			<div className="flex flex-col padding ">
@@ -50,9 +56,9 @@ const Wishlist = () => {
 						<span className="w-5 h-10 bg-tertiary-100 rounded-sm"></span>
 						Just For You
 					</div>
-					<button type="button" className="button mx-0">
+					<Link to={"/products"} className="button mx-0">
 						See All
-					</button>
+					</Link>
 				</div>
 
 				<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-10  ">

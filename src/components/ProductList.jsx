@@ -4,8 +4,12 @@ import { v4 as uuid } from "uuid";
 import { SvgIcon } from "./index";
 import { arrowLeft, arrowRight } from "../assets/icons/SvgIconsList";
 import Timer from "./Timer";
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { ShopContext } from "../contexts/ShopContext";
 
 const ProductList = ({ data, category, title, timer, headerBtn, bottomBtn }) => {
+	const { setCategory } = useContext(ShopContext);
 	return (
 		<div className="flex flex-col gap-8 padding mt-10 lg:mt-0 w-full  border-bottom ">
 			<div
@@ -21,9 +25,9 @@ const ProductList = ({ data, category, title, timer, headerBtn, bottomBtn }) => 
 				<div className={`${timer && "mt-5"} flex-between w-full `}>
 					<span className={`font-inter text-2xl sm:text-3xl lg:text-4xl font-semibold`}>{title} </span>
 					{headerBtn ? (
-						<button type="button" className="button  mx-0 ml-auto ">
+						<Link to={"/products"} className="button  mx-0 ml-auto " onClick={() => setCategory(title)}>
 							View All
-						</button>
+						</Link>
 					) : (
 						<span className="flex-center ">
 							<SvgIcon icon={arrowLeft()} classVal={"icon"} />
@@ -54,9 +58,14 @@ const ProductList = ({ data, category, title, timer, headerBtn, bottomBtn }) => 
 				})}
 			</div>
 			{bottomBtn && (
-				<button type="button" className="button xl:px-20 mt-16 ">
+				<Link
+					to={"/products"}
+					className="button xl:px-20 mt-16 "
+					onClick={() => {
+						title === "Flash Sales" ? setCategory(title) : setCategory("all");
+					}}>
 					View All Products
-				</button>
+				</Link>
 			)}
 		</div>
 	);

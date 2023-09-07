@@ -18,6 +18,7 @@ const Navbar = () => {
 	const [searchResult, setSearchResult] = useState([]);
 	const [searchFocus, setSearchFocus] = useState(false);
 	const [userIconFocus, setUserIconFocus] = useState(false);
+	const [showIconNum, setShowIconNum] = useState(true);
 
 	useEffect(() => {
 		setCurrentPath(location.pathname);
@@ -29,7 +30,6 @@ const Navbar = () => {
 		const filtered = shopProductsData.filter((product) => product.productName.toLowerCase().includes(searchInput.toLowerCase()));
 
 		filtered.length !== 0 ? setSearchResult(filtered) : setSearchResult([]);
-		console.log(filtered);
 	}, [searchInput]);
 
 	const handleActiveNav = (label = "") => {
@@ -131,7 +131,7 @@ const Navbar = () => {
 								</li>
 							))}
 						</ul>
-						<div className=" w-8 flex-center  xl:justify-end self-end xl:self-center  xl:w-2/6 ">
+						<div className=" w-2/6  flex-center  xl:justify-end self-end xl:self-center  xl:w-2/6 ">
 							{navIconLinks.map((navIcon) => (
 								<Link
 									key={navIcon.label}
@@ -139,7 +139,7 @@ const Navbar = () => {
 									className={`grid-center block ml-1 w-[30px] relative ${currentPath === `/${navIcon.href}` ? "navActive" : "navNotActive"}`}
 									onClick={() => handleActiveNav()}>
 									<span
-										className={`z-20 absolute -top-1 bg-tertiary-100  text-sm text-primary rounded-full font-medium  ${
+										className={`z-20 ${showIconNum ? "absolute" : "hidden"} -top-1 bg-tertiary-100  text-sm text-primary rounded-full font-medium  ${
 											navIcon.storageName === "wishlistItems"
 												? wishlistItems.length <= 99
 													? "px-1.5 -right-2"
@@ -175,11 +175,11 @@ const Navbar = () => {
 								}>
 								<SvgIcon icon={user()} />
 								{userIconFocus && (
-									<span className="absolute top-[110%]  right-0 w-[120px]">
-										<Link to={"/signin"} className="flex-center gap-2 justify-start p-2 bg-extraColor hover:font-medium">
+									<span className="absolute bottom-[150%] xl:top-[110%]  right-0 w-[150px] z-[100]">
+										<Link to={"/signin"} className="flex-center gap-2 justify-start p-2 bg-extraColor hover:font-medium" onClick={() => handleActiveNav()}>
 											<SvgIcon icon={signIn("w-7 h-7")} /> <p>Log In</p>
 										</Link>
-										<Link to={"/signup"} className="flex-center gap-2 justify-start p-2 bg-extraColor hover:font-medium">
+										<Link to={"/signup"} className="flex-center gap-2 justify-start p-2 bg-extraColor hover:font-medium" onClick={() => handleActiveNav()}>
 											<SvgIcon icon={signUp("w-7 h-7")} /> <p>Sign Up</p>
 										</Link>
 									</span>

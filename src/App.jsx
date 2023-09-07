@@ -1,6 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
-import { Home, NotFound, Contact, About, SignUp, SignIn, Wishlist, Cart, Checkout, ShopProducts, ProductPreview } from "./pages";
+import { Home, NotFound, Contact, About, SignUp, SignIn, Wishlist, Cart, Checkout, ShopProducts, ProductPreview, ForgotPassword } from "./pages";
 import ShopContextProvider from "./contexts/ShopContext";
 
 const router = createBrowserRouter(
@@ -20,6 +20,7 @@ const router = createBrowserRouter(
 			<Route path="about" element={<About />} />
 			<Route path="signup" element={<SignUp />} />
 			<Route path="signin" element={<SignIn />} />
+			<Route path="forgot" element={<ForgotPassword />} />
 
 			<Route path="/*" element={<NotFound />} />
 		</Route>

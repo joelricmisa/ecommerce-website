@@ -29,6 +29,54 @@ import { blackTwitter, blackInstagram, blackLinkedin } from "../assets/logo";
 import { customerService, delivery, moneyGuarantee } from "../assets/icons";
 import { cart, heart, shop, moneySign, moneyBag, shoppingBag } from "../assets/icons/SvgIconsList";
 
+export const navLinks = [
+	{ href: "/", label: "Home" },
+	{ href: "products", label: "Products" },
+	{ href: "contact", label: "Contact" },
+	{ href: "about", label: "About" },
+];
+
+export const navIconLinks = [
+	{
+		href: "wishlist",
+		label: "Wishlist",
+		icon: (styles) => heart(styles),
+		storageName: "wishlistItems",
+	},
+	{ href: "cart", label: "Cart", icon: (styles) => cart(styles), storageName: "cartItems" },
+];
+
+export const sideLinks = [
+	{ label: "Women's Fashion", category: "Women's Fashion" },
+	{ label: "Men's Fashion", category: "Men's Fashion" },
+	{ label: "Electronics", category: "Electronics" },
+	{ label: "Home & Lifestyle", category: "Home & Lifestyle" },
+	{ label: "Medicine", category: "Medicine" },
+	{ label: "Sports & Outdoor", category: "Sports & Outdoor" },
+	{ label: "Baby’s & Toys", category: "Baby's & Toys" },
+	{ label: "Groceries & Pets", category: "Groceries & Pets" },
+	{ label: "Health & Beauty", category: "Health & Beauty" },
+];
+export const productCategories = [
+	{ label: "Flash Sales", category: "Flash Sales" },
+	{ label: "Best Selling Products", category: "Best Selling Products" },
+	{ label: "Women's Fashion", category: "Women's Fashion" },
+	{ label: "Men's Fashion", category: "Men's Fashion" },
+	{ label: "Electronics", category: "Electronics" },
+	{ label: "Phones", category: "Phones" },
+	{ label: "Computers", category: "Computers" },
+	{ label: "SmartWatch", category: "SmartWatch" },
+	{ label: "Camera", category: "Camera" },
+	{ label: "HeadPhones", category: "HeadPhones" },
+	{ label: "Gaming", category: "Gaming" },
+	{ label: "Home & Lifestyle", category: "Home & Lifestyle" },
+	{ label: "Medicine", category: "Medicine" },
+	{ label: "Sports & Outdoor", category: "Sports & Outdoor" },
+	{ label: "Baby’s & Toys", category: "Baby's & Toys" },
+	{ label: "Groceries & Pets", category: "Groceries & Pets" },
+	{ label: "Health & Beauty", category: "Health & Beauty" },
+];
+
 export const ProductData = {
 	flashSales: [
 		{
@@ -256,152 +304,6 @@ export const ProductData = {
 	],
 };
 
-export const navLinks = [
-	{ href: "/", label: "Home" },
-	{ href: "products", label: "Products" },
-	{ href: "contact", label: "Contact" },
-	{ href: "about", label: "About" },
-];
-
-export const navIconLinks = [
-	{
-		href: "wishlist",
-		label: "Wishlist",
-		icon: (styles) => heart(styles),
-		storageName: "wishlistItems",
-	},
-	{ href: "cart", label: "Cart", icon: (styles) => cart(styles), storageName: "cartItems" },
-];
-
-export const sideLinks = [
-	{ label: "Women's Fashion", category: "Women's Fashion" },
-	{ label: "Men's Fashion", category: "Men's Fashion" },
-	{ label: "Electronics", category: "Electronics" },
-	{ label: "Home & Lifestyle", category: "Home & Lifestyle" },
-	{ label: "Medicine", category: "Medicine" },
-	{ label: "Sports & Outdoor", category: "Sports & Outdoor" },
-	{ label: "Baby’s & Toys", category: "Baby's & Toys" },
-	{ label: "Groceries & Pets", category: "Groceries & Pets" },
-	{ label: "Health & Beauty", category: "Health & Beauty" },
-];
-
-export const footerLinks = [
-	{
-		title: "Exclusive",
-		links: [
-			{ href: "", label: "Subscribe" },
-			{ href: "", label: "Get 10% off your first order" },
-		],
-	},
-	{
-		title: "Support",
-		links: [
-			{
-				href: "",
-				label: "20 Aurora Compound St., Metro Manila, Marikina, Philippines.",
-			},
-			{ href: "", label: "exclusive@gmail.com" },
-			{ href: "", label: "+99075-11111-77777" },
-		],
-	},
-	{
-		title: "Account",
-		links: [
-			{ href: "", label: "My Account" },
-			{ href: "", label: "Login / Register" },
-			{ href: "", label: "Cart" },
-			{ href: "", label: "Wishlist" },
-			{ href: "", label: "Shop" },
-			{ href: "", label: "" },
-		],
-	},
-	{
-		title: "Quick Link",
-		links: [
-			{ href: "", label: "Privacy Policy" },
-			{ href: "", label: "Terms Of Use" },
-			{ href: "", label: "FAQ" },
-			{ href: "", label: "Contact" },
-		],
-	},
-	{
-		title: "Download App",
-		links: [{ href: "", label: "Save $3 with App New User Only" }],
-	},
-];
-
-export const wishlistData = [
-	{
-		id: 5,
-		productName: "The north coat",
-		productImage: product5,
-		currentPrice: "$260",
-		originalPrice: "",
-		rating: fiveStar,
-		rateCount: "65",
-		discountPercentage: "",
-		quantity: 1,
-		subTotal: 260,
-	},
-	{
-		id: 6,
-		productName: "Gucci duffle bag",
-		productImage: product6,
-		currentPrice: "$960",
-		originalPrice: "",
-		rating: fourHalfStar,
-		rateCount: "65",
-		discountPercentage: "",
-		quantity: 1,
-		subTotal: 960,
-	},
-	{
-		id: 7,
-		productName: "RGB liquid CPU Cooler",
-		productImage: product7,
-		currentPrice: "$160",
-		originalPrice: "",
-		rating: fourHalfStar,
-		rateCount: "65",
-		discountPercentage: "",
-		quantity: 1,
-		subTotal: 160,
-	},
-	{
-		id: 8,
-		productName: "Small BookSelf",
-		productImage: product8,
-		currentPrice: "$360",
-		originalPrice: "",
-		rating: fiveStar,
-		rateCount: "65",
-		discountPercentage: "",
-		quantity: 1,
-		subTotal: 360,
-	},
-];
-
-export const cartData = {
-	tableHeaders: [{ title: "Product" }, { title: "Product" }, { title: "Price" }, { title: "Quantity" }, { title: "Subtotal" }, { title: "Action" }],
-	cartProducts: [
-		{
-			id: 8,
-			productName: "Small BookSelf",
-			productImage: product8,
-			currentPrice: "$360",
-			quantity: 1,
-			subTotal: 360,
-		},
-		{
-			id: 6,
-			productName: "Gucci duffle bag",
-			productImage: product6,
-			currentPrice: "$960",
-			quantity: 1,
-			subTotal: 960,
-		},
-	],
-};
 export const shopInfo = [
 	{
 		label: "shop",
@@ -479,6 +381,51 @@ export const socials = [
 	},
 ];
 
+export const footerLinks = [
+	{
+		title: "Exclusive",
+		links: [
+			{ href: "", label: "Subscribe" },
+			{ href: "", label: "Get 10% off your first order" },
+		],
+	},
+	{
+		title: "Support",
+		links: [
+			{
+				href: "",
+				label: "20 Aurora Compound St., Metro Manila, Marikina, Philippines.",
+			},
+			{ href: "", label: "exclusive@gmail.com" },
+			{ href: "", label: "+99075-11111-77777" },
+		],
+	},
+	{
+		title: "Account",
+		links: [
+			{ href: "", label: "My Account" },
+			{ href: "", label: "Login / Register" },
+			{ href: "", label: "Cart" },
+			{ href: "", label: "Wishlist" },
+			{ href: "", label: "Shop" },
+			{ href: "", label: "" },
+		],
+	},
+	{
+		title: "Quick Link",
+		links: [
+			{ href: "", label: "Privacy Policy" },
+			{ href: "", label: "Terms Of Use" },
+			{ href: "", label: "FAQ" },
+			{ href: "", label: "Contact" },
+		],
+	},
+	{
+		title: "Download App",
+		links: [{ href: "", label: "Save $3 with App New User Only" }],
+	},
+];
+
 export const shopProductsData = [
 	{
 		id: 1,
@@ -491,7 +438,7 @@ export const shopProductsData = [
 		discountPercentage: "-40%",
 		quantity: 1,
 		description: `The HAVIT HV-G92 is a gamepad designed for gaming enthusiasts seeking an enhanced gaming experience. This gamepad features a ergonomic design and a comfortable grip, allowing for extended gaming sessions without discomfort.`,
-		category: "Electronics",
+		category: ["Electronics", "Flash Sales", "Gaming"],
 		subTotal: 120,
 	},
 	{
@@ -506,7 +453,7 @@ export const shopProductsData = [
 		quantity: 1,
 		description:
 			"K-900 Gaming Keyboard comes with USB Wired. Its cable length is 135cm. This is one kind of Luminescent Gaming Keyboard. This iMICE AK-900 has 104 keys, 100mA with DC 5V voltage. It is one of the perfect choices for gaming at a reasonable price. ",
-		category: "Electronics",
+		category: ["Electronics", "Flash Sales", "Gaming"],
 		subTotal: 960,
 	},
 	{
@@ -521,7 +468,7 @@ export const shopProductsData = [
 		quantity: 1,
 		description:
 			"An in-plane switching (IPS) monitor is a type of LCD (liquid-crystal display) monitor. It's made up of backlighting or a mirror behind a polarizer. These sit behind the liquid with crystals mixed into it. The monitor relies on perfect alignment of the liquid crystals to pass along the light to the next polarizer.",
-		category: "Electronics",
+		category: ["Electronics", "Flash Sales", "Computers", "Gaming"],
 		subTotal: 370,
 	},
 	{
@@ -536,7 +483,7 @@ export const shopProductsData = [
 		quantity: 1,
 		description:
 			"The S Series chair combines ergonomic adjustments with a sleek design from Denmark. The armrests, seat height, seat depth, and tilt help you maintain optimal posture, and the high-density internet back provides warmth so you can focus on the tasks at hand.",
-		category: "Home & Lifestyle",
+		category: ["Home & Lifestyle", "Flash Sales"],
 		subTotal: 375,
 	},
 	{
@@ -551,7 +498,8 @@ export const shopProductsData = [
 		quantity: 1,
 		description:
 			"The North jacket is made from a low-noise, very soft fabric, making a stylish shell garment, with a windproof and waterproof membrane to protect you from the rain and cold. It is accompanied by a thick fleece that can be zipped into the jacket or removed, depending on the weather and how active you are.",
-		category: "Women's Fashion",
+
+		category: ["Women's Fashion", "Best Selling Products"],
 		subTotal: 260,
 	},
 	{
@@ -566,7 +514,8 @@ export const shopProductsData = [
 		quantity: 1,
 		description:
 			"Incredibly malleable, this large duffle is made in soft GG Supreme, a softer version of GG Supreme canvas, crafted from a coated microfiber fabric with the GG motif. Comes with a removable Web shoulder strap.",
-		category: "Women's Fashion",
+		category: ["Women's Fashion", "Best Selling Products"],
+
 		subTotal: 960,
 	},
 	{
@@ -596,7 +545,8 @@ export const shopProductsData = [
 		quantity: 1,
 		description:
 			"This item Small Bookshelf for Small Spaces, 3 Tier Book Shelf Organizer, Wooden Narrow Bookcase, Short Bookshelf for Bedroom, Living Room, Home, Office, Dark Brown",
-		category: "Home & Lifestyle",
+
+		category: ["Home & Lifestyle", "Best Selling Products"],
 		subTotal: 360,
 	},
 	{
@@ -611,7 +561,7 @@ export const shopProductsData = [
 		quantity: 1,
 		description:
 			"It is made of ground up ingredients, including meat, grains, legumes, vegetables, and fruits. These ingredients are mixed, shaped into pellets, and then cooked in a process called extrusion",
-		category: "Groceries & Pets",
+		category: ["Groceries & Pets", "Best Selling Products"],
 		subTotal: 100,
 	},
 	{
@@ -626,7 +576,7 @@ export const shopProductsData = [
 		quantity: 1,
 		description:
 			"Canon EOS (Electro-Optical System) is an autofocus single-lens reflex camera (SLR) and mirrorless camera series produced by Canon Inc. Introduced in 1987 with the Canon EOS 650, all EOS cameras used 35 mm film until October 1996 when the EOS IX was released using the new and short-lived APS film.",
-		category: "Electronics",
+		category: ["Electronics", "Camera"],
 		subTotal: 360,
 	},
 	{
@@ -641,7 +591,7 @@ export const shopProductsData = [
 		quantity: 1,
 		description:
 			"Asus has packed its high-end laptops with its Nebula HDR Mini-LED display this year. That means excellent contrast, vivid colors, and slick attention to detailing. This is one of the best laptop screens we've come across, and paired with a silky smooth 240Hz refresh rate there's plenty to love.",
-		category: "Electronics",
+		category: ["Electronics", "Computers"],
 		subTotal: 700,
 	},
 	{
@@ -700,7 +650,7 @@ export const shopProductsData = [
 		quantity: 1,
 		description:
 			"Fantech GP11 Shooter USB Gamepad is best for Gaming like PC and PS3. This gamepad comes with ergonomic shape & weight favored by esports athletes like – Play In Comfort, Feel Comfortable in your hands for hours of gaming, Feel The Action and vibration feedback gives you a riveting gaming experience.",
-		category: "Electronics",
+		category: ["Electronics", "Gaming"],
 		subTotal: 660,
 	},
 	{

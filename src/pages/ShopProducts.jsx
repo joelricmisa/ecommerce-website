@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { shopProductsData, sideLinks } from "../constants";
+import { productCategories, shopProductsData } from "../constants";
 import { ProductCard, Breadcrumb, SvgIcon } from "../components";
 import { box } from "../assets/icons/SvgIconsList";
 import { ShopContext } from "../contexts/ShopContext";
@@ -8,7 +8,7 @@ const ShopProducts = () => {
 	const [products, setProducts] = useState(shopProductsData);
 	const [currentCategory, setCurrentCategory] = useState(category);
 	useEffect(() => {
-		const filtered = shopProductsData.filter((item) => item.category === currentCategory);
+		const filtered = shopProductsData.filter((item) => item.category.includes(currentCategory));
 		currentCategory === "all" ? setProducts(shopProductsData) : setProducts(filtered);
 	}, [currentCategory]);
 
@@ -23,7 +23,7 @@ const ShopProducts = () => {
 					All
 				</button>
 
-				{sideLinks.map((link) => (
+				{productCategories.map((link) => (
 					<button
 						key={link.label}
 						className={`categoryBtn ${currentCategory === link.category ? "" : "bg-primary text-secondary hover:text-primary"}`}
@@ -32,7 +32,7 @@ const ShopProducts = () => {
 					</button>
 				))}
 			</div>
-			<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-10 padding-b">
+			<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-10 padding-b ">
 				{products.map((product, index) => {
 					// console.log(product);
 					return (

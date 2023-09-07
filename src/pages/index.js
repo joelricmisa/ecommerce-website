@@ -9,5 +9,6 @@ import Cart from "./Cart";
 import Checkout from "./Checkout";
 import ProductPreview from "./ProductPreview";
 import ShopProducts from "./ShopProducts";
+import ForgotPassword from "./ForgotPassword";
 
-export { Home, NotFound, Contact, About, SignUp, SignIn, Wishlist, Cart, Checkout, ProductPreview, ShopProducts };
+export { Home, NotFound, Contact, About, SignUp, SignIn, Wishlist, Cart, Checkout, ProductPreview, ShopProducts, ForgotPassword };

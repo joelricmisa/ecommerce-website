@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { signUpImg } from "../assets/images";
+import { signUpImage } from "../assets/images";
 import { google } from "../assets/logo";
 
 const SignUp = () => {
 	return (
 		<div className="flex flex-col xl:flex-row animate">
-			<img src={signUpImg} alt="" className="xl:w-7/12 min-h-[100px]" />
+			<img src={signUpImage} alt="" className="xl:w-7/12 min-h-[100px]" />
 			<div className="xl:w-5/12 sm:px-20 px-10 my-auto padding-y">
 				<h1 className="text-4xl font-medium">Create an account</h1>
 				<h2 className=" mt-5">Enter your details below</h2>
@@ -25,7 +25,7 @@ const SignUp = () => {
 				<div className="flex-center flex-wrap py-4 mt-5">
 					<p>Already have account?</p>
 					<Link to={"/signin"} className="link">
-						Log in
+						Log In
 					</Link>
 				</div>
 			</div>

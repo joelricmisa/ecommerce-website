@@ -1,9 +1,11 @@
 import { useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Breadcrumb, CartCard } from "../components";
+import { Link, useNavigate } from "react-router-dom";
+import { Breadcrumb, CartCard, SvgIcon } from "../components";
 import { ShopContext } from "../contexts/ShopContext";
+import { box } from "../assets/icons/SvgIconsList";
 
 const Cart = () => {
+	const navigate = useNavigate();
 	const { cartItems, getTotalCartAmount } = useContext(ShopContext);
 	const [totalAmount, setTotalAmount] = useState(getTotalCartAmount());
 	const formatNumber = new Intl.NumberFormat("en-US", {
@@ -11,8 +13,12 @@ const Cart = () => {
 		style: "currency",
 	});
 
+	const [disabled, setDisabled] = useState(true);
+	const [alert, setAlert] = useState(false);
+
 	useEffect(() => {
 		setTotalAmount(getTotalCartAmount());
+		cartItems.length !== 0 ? setDisabled(false) : setDisabled(true);
 	}, [cartItems]);
 	return (
 		<div className="padding-x animate">
@@ -34,7 +40,7 @@ const Cart = () => {
 				))}
 
 				<Link to={"/"} className="button block ">
-					Return to Shop
+					Go to Shop
 				</Link>
 			</div>
 			<div className="flex-between  flex-col xl:flex-row  gap-10 items-start padding-y">
@@ -53,9 +59,24 @@ const Cart = () => {
 					<p className="flex-between w-full  mb-4 pb-4">
 						Total: <span>{formatNumber.format(totalAmount)}</span>
 					</p>
-					<Link type="button" to={"checkout"} className="button">
+					{/* <span className="absolute bg-black inset-0 text-white z-[99]">hello</span> */}
+					<button type="button" className="button" onClick={() => (disabled ? setAlert(true) : navigate("checkout"))}>
 						Process to Checkout
-					</Link>
+					</button>
+					{disabled ? (
+						<div className={`${alert ? "fixed" : "hidden"} bg-black/30 top-0 left-0  min-h-screen min-w-full text-white z-[99]`}>
+							<span
+								className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-extraColor p-5 rounded-md  text-center text-black max-w-[400px] flex-center flex-col`}>
+								<SvgIcon icon={box("w-20 h-20")} />
+								Your cart is empty, please add some products before checking out your cart.
+								<button className="button  py-2" onClick={() => setAlert(false)}>
+									OK
+								</button>
+							</span>
+						</div>
+					) : (
+						""
+					)}
 				</div>
 			</div>
 		</div>
