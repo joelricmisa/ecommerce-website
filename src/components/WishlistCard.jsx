@@ -31,43 +31,26 @@ const WishlistCard = ({
 		<div className="flex flex-col min-h-[300px]  rounded-sm  hover:scale-105 transition-transform hover:ring-offset-2  hover:ring-1 hover:ring-black/10 hover:shadow-sm">
 			<div className="bg-extraColor w-full h-[270px] grid-center relative">
 				{discountPercentage && (
-					<span className="w-14 h-6 bg-tertiary-100 text-primary text-xs grid-center rounded-sm absolute top-3 left-3">{discountPercentage}</span>
+					<span className="absolute h-6 text-xs rounded-sm w-14 bg-tertiary-100 text-primary grid-center top-3 left-3">
+						{discountPercentage}
+					</span>
 				)}
 				<span
-					className="icon grid-center absolute top-3 right-3"
+					className="absolute icon grid-center top-3 right-3"
 					onClick={() => {
 						iconName === "trash" ? removeToWishlist({ id }) : navigate(`/products/${id}`);
 					}}>
 					<SvgIcon icon={iconValue} />
 				</span>
-				<img src={productImage} alt="" className="scale-75 xs:scale-90 xl:scale-95" />
-				{/* <span className="icon grid-center  ">
-					<SvgIcon icon={eye("text-white fill-tertiary-200 ")} />
-				</span> */}
-				{/* 
-				<button
-					type="button"
-					className="button flex-center gap-2 bg-black py-2 absolute bottom-0 inset-x-0"
-					onClick={() =>
-						addToCart({
-							id,
-							productName,
-							productImage,
-							currentPrice,
-							originalPrice,
-							rating,
-							rateCount,
-							discountPercentage,
-							quantity,
-							subTotal,
-						})
-					}>
-					<SvgIcon icon={cart("w-6 h-6")} /> Add To Cart
-				</button> */}
+				<img
+					src={productImage}
+					alt=""
+					className="scale-75 xs:scale-90 xl:scale-95"
+				/>
 
 				<button
 					type="button"
-					className="button bg-black flex-center py-2 gap-2 absolute bottom-0 inset-x-0 px-0"
+					className="absolute inset-x-0 bottom-0 gap-2 px-0 py-2 bg-black button flex-center"
 					onClick={() =>
 						inCart
 							? removeToCart({ id })
@@ -89,15 +72,20 @@ const WishlistCard = ({
 				</button>
 			</div>
 
-			<div className="w-full  grid grid-rows-3 p-2">
+			<div className="grid w-full grid-rows-3 p-2">
 				<h1 className="font-medium">{productName}</h1>
 				<p className="font-medium text-tertiary-100">
 					{currentPrice}
-					<span className="text-black/50 line-through ml-3">{originalPrice}</span>
+					<span className="ml-3 line-through text-black/50">{originalPrice}</span>
 				</p>
 				{rating && (
-					<span className="flex-center gap-1 justify-start">
-						<img src={rating} alt="" className="-ml-1 scale-75 xs:scale-90 xl:scale-95" /> <span className="text-black/50">({rateCount})</span>
+					<span className="justify-start gap-1 flex-center">
+						<img
+							src={rating}
+							alt=""
+							className="-ml-1 scale-75 xs:scale-90 xl:scale-95"
+						/>{" "}
+						<span className="text-black/50">({rateCount})</span>
 					</span>
 				)}
 			</div>

@@ -6,7 +6,7 @@ import { ScrollToTop } from "../components";
 
 const RootLayout = () => {
 	return (
-		<div className="overflow-clip font-poppins text-base relative">
+		<div className="relative text-base overflow-clip font-poppins">
 			<ScrollToTop />
 			<Navbar />
 			<main>{<Outlet />}</main>

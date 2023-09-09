@@ -40,24 +40,33 @@ const Navbar = () => {
 
 	return (
 		<>
-			<header className="sticky top-0 z-50 bg-primary border-bottom shadow-md">
-				<div className="bg-secondary text-primary p-2 xl:p-4 flex-center flex-col xl:flex-row justify-evenly text-center w-full">
+			<header className="sticky top-0 z-50 shadow-md bg-primary border-bottom">
+				<div className="flex-col w-full p-2 text-center bg-secondary text-primary xl:p-4 flex-center xl:flex-row justify-evenly">
 					<p>
 						Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!
-						<a href="" className="link ml-2">
+						<a
+							href=""
+							className="ml-2 link">
 							ShopNow
 						</a>
 					</p>
-					<select className="bg-secondary cursor-pointer px-2 text-sm self-end" name="english" id="">
+					<select
+						className="self-end px-2 text-sm cursor-pointer bg-secondary"
+						name="english"
+						id="">
 						<option value="english">English</option>
 						<option value="tagalog">Tagalog</option>
 					</select>
 				</div>
 				<div className="w-full py-3 flex-between padding-x xl:hidden ">
-					<NavLink to="/" className="font-bold text-2xl font-inter">
+					<NavLink
+						to="/"
+						className="text-2xl font-bold font-inter">
 						Exclusive
 					</NavLink>
-					<button className="flex-center xl:hidden" onClick={() => setToggle(!toggle)}>
+					<button
+						className="flex-center xl:hidden"
+						onClick={() => setToggle(!toggle)}>
 						<SvgIcon icon={menu("w-10 h-10")} />
 					</button>
 				</div>
@@ -65,23 +74,31 @@ const Navbar = () => {
 					className={`${
 						toggle ? "fixed xl:static xl:h-auto top-0 w-full h-[100dvh] z-50 visible bg-primary" : "h-0 xl:h-auto xl:visible  invisible"
 					} transition-all flex flex-col xl:flex-row xl:items-center  xl:border-b-2 padding-x xl:h-auto`}>
-					<div className="w-full xl:w-3/12 py-3 flex-between ">
-						<NavLink to="/" className="font-bold text-2xl font-inter">
+					<div className="w-full py-3 xl:w-3/12 flex-between ">
+						<NavLink
+							to="/"
+							className="text-2xl font-bold font-inter">
 							Exclusive
 						</NavLink>
-						<button className="flex-center xl:hidden" onClick={() => setToggle(!toggle)}>
+						<button
+							className="flex-center xl:hidden"
+							onClick={() => setToggle(!toggle)}>
 							<SvgIcon icon={menu("w-10 h-10")} />
 						</button>
 					</div>
 
 					<div className={`flex-center xl:w-4/12 w-full  justify-start  relative`}>
-						<label htmlFor="search" className="relative block w-full xl:w-11/12 ">
+						<label
+							htmlFor="search"
+							className="relative block w-full xl:w-11/12 ">
 							<span className="sr-only">Search</span>
-							<button type="button" className="flex-center absolute inset-y-0 right-0  pr-2">
+							<button
+								type="button"
+								className="absolute inset-y-0 right-0 pr-2 flex-center">
 								<SvgIcon icon={search()} />
 							</button>
 							<input
-								className="input placeholder:text-slate-400 placeholder:text-sm border border-slate-300 rounded-md py-2 pr-9"
+								className="py-2 border rounded-md input placeholder:text-slate-400 placeholder:text-sm border-slate-300 pr-9"
 								placeholder="What are you looking for?"
 								type="text"
 								name="search"
@@ -121,25 +138,33 @@ const Navbar = () => {
 						)}
 					</div>
 
-					<div className={`flex-center flex-col xl:flex-row xl:items-center items-start  xl:w-5/12 xl:py-3 py-5 w-full h-full justify-between  `}>
-						<ul className="xl:flex-center xl:gap-6  xl:w-4/6 justify-start  w-full ">
+					<div
+						className={`flex-center flex-col xl:flex-row xl:items-center items-start  xl:w-5/12 xl:py-3 py-5 w-full h-full justify-between  `}>
+						<ul className="justify-start w-full xl:flex-center xl:gap-6 xl:w-4/6 ">
 							{navLinks.map((link) => (
 								<li key={link.label}>
-									<NavLink className="navLink " to={link.href} onClick={() => handleActiveNav(link.label)}>
+									<NavLink
+										className="navLink "
+										to={link.href}
+										onClick={() => handleActiveNav(link.label)}>
 										<span className={` relative  ${link.label === activeNav ? "navActive" : "navNotActive"} `}>{link.label}</span>
 									</NavLink>
 								</li>
 							))}
 						</ul>
-						<div className=" w-2/6  flex-center  xl:justify-end self-end xl:self-center  xl:w-2/6 ">
+						<div className="self-end w-2/6 flex-center xl:justify-end xl:self-center xl:w-2/6">
 							{navIconLinks.map((navIcon) => (
 								<Link
 									key={navIcon.label}
 									to={navIcon.href}
-									className={`grid-center block ml-1 w-[30px] relative ${currentPath === `/${navIcon.href}` ? "navActive" : "navNotActive"}`}
+									className={`grid-center block ml-1 w-[30px] relative ${
+										currentPath === `/${navIcon.href}` ? "navActive" : "navNotActive"
+									}`}
 									onClick={() => handleActiveNav()}>
 									<span
-										className={`z-20 ${showIconNum ? "absolute" : "hidden"} -top-1 bg-tertiary-100  text-sm text-primary rounded-full font-medium  ${
+										className={`z-20 ${
+											showIconNum ? "absolute" : "hidden"
+										} -top-1 bg-tertiary-100  text-sm text-primary rounded-full font-medium  ${
 											navIcon.storageName === "wishlistItems"
 												? wishlistItems.length <= 99
 													? "px-1.5 -right-2"
@@ -176,10 +201,16 @@ const Navbar = () => {
 								<SvgIcon icon={user()} />
 								{userIconFocus && (
 									<span className="absolute bottom-[150%] xl:top-[110%]  right-0 w-[150px] z-[100]">
-										<Link to={"/signin"} className="flex-center gap-2 justify-start p-2 bg-extraColor hover:font-medium" onClick={() => handleActiveNav()}>
+										<Link
+											to={"/signin"}
+											className="justify-start gap-2 p-2 flex-center bg-extraColor hover:font-medium"
+											onClick={() => handleActiveNav()}>
 											<SvgIcon icon={signIn("w-7 h-7")} /> <p>Log In</p>
 										</Link>
-										<Link to={"/signup"} className="flex-center gap-2 justify-start p-2 bg-extraColor hover:font-medium" onClick={() => handleActiveNav()}>
+										<Link
+											to={"/signup"}
+											className="justify-start gap-2 p-2 flex-center bg-extraColor hover:font-medium"
+											onClick={() => handleActiveNav()}>
 											<SvgIcon icon={signUp("w-7 h-7")} /> <p>Sign Up</p>
 										</Link>
 									</span>

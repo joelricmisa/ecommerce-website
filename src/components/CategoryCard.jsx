@@ -7,10 +7,13 @@ const CategoryCard = ({ categoryName, categoryImage }) => {
 	return (
 		<Link
 			to={"/products"}
-			className="border-2 border-black/30 rounded-sm hover:scale-105 hover:bg-extraColor hover:font-medium transition-transform py-7  "
+			className="transition-transform border-2 rounded-sm border-black/30 hover:scale-105 hover:bg-extraColor hover:font-medium py-7 "
 			onClick={() => setCategory(categoryName)}>
-			<span className="grid-center gap-5">
-				<img src={categoryImage} alt="" />
+			<span className="gap-5 grid-center">
+				<img
+					src={categoryImage}
+					alt=""
+				/>
 				{categoryName}
 			</span>
 		</Link>

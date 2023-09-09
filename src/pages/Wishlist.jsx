@@ -16,15 +16,18 @@ const Wishlist = () => {
 
 	return (
 		<section className="animate">
-			<div className="flex flex-col padding border-bottom  ">
-				<div className="text-tertiary-100  font-semibold flex-center xl:flex-between flex-wrap mb-20 h-10  ">
-					<span className="text-black text-xl">Wishlist ({wishlistItems.length})</span>
-					<button type="button" className="button mx-0" onClick={() => setAddAll(!addAll)}>
+			<div className="flex flex-col padding border-bottom ">
+				<div className="flex-wrap h-10 mb-20 font-semibold text-tertiary-100 flex-center xl:flex-between ">
+					<span className="text-xl text-black">Wishlist ({wishlistItems.length})</span>
+					<button
+						type="button"
+						className="mx-0 button"
+						onClick={() => setAddAll(!addAll)}>
 						Move All To Cart
 					</button>
 				</div>
 				{wishlistItems.length !== 0 ? (
-					<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-10 ">
+					<div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 ">
 						{wishlistItems.map((product) => {
 							return (
 								<WishlistCard
@@ -51,17 +54,19 @@ const Wishlist = () => {
 			</div>
 
 			<div className="flex flex-col padding ">
-				<div className=" text-tertiary-100 font-semibold flex-between mb-20 ">
+				<div className="mb-20 font-semibold text-tertiary-100 flex-between">
 					<div className="flex-center">
-						<span className="w-5 h-10 bg-tertiary-100 rounded-sm"></span>
+						<span className="w-5 h-10 rounded-sm bg-tertiary-100"></span>
 						Just For You
 					</div>
-					<Link to={"/products"} className="button mx-0">
+					<Link
+						to={"/products"}
+						className="mx-0 button">
 						See All
 					</Link>
 				</div>
 
-				<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-10  ">
+				<div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 ">
 					{ProductData.flashSales.map((product) => {
 						return (
 							<WishlistCard

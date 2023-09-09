@@ -11,23 +11,23 @@
 }
 
 .navLink {
-	@apply block py-4 px-2 xl:px-0 font-poppins text-lg;
+	@apply block px-2 py-4 text-lg xl:px-0 font-poppins;
 }
 
 .heroBullet {
-	@apply h-4 w-4 bg-gray-100 rounded-full cursor-pointer;
+	@apply w-4 h-4 bg-gray-100 rounded-full cursor-pointer;
 }
 .footerLink {
-	@apply font-inter text-base;
+	@apply text-base font-inter;
 }
 .footerLinkHeader {
-	@apply font-inter text-2xl font-medium block mb-6;
+	@apply block mb-6 text-2xl font-medium font-inter;
 }
 .footerLinkParent {
-	@apply space-y-6 pr-12 mb-10;
+	@apply pr-12 mb-10 space-y-6;
 }
 .signInput {
-	@apply block w-full border-b py-3 px-4 mt-10 text-base rounded-sm outline-none focus:ring-1 focus:ring-tertiary-100 focus:bg-tertiary-100/10;
+	@apply block w-full px-4 py-3 mt-10 text-base border-b rounded-sm outline-none focus:ring-1 focus:ring-tertiary-100 focus:bg-tertiary-100/10;
 }
 .checkLabel {
 	@apply block w-full py-3 text-base opacity-50;
@@ -54,15 +54,15 @@
 		@apply bg-tertiary-100 text-base text-white font-medium px-10 py-3.5 rounded-sm  mx-auto font-poppins hover:bg-tertiary-200 active:bg-tertiary-300 focus:outline-none focus:ring-1 focus:ring-tertiary-300 shadow-md;
 	}
 	.categoryBtn {
-		@apply bg-tertiary-100 text-base text-white font-normal p-1 px-2 mx-0 rounded-sm   font-poppins hover:bg-tertiary-200 active:bg-tertiary-300 focus:outline-none focus:ring-1 focus:ring-tertiary-300 shadow-md border;
+		@apply p-1 px-2 mx-0 text-base font-normal text-white border rounded-sm shadow-md bg-tertiary-100 font-poppins hover:bg-tertiary-200 active:bg-tertiary-300 focus:outline-none focus:ring-1 focus:ring-tertiary-300;
 	}
 
 	.input {
-		@apply block w-full rounded-sm py-3 px-3 border border-secondary/10 outline-none focus:ring-1 focus:ring-tertiary-100 focus:bg-tertiary-100/10 text-base bg-extraColor;
+		@apply block w-full px-3 py-3 text-base border rounded-sm outline-none border-secondary/10 focus:ring-1 focus:ring-tertiary-100 focus:bg-tertiary-100/10 bg-extraColor;
 	}
 
 	.icon {
-		@apply bg-white rounded-full p-2  cursor-pointer  hover:bg-extraColor active:bg-tertiary-300  shadow-md;
+		@apply p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-extraColor active:bg-tertiary-300;
 	}
 
 	.link {
@@ -70,7 +70,7 @@
 	}
 
 	.timer {
-		@apply flex items-center justify-center flex-col font-medium;
+		@apply flex flex-col items-center justify-center font-medium;
 	}
 
 	.navActive {
@@ -85,14 +85,14 @@
 	}
 
 	.searchResultLink {
-		@apply h-10 flex-between w-full py-2 px-2 hover:bg-secondary/10;
+		@apply w-full h-10 px-2 py-2 flex-between hover:bg-secondary/10;
 	}
 
 	.flex-center {
-		@apply flex justify-center items-center gap-4;
+		@apply flex items-center justify-center gap-4;
 	}
 	.flex-between {
-		@apply flex justify-between items-center;
+		@apply flex items-center justify-between;
 	}
 	.grid-center {
 		@apply grid place-items-center;
@@ -105,7 +105,7 @@
 
 @layer utilities {
 	.padding {
-		@apply px-5 sm:px-8 lg:px-16 py-10 sm:py-12 lg:py-24;
+		@apply px-5 py-10 sm:px-8 lg:px-16 sm:py-12 lg:py-24;
 	}
 
 	.padding-x {

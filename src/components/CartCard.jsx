@@ -22,26 +22,30 @@ const CartCard = ({ id, productName, productImage, currentPrice, quantity }) => 
 	}, [removeToCart]);
 	console.log(cartItems);
 	return (
-		<div className="flex-center gap-0  w-full shadow-sm rounded-sm last:mb-0 relative">
-			<div className="flex-center flex-col xl:flex-row justify-evenly xl:justify-start xl:pl-28 w-1/2  xl:w-2/6  py-5 px-2 border-r border-black/10 xl:border-r-0 ">
-				<img src={productImage} className="h-16 w-20 object-contain" alt="" />
+		<div className="relative w-full gap-0 rounded-sm shadow-sm flex-center last:mb-0">
+			<div className="flex-col w-1/2 px-2 py-5 border-r flex-center xl:flex-row justify-evenly xl:justify-start xl:pl-28 xl:w-2/6 border-black/10 xl:border-r-0 ">
+				<img
+					src={productImage}
+					className="object-contain w-20 h-16"
+					alt=""
+				/>
 				<p> {productName}</p>
 			</div>
-			<div className="xl:w-4/6 w-1/2 flex-center xl:flex-row flex-col pt-14 pb-10">
-				<div className="flex-center justify-evenly   xl:w-1/2 ">
+			<div className="flex-col w-1/2 pb-10 xl:w-4/6 flex-center xl:flex-row pt-14">
+				<div className="flex-center justify-evenly xl:w-1/2 ">
 					<p>${currentPrice} (1)</p>
 
 					<input
 						type="number"
 						min={1}
 						value={state < 10 ? `0${state}` : state}
-						className="input w-16 text-center font-inter "
+						className="w-16 text-center input font-inter "
 						onChange={(e) => setState(e.target.value)}
 					/>
 				</div>
-				<div className="flex-center justify-evenly  xl:w-1/2 ">
+				<div className="flex-center justify-evenly xl:w-1/2 ">
 					<p className="">
-						<span className="font-semibold mr-1">Subtotal:</span> {formatNumber.format(productSubTotal)}{" "}
+						<span className="mr-1 font-semibold">Subtotal:</span> {formatNumber.format(productSubTotal)}{" "}
 					</p>
 					<span
 						className="absolute xl:static  top-0 right-0  flex-center bg-tertiary-100 w-8 h-8 shadow-sm p-0.5 cursor-pointer hover:bg-tertiary-200 hover:ring hover:ring-black/70 active:bg-tertiary-300"

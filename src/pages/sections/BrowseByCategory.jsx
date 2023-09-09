@@ -5,22 +5,34 @@ import { v4 as uuid } from "uuid";
 
 const BrowseByCategory = () => {
 	return (
-		<div className="flex flex-col padding mx-auto w-full gap-10 border-bottom">
-			<div className="text-tertiary-100 font-semibold flex-center justify-start  h-10 ">
-				<span className="w-5 h-10 bg-tertiary-100 rounded-sm "></span>
+		<div className="flex flex-col w-full gap-10 mx-auto padding border-bottom">
+			<div className="justify-start h-10 font-semibold text-tertiary-100 flex-center ">
+				<span className="w-5 h-10 rounded-sm bg-tertiary-100 "></span>
 				Categories
 			</div>
-			<div className="flex items-end  font-inter text-4xl font-semibold  h-14">
+			<div className="flex items-end text-4xl font-semibold font-inter h-14">
 				Browse By Category
-				<span className="flex ml-auto space-x-2 mr-10">
-					<SvgIcon icon={arrowLeft()} classVal={"icon"} />
-					<SvgIcon icon={arrowRight()} classVal={"icon"} />
+				<span className="flex ml-auto mr-10 space-x-2">
+					<SvgIcon
+						icon={arrowLeft()}
+						classVal={"icon"}
+					/>
+					<SvgIcon
+						icon={arrowRight()}
+						classVal={"icon"}
+					/>
 				</span>
 			</div>
-			<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 px-10 gap-5 lg:py-10 ">
+			<div className="grid grid-cols-2 gap-5 px-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 lg:py-10 ">
 				{ProductData.browseByCategory.map((category) => {
 					// console.log(category);
-					return <CategoryCard key={uuid()} categoryName={category.categoryName} categoryImage={category.categoryImage} />;
+					return (
+						<CategoryCard
+							key={uuid()}
+							categoryName={category.categoryName}
+							categoryImage={category.categoryImage}
+						/>
+					);
 				})}
 			</div>
 		</div>

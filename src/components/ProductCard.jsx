@@ -6,7 +6,18 @@ import { useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ id, productName, productImage, currentPrice, originalPrice, rating, rateCount, discountPercentage, quantity, subTotal }) => {
+const ProductCard = ({
+	id,
+	productName,
+	productImage,
+	currentPrice,
+	originalPrice,
+	rating,
+	rateCount,
+	discountPercentage,
+	quantity,
+	subTotal,
+}) => {
 	const { addToCart, cartItems, removeToCart, addToWishlist, removeToWishlist, wishlistItems } = useContext(ShopContext);
 	const [activeWishlist, setActiveWishlist] = useState(false);
 	const [inCart, setInCart] = useState(false);
@@ -26,9 +37,11 @@ const ProductCard = ({ id, productName, productImage, currentPrice, originalPric
 			onMouseOut={() => setToggle(false)}>
 			<div className="bg-extraColor w-full h-[270px]  grid-center relative">
 				{discountPercentage && (
-					<span className="w-14 h-6 bg-tertiary-100 text-primary text-xs grid-center rounded-sm absolute top-3 left-3">{discountPercentage}</span>
+					<span className="absolute h-6 text-xs rounded-sm w-14 bg-tertiary-100 text-primary grid-center top-3 left-3">
+						{discountPercentage}
+					</span>
 				)}
-				<div className="flex flex-col gap-2 absolute top-3 right-3">
+				<div className="absolute flex flex-col gap-2 top-3 right-3">
 					<span
 						className={`icon grid-center ${activeWishlist ? "text-tertiary-100" : "hover:text-tertiary-100"} `}
 						onClick={() =>
@@ -50,15 +63,21 @@ const ProductCard = ({ id, productName, productImage, currentPrice, originalPric
 						<SvgIcon icon={heart(` ${activeWishlist ? "fill-tertiary-100" : "text-tertiary-200 fill-none hover:fill-tertiary-100"}`)} />
 					</span>
 
-					<Link to={`/products/${id}`} className="icon grid-center  ">
+					<Link
+						to={`/products/${id}`}
+						className="icon grid-center ">
 						<SvgIcon icon={eye("text-white fill-tertiary-200 ")} />
 					</Link>
 				</div>
-				<img src={productImage} className="scale-75 xs:scale-90 xl:scale-95" alt="" />
+				<img
+					src={productImage}
+					className="scale-75 xs:scale-90 xl:scale-95"
+					alt=""
+				/>
 				{toggle && (
 					<button
 						type="button"
-						className="button bg-secondary flex-center py-2 gap-2 absolute bottom-0 inset-x-0 px-0"
+						className="absolute inset-x-0 bottom-0 gap-2 px-0 py-2 button bg-secondary flex-center"
 						onClick={() =>
 							inCart
 								? removeToCart({ id })
@@ -81,14 +100,19 @@ const ProductCard = ({ id, productName, productImage, currentPrice, originalPric
 				)}
 			</div>
 
-			<div className="w-full  flex flex-col gap-2 p-2">
+			<div className="flex flex-col w-full gap-2 p-2">
 				<h1 className="font-medium">{productName}</h1>
 				<p className="font-medium text-secondary-100">
 					{currentPrice}
-					<span className="text-black/50 line-through ml-3">{originalPrice}</span>
+					<span className="ml-3 line-through text-black/50">{originalPrice}</span>
 				</p>
-				<div className="flex-center gap-1 justify-start ">
-					<img src={rating} alt="" className="-ml-1 scale-75 xs:scale-90 xl:scale-95" /> <span className="text-black/50">({rateCount})</span>
+				<div className="justify-start gap-1 flex-center ">
+					<img
+						src={rating}
+						alt=""
+						className="-ml-1 scale-75 xs:scale-90 xl:scale-95"
+					/>{" "}
+					<span className="text-black/50">({rateCount})</span>
 				</div>
 			</div>
 		</div>

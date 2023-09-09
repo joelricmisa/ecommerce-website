@@ -24,7 +24,7 @@ const Timer = ({ days, hours, minutes, seconds }) => {
 	});
 
 	return (
-		<div className="flex-center flex-col items-start  border py-2 px-4 border-black/10">
+		<div className="flex-col items-start px-4 py-2 border flex-center border-black/10">
 			<p className="font-semibold">Ends In:</p>
 			<span className="flex items-end gap-2">
 				<p className="timer">

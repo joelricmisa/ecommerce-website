@@ -16,7 +16,7 @@ const ShopProducts = () => {
 		<div className="padding animate">
 			<Breadcrumb padding="" />
 
-			<div className="w-full flex-center gap-5 justify-start flex-wrap  py-5 my-10  border-y border-black/10">
+			<div className="flex-wrap justify-start w-full gap-5 py-5 my-10 flex-center border-y border-black/10">
 				<button
 					className={`categoryBtn ${currentCategory === "all" ? "" : "bg-primary text-secondary hover:text-primary"}`}
 					onClick={() => setCurrentCategory("all")}>
@@ -32,7 +32,7 @@ const ShopProducts = () => {
 					</button>
 				))}
 			</div>
-			<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-10 padding-b ">
+			<div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 padding-b ">
 				{products.map((product, index) => {
 					// console.log(product);
 					return (
@@ -52,7 +52,7 @@ const ShopProducts = () => {
 					);
 				})}
 				{products.length === 0 ? (
-					<div className="flex-center col-span-12 text-2xl  py-16">
+					<div className="col-span-12 py-16 text-2xl flex-center">
 						<SvgIcon icon={box("w-20 h-20")} /> No Available Product
 					</div>
 				) : (
