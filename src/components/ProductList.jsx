@@ -8,83 +8,84 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 
-const ProductList = ({ data, category, title, timer, headerBtn, bottomBtn }) => {
-	const { setCategory } = useContext(ShopContext);
-	return (
-		<div className="flex flex-col w-full gap-8 mt-10 padding lg:mt-0 border-bottom ">
-			<div
-				className=" w-full text-tertiary-100 font-semibold flex-center !justify-start  h-10 
-			">
-				<span className="w-5 h-10 rounded-sm bg-tertiary-100"></span>
-				{category}
-			</div>
+const ProductList = ({
+  data,
+  category,
+  title,
+  timer,
+  headerBtn,
+  bottomBtn,
+}) => {
+  const { setCategory } = useContext(ShopContext);
+  return (
+    <div className="padding border-bottom mt-10 flex w-full flex-col gap-8 lg:mt-0 ">
+      <div
+        className=" flex-center h-10 w-full !justify-start font-semibold  text-tertiary-100 
+			"
+      >
+        <span className="h-10 w-5 rounded-sm bg-tertiary-100"></span>
+        {category}
+      </div>
 
-			<div className="flex-col items-start w-full gap-2 flex-center ">
-				{timer && (
-					<Timer
-						days={3}
-						hours={12}
-						minutes={30}
-						seconds={15}
-					/>
-				)}
+      <div className="flex-center w-full flex-col items-start gap-2 ">
+        {timer && <Timer days={3} hours={12} minutes={30} seconds={15} />}
 
-				<div className={`${timer && "mt-5"} flex-between w-full `}>
-					<span className={`font-inter text-2xl sm:text-3xl lg:text-4xl font-semibold`}>{title} </span>
-					{headerBtn ? (
-						<Link
-							to={"/products"}
-							className="mx-0 ml-auto button "
-							onClick={() => setCategory(title)}>
-							View All
-						</Link>
-					) : (
-						<span className="flex-center ">
-							<SvgIcon
-								icon={arrowLeft()}
-								classVal={"icon"}
-							/>
-							<SvgIcon
-								icon={arrowRight()}
-								classVal={"icon"}
-							/>
-						</span>
-					)}
-				</div>
-			</div>
+        <div className={`${timer && "mt-5"} flex-between w-full `}>
+          <span
+            className={`font-inter text-2xl font-semibold sm:text-3xl lg:text-4xl`}
+          >
+            {title}{" "}
+          </span>
+          {headerBtn ? (
+            <Link
+              to={"/products"}
+              className="button mx-0 ml-auto "
+              onClick={() => setCategory(title)}
+            >
+              View All
+            </Link>
+          ) : (
+            <span className="flex-center ">
+              <SvgIcon icon={arrowLeft()} classVal={"icon"} />
+              <SvgIcon icon={arrowRight()} classVal={"icon"} />
+            </span>
+          )}
+        </div>
+      </div>
 
-			<div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 ">
-				{data.map((product) => {
-					// console.log(product);
-					return (
-						<ProductCard
-							key={uuid()}
-							id={product.id}
-							productName={product.productName}
-							productImage={product.productImage}
-							currentPrice={product.currentPrice}
-							originalPrice={product.originalPrice}
-							rating={product.rating}
-							rateCount={product.rateCount}
-							discountPercentage={product.discountPercentage}
-							quantity={product.quantity}
-							subTotal={product.subTotal}
-						/>
-					);
-				})}
-			</div>
-			{bottomBtn && (
-				<Link
-					to={"/products"}
-					className="mt-16 button xl:px-20 "
-					onClick={() => {
-						title === "Flash Sales" ? setCategory(title) : setCategory("all");
-					}}>
-					View All Products
-				</Link>
-			)}
-		</div>
-	);
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 ">
+        {data.map((product) => {
+          // console.log(product);
+          return (
+            <ProductCard
+              key={uuid()}
+              id={product.id}
+              productName={product.productName}
+              productImage={product.productImage}
+              currentPrice={product.currentPrice}
+              originalPrice={product.originalPrice}
+              rating={product.rating}
+              rateCount={product.rateCount}
+              discountPercentage={product.discountPercentage}
+              quantity={product.quantity}
+              subTotal={product.subTotal}
+            />
+          );
+        })}
+      </div>
+      {bottomBtn && (
+        <Link
+          to={"/products"}
+          className="button mt-16 xl:px-20 "
+          onClick={() => {
+            title === "Flash Sales" ? setCategory(title) : setCategory("all");
+          }}
+        >
+          View All Products
+        </Link>
+      )}
+    </div>
+  );
 };
 
 export default ProductList;

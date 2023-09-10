@@ -4,128 +4,128 @@
 @tailwind utilities;
 
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 .navLink {
-	@apply block px-2 py-4 text-lg xl:px-0 font-poppins;
+  @apply block px-2 py-4 font-poppins text-lg xl:px-0;
 }
 
 .heroBullet {
-	@apply w-4 h-4 bg-gray-100 rounded-full cursor-pointer;
+  @apply h-4 w-4 cursor-pointer rounded-full bg-gray-100;
 }
 .footerLink {
-	@apply text-base font-inter;
+  @apply font-inter text-base;
 }
 .footerLinkHeader {
-	@apply block mb-6 text-2xl font-medium font-inter;
+  @apply mb-6 block font-inter text-2xl font-medium;
 }
 .footerLinkParent {
-	@apply pr-12 mb-10 space-y-6;
+  @apply mb-10 space-y-6 pr-12;
 }
 .signInput {
-	@apply block w-full px-4 py-3 mt-10 text-base border-b rounded-sm outline-none focus:ring-1 focus:ring-tertiary-100 focus:bg-tertiary-100/10;
+  @apply mt-10 block w-full rounded-sm border-b px-4 py-3 text-base outline-none focus:bg-tertiary-100/10 focus:ring-1 focus:ring-tertiary-100;
 }
 .checkLabel {
-	@apply block w-full py-3 text-base opacity-50;
+  @apply block w-full py-3 text-base opacity-50;
 }
 
 @keyframes opacityAnimate {
-	0% {
-		opacity: 0;
-	}
-	50% {
-		opacity: 0.5;
-	}
-	100% {
-		opacity: 1;
-	}
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @layer components {
-	.animate {
-		animation-name: opacityAnimate;
-		animation-duration: 300ms;
-	}
-	.button {
-		@apply bg-tertiary-100 text-base text-white font-medium px-10 py-3.5 rounded-sm  mx-auto font-poppins hover:bg-tertiary-200 active:bg-tertiary-300 focus:outline-none focus:ring-1 focus:ring-tertiary-300 shadow-md;
-	}
-	.categoryBtn {
-		@apply p-1 px-2 mx-0 text-base font-normal text-white border rounded-sm shadow-md bg-tertiary-100 font-poppins hover:bg-tertiary-200 active:bg-tertiary-300 focus:outline-none focus:ring-1 focus:ring-tertiary-300;
-	}
+  .animate {
+    animation-name: opacityAnimate;
+    animation-duration: 300ms;
+  }
+  .button {
+    @apply mx-auto rounded-sm bg-tertiary-100 px-10 py-3.5 font-poppins text-base  font-medium text-white shadow-md hover:bg-tertiary-200 focus:outline-none focus:ring-1 focus:ring-tertiary-300 active:bg-tertiary-300;
+  }
+  .categoryBtn {
+    @apply mx-0 rounded-sm border bg-tertiary-100 p-1 px-2 font-poppins text-base font-normal text-white shadow-md hover:bg-tertiary-200 focus:outline-none focus:ring-1 focus:ring-tertiary-300 active:bg-tertiary-300;
+  }
 
-	.input {
-		@apply block w-full px-3 py-3 text-base border rounded-sm outline-none border-secondary/10 focus:ring-1 focus:ring-tertiary-100 focus:bg-tertiary-100/10 bg-extraColor;
-	}
+  .input {
+    @apply block w-full rounded-sm border border-secondary/10 bg-extraColor px-3 py-3 text-base outline-none focus:bg-tertiary-100/10 focus:ring-1 focus:ring-tertiary-100;
+  }
 
-	.icon {
-		@apply p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-extraColor active:bg-tertiary-300;
-	}
+  .icon {
+    @apply cursor-pointer rounded-full bg-white p-2 shadow-md hover:bg-extraColor active:bg-tertiary-300;
+  }
 
-	.link {
-		@apply font-medium underline underline-offset-2;
-	}
+  .link {
+    @apply font-medium underline underline-offset-2;
+  }
 
-	.timer {
-		@apply flex flex-col items-center justify-center font-medium;
-	}
+  .timer {
+    @apply flex flex-col items-center justify-center font-medium;
+  }
 
-	.navActive {
-		@apply after:absolute after:-bottom-[10%] after:left-0 after:bg-secondary after:h-[1.5px] after:w-full font-medium;
-	}
+  .navActive {
+    @apply font-medium after:absolute after:-bottom-[10%] after:left-0 after:h-[1.5px] after:w-full after:bg-secondary;
+  }
 
-	.navNotActive {
-		@apply after:absolute after:-bottom-[10%] after:left-[50%] after:-translate-x-[50%]  after:w-0 after:bg-secondary after:h-[1.5px] hover:after:w-full after:transition-all after:duration-300;
-	}
-	.navNotActivee {
-		@apply after:absolute after:-bottom-[10%] after:left-[50%] after:-translate-x-[50%]  after:w-0 after:bg-secondary after:h-[1.5px] hover:after:w-full after:transition-all after:duration-300;
-	}
+  .navNotActive {
+    @apply after:absolute after:-bottom-[10%] after:left-[50%] after:h-[1.5px]  after:w-0 after:-translate-x-[50%] after:bg-secondary after:transition-all after:duration-300 hover:after:w-full;
+  }
+  .navNotActivee {
+    @apply after:absolute after:-bottom-[10%] after:left-[50%] after:h-[1.5px]  after:w-0 after:-translate-x-[50%] after:bg-secondary after:transition-all after:duration-300 hover:after:w-full;
+  }
 
-	.searchResultLink {
-		@apply w-full h-10 px-2 py-2 flex-between hover:bg-secondary/10;
-	}
+  .searchResultLink {
+    @apply flex-between h-10 w-full px-2 py-2 hover:bg-secondary/10;
+  }
 
-	.flex-center {
-		@apply flex items-center justify-center gap-4;
-	}
-	.flex-between {
-		@apply flex items-center justify-between;
-	}
-	.grid-center {
-		@apply grid place-items-center;
-	}
+  .flex-center {
+    @apply flex items-center justify-center gap-4;
+  }
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+  .grid-center {
+    @apply grid place-items-center;
+  }
 
-	.border-bottom {
-		@apply border-b border-secondary/10;
-	}
+  .border-bottom {
+    @apply border-b border-secondary/10;
+  }
 }
 
 @layer utilities {
-	.padding {
-		@apply px-5 py-10 sm:px-8 lg:px-16 sm:py-12 lg:py-24;
-	}
+  .padding {
+    @apply px-5 py-10 sm:px-8 sm:py-12 lg:px-16 lg:py-24;
+  }
 
-	.padding-x {
-		@apply px-5 sm:px-8 lg:px-16;
-	}
+  .padding-x {
+    @apply px-5 sm:px-8 lg:px-16;
+  }
 
-	.padding-y {
-		@apply py-10 sm:py-12 lg:py-24;
-	}
+  .padding-y {
+    @apply py-10 sm:py-12 lg:py-24;
+  }
 
-	.padding-l {
-		@apply pl-5 sm:pl-8 lg:pl-16;
-	}
-	.padding-r {
-		@apply pr-5 sm:pr-8 lg:pr-16;
-	}
-	.padding-t {
-		@apply pt-10 sm:pt-12 lg:pt-24;
-	}
-	.padding-b {
-		@apply pb-10 sm:pb-12 lg:pb-24;
-	}
+  .padding-l {
+    @apply pl-5 sm:pl-8 lg:pl-16;
+  }
+  .padding-r {
+    @apply pr-5 sm:pr-8 lg:pr-16;
+  }
+  .padding-t {
+    @apply pt-10 sm:pt-12 lg:pt-24;
+  }
+  .padding-b {
+    @apply pb-10 sm:pb-12 lg:pb-24;
+  }
 }
