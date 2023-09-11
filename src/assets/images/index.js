@@ -25,7 +25,11 @@ import person2 from "./person2.png";
 import person3 from "./person3.png";
 
 import timerImg from "./timer.png";
-import heroImg from "./hero.png";
+import hero1 from "./hero1.jpg";
+import hero2 from "./hero2.jpg";
+import hero3 from "./hero3.jpg";
+import hero4 from "./hero4.jpg";
+import hero5 from "./hero5.jpg";
 import playStation from "./playstation.png";
 import attractiveWoman from "./attractive-woman.png";
 import speaker from "./speaker.png";
@@ -35,37 +39,41 @@ import aboutCover from "./about-cover.png";
 import resetPassword from "./resetpassword.svg";
 import signUpImage from "./signup.svg";
 export {
-	product,
-	product2,
-	product3,
-	product4,
-	product5,
-	product6,
-	product7,
-	product8,
-	product9,
-	product10,
-	product11,
-	product12,
-	product13,
-	product14,
-	product15,
-	product16,
-	fiveStar,
-	fourHalfStar,
-	fourStar,
-	threeStar,
-	person1,
-	person2,
-	person3,
-	timerImg,
-	heroImg,
-	playStation,
-	attractiveWoman,
-	speaker,
-	gucciPerfume,
-	signInImg,
-	aboutCover,
-	resetPassword,
-	signUpImage,
+    product,
+    product2,
+    product3,
+    product4,
+    product5,
+    product6,
+    product7,
+    product8,
+    product9,
+    product10,
+    product11,
+    product12,
+    product13,
+    product14,
+    product15,
+    product16,
+    fiveStar,
+    fourHalfStar,
+    fourStar,
+    threeStar,
+    person1,
+    person2,
+    person3,
+    timerImg,
+    playStation,
+    attractiveWoman,
+    speaker,
+    gucciPerfume,
+    signInImg,
+    aboutCover,
+    resetPassword,
+    signUpImage,
+    hero1,
+    hero2,
+    hero3,
+    hero4,
+    hero5,
 };
