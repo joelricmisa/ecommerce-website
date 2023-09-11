@@ -17,6 +17,7 @@ const ProductCard = ({
     discountPercentage,
     quantity,
     subTotal,
+    controlWidth = true,
 }) => {
     const {
         addToCart,
@@ -41,7 +42,9 @@ const ProductCard = ({
 
     return (
         <div
-            className=" relative mr-4 flex min-h-[300px] w-[170px] snap-start flex-col overflow-hidden rounded-sm  transition-transform hover:scale-105  hover:shadow-sm hover:ring-1 hover:ring-black/10  hover:ring-offset-2 md:w-[200px] lg:mx-5 lg:w-[300px]"
+            className={`${
+                controlWidth ? "w-[170px] md:w-[200px] lg:w-[300px]" : "w-auto"
+            } relative mr-4 flex min-h-[300px]  snap-start flex-col overflow-hidden rounded-sm  transition-transform hover:scale-105  hover:shadow-sm hover:ring-1 hover:ring-black/10  hover:ring-offset-2  lg:mx-5 `}
             onMouseOver={() => setToggle(true)}
             onMouseOut={() => setToggle(false)}
         >

@@ -22,7 +22,7 @@ const ShopProducts = () => {
         <div className="padding animate">
             <Breadcrumb padding="" />
 
-            <div className="relative">
+            <div className="relative mx-auto w-10/12 sm:w-11/12 lg:w-full">
                 <button
                     type="button"
                     className="button absolute -left-10 top-3 px-0"
@@ -35,7 +35,7 @@ const ShopProducts = () => {
 
                 <div
                     ref={ref}
-                    className="flex-center my-10 w-full justify-start gap-5 overflow-x-hidden border-y border-black/10 py-5"
+                    className="flex-center my-10 justify-start gap-5 overflow-x-hidden border-y border-black/10 py-5"
                 >
                     <button
                         className={`categoryBtn h-[35px] ${
@@ -89,6 +89,7 @@ const ShopProducts = () => {
                             discountPercentage={product.discountPercentage}
                             quantity={product.quantity}
                             subTotal={product.subTotal}
+                            controlWidth={false}
                         />
                     );
                 })}
