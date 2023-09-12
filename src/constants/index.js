@@ -27,6 +27,10 @@ import {
     hero3,
     hero4,
     hero5,
+    playStation,
+    attractiveWoman,
+    speaker,
+    gucciPerfume,
 } from "../assets/images";
 
 import {
@@ -107,6 +111,29 @@ export const HeroData = [
     { title: "BOSE Headphone ", voucher: 40, img: hero3 },
     { title: "Sony Gamepad ", voucher: 50, img: hero4 },
     { title: "ASUS Laptop", voucher: 15, img: hero5 },
+];
+
+export const NewArrivalData = [
+    {
+        title: "PlayStation 5",
+        description: "Black and White version of the PS5 coming out on sale.",
+        img: playStation,
+    },
+    {
+        title: "Women’s Collections",
+        description: "Featured woman collections that give you another vibe.",
+        img: attractiveWoman,
+    },
+    {
+        title: "Speakers",
+        description: "Amazon wireless speakers.",
+        img: speaker,
+    },
+    {
+        title: "Perfume",
+        description: "Gucci Intense Oud Edp",
+        img: gucciPerfume,
+    },
 ];
 
 export const ProductData = {
