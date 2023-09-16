@@ -38,6 +38,9 @@ import signInImg from "./signin.png";
 import aboutCover from "./about-cover.png";
 import resetPassword from "./resetpassword.svg";
 import signUpImage from "./signup.svg";
+
+import bigSpeaker from "./jbl-speaker.png";
+
 export {
     product,
     product2,
@@ -76,4 +79,5 @@ export {
     hero3,
     hero4,
     hero5,
+    bigSpeaker,
 };
