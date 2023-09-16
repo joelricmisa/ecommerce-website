@@ -3,11 +3,13 @@ import { productCategories, shopProductsData } from "../constants";
 import { ProductCard, Breadcrumb, SvgIcon } from "../components";
 import { box, chevronLeft, chevronRight } from "../assets/icons/SvgIconsList";
 import { ShopContext } from "../contexts/ShopContext";
+import { motion, AnimatePresence, useAnimate } from "framer-motion";
 const ShopProducts = () => {
     const { category } = useContext(ShopContext);
     const [products, setProducts] = useState(shopProductsData);
     const [currentCategory, setCurrentCategory] = useState(category);
     const ref = useRef();
+    const [scope, animate] = useAnimate();
 
     useEffect(() => {
         const filtered = shopProductsData.filter((item) =>
@@ -17,6 +19,15 @@ const ShopProducts = () => {
             ? setProducts(shopProductsData)
             : setProducts(filtered);
     }, [currentCategory]);
+
+    const variant = {
+        initial: { opacity: 0, y: 100 },
+        animate: (index) => ({
+            opacity: 1,
+            y: 0,
+            transition: { delay: 0.1 * index },
+        }),
+    };
 
     return (
         <div className="padding animate">
@@ -73,24 +84,35 @@ const ShopProducts = () => {
                     <SvgIcon icon={chevronRight("w-6 h-6")} />
                 </button>
             </div>
-            <div className="padding-b grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 ">
+
+            <div
+                ref={scope}
+                className="padding-b grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 "
+            >
                 {products.map((product, index) => {
                     // console.log(product);
                     return (
-                        <ProductCard
-                            key={index}
-                            id={product.id}
-                            productName={product.productName}
-                            productImage={product.productImage}
-                            currentPrice={product.currentPrice}
-                            originalPrice={product.originalPrice}
-                            rating={product.rating}
-                            rateCount={product.rateCount}
-                            discountPercentage={product.discountPercentage}
-                            quantity={product.quantity}
-                            subTotal={product.subTotal}
-                            controlWidth={false}
-                        />
+                        <motion.div
+                            variants={variant}
+                            initial="initial"
+                            animate="animate"
+                            custom={index}
+                        >
+                            <ProductCard
+                                key={index}
+                                id={product.id}
+                                productName={product.productName}
+                                productImage={product.productImage}
+                                currentPrice={product.currentPrice}
+                                originalPrice={product.originalPrice}
+                                rating={product.rating}
+                                rateCount={product.rateCount}
+                                discountPercentage={product.discountPercentage}
+                                quantity={product.quantity}
+                                subTotal={product.subTotal}
+                                controlWidth={false}
+                            />
+                        </motion.div>
                     );
                 })}
                 {products.length === 0 ? (
