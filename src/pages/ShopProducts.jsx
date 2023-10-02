@@ -100,16 +100,7 @@ const ShopProducts = () => {
                         >
                             <ProductCard
                                 key={index}
-                                id={product.id}
-                                productName={product.productName}
-                                productImage={product.productImage}
-                                currentPrice={product.currentPrice}
-                                originalPrice={product.originalPrice}
-                                rating={product.rating}
-                                rateCount={product.rateCount}
-                                discountPercentage={product.discountPercentage}
-                                quantity={product.quantity}
-                                subTotal={product.subTotal}
+                                {...product}
                                 controlWidth={false}
                             />
                         </motion.div>
