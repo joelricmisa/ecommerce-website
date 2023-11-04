@@ -10,5 +10,20 @@ import Checkout from "./Checkout";
 import ProductPreview from "./ProductPreview";
 import ShopProducts from "./ShopProducts";
 import ForgotPassword from "./ForgotPassword";
+import Account from "./Account";
 
-export { Home, NotFound, Contact, About, SignUp, SignIn, Wishlist, Cart, Checkout, ProductPreview, ShopProducts, ForgotPassword };
+export {
+    Home,
+    NotFound,
+    Contact,
+    About,
+    SignUp,
+    SignIn,
+    Wishlist,
+    Cart,
+    Checkout,
+    ProductPreview,
+    ShopProducts,
+    ForgotPassword,
+    Account,
+};

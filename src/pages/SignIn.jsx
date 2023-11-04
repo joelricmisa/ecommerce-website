@@ -53,7 +53,7 @@ const SignIn = () => {
 
                 const accessToken = response?.data?.accessToken;
                 const role = response?.data?.role;
-                setAuth({ role, accessToken });
+                setAuth({ user: "joel", role, accessToken });
 
                 reset();
                 navigate("/", { replace: true });

@@ -102,8 +102,16 @@
         @apply border-b border-secondary/10;
     }
 
+    .userIconLink {
+        @apply flex-center justify-start gap-2 bg-extraColor p-2 hover:font-medium;
+    }
+
     .errorMessage {
         @apply -mb-5 mt-5 flex items-center gap-2 pl-2 text-red-600;
+    }
+
+    .accountBtnSection {
+        @apply w-full px-4 py-3 text-left text-lg font-medium text-secondary text-opacity-50 hover:bg-extraColor hover:text-opacity-100;
     }
 }
 

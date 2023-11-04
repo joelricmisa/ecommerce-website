@@ -1,5 +1,4 @@
 import { NavLink, Link, useLocation } from "react-router-dom";
-
 import { navLinks, navIconLinks, shopProductsData } from "../constants";
 import { useContext, useEffect, useState } from "react";
 import { SvgIcon } from "./index";
@@ -11,6 +10,7 @@ import {
     signUp,
 } from "../assets/icons/SvgIconsList";
 import { ShopContext } from "../contexts/ShopContext";
+import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
     const location = useLocation();
@@ -29,6 +29,7 @@ const Navbar = () => {
     const [searchFocus, setSearchFocus] = useState(false);
     const [userIconFocus, setUserIconFocus] = useState(false);
     const [showIconNum, setShowIconNum] = useState(true);
+    const { auth } = useAuth();
 
     useEffect(() => {
         setCurrentPath(location.pathname);
@@ -257,22 +258,73 @@ const Navbar = () => {
                                 <SvgIcon icon={user()} />
                                 {userIconFocus && (
                                     <span className="absolute bottom-[150%] right-0  z-[100] w-[150px] xl:top-[110%]">
-                                        <Link
-                                            to={"/signin"}
-                                            className="flex-center justify-start gap-2 bg-extraColor p-2 hover:font-medium"
-                                            onClick={() => handleActiveNav()}
-                                        >
-                                            <SvgIcon icon={signIn("w-7 h-7")} />{" "}
-                                            <p>Log In</p>
-                                        </Link>
-                                        <Link
-                                            to={"/signup"}
-                                            className="flex-center justify-start gap-2 bg-extraColor p-2 hover:font-medium"
-                                            onClick={() => handleActiveNav()}
-                                        >
-                                            <SvgIcon icon={signUp("w-7 h-7")} />{" "}
-                                            <p>Sign Up</p>
-                                        </Link>
+                                        {auth?.user ? (
+                                            <>
+                                                <Link
+                                                    to={"/"}
+                                                    className="userIconLink"
+                                                    onClick={() =>
+                                                        handleActiveNav()
+                                                    }
+                                                >
+                                                    <SvgIcon
+                                                        icon={signIn("w-7 h-7")}
+                                                    />{" "}
+                                                    <p>Manage My Account</p>
+                                                </Link>
+                                                <Link
+                                                    to={"/"}
+                                                    className="userIconLink"
+                                                    onClick={() =>
+                                                        handleActiveNav()
+                                                    }
+                                                >
+                                                    <SvgIcon
+                                                        icon={signUp("w-7 h-7")}
+                                                    />
+                                                    <p>My Order</p>
+                                                </Link>
+                                                <Link
+                                                    to={"/"}
+                                                    className="userIconLink"
+                                                    onClick={() =>
+                                                        handleActiveNav()
+                                                    }
+                                                >
+                                                    <SvgIcon
+                                                        icon={signUp("w-7 h-7")}
+                                                    />
+                                                    <p>Logout</p>
+                                                </Link>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Link
+                                                    to={"/signin"}
+                                                    className="userIconLink"
+                                                    onClick={() =>
+                                                        handleActiveNav()
+                                                    }
+                                                >
+                                                    <SvgIcon
+                                                        icon={signIn("w-7 h-7")}
+                                                    />{" "}
+                                                    <p>Log In</p>
+                                                </Link>
+                                                <Link
+                                                    to={"/signup"}
+                                                    className="userIconLink"
+                                                    onClick={() =>
+                                                        handleActiveNav()
+                                                    }
+                                                >
+                                                    <SvgIcon
+                                                        icon={signUp("w-7 h-7")}
+                                                    />{" "}
+                                                    <p>Sign Up</p>
+                                                </Link>
+                                            </>
+                                        )}
                                     </span>
                                 )}
                             </Link>
