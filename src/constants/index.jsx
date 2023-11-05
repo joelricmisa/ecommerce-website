@@ -43,14 +43,18 @@ import {
 } from "../assets/categoriesImages";
 import { blackTwitter, blackInstagram, blackLinkedin } from "../assets/logo";
 import { customerService, delivery, moneyGuarantee } from "../assets/icons";
+
 import {
-    cart,
-    heart,
-    shop,
-    moneySign,
-    moneyBag,
-    shoppingBag,
-} from "../assets/icons/SvgIconsList";
+    FaBagShopping,
+    FaCartShopping,
+    FaDollarSign,
+    FaHeart,
+    FaRegHeart,
+    FaSackDollar,
+    FaStore,
+} from "react-icons/fa6";
+
+import { BsCart3, BsHeart } from "react-icons/bs";
 
 export const navLinks = [
     { href: "/", label: "Home" },
@@ -63,13 +67,13 @@ export const navIconLinks = [
     {
         href: "wishlist",
         label: "Wishlist",
-        icon: (styles) => heart(styles),
+        icon: <FaRegHeart className="text-2xl" />,
         storageName: "wishlistItems",
     },
     {
         href: "cart",
         label: "Cart",
-        icon: (styles) => cart(styles),
+        icon: <FaCartShopping className="text-2xl" />,
         storageName: "cartItems",
     },
 ];
@@ -414,25 +418,25 @@ export const ProductData = {
 export const shopInfo = [
     {
         label: "shop",
-        shopInfoIcon: shop(),
+        shopInfoIcon: <FaStore className="text-2xl" />,
         shopInfoNumber: "10.5k ",
         shopInfoDescription: "Active sellers in our site",
     },
     {
         label: "moneySign",
-        shopInfoIcon: moneySign(),
+        shopInfoIcon: <FaDollarSign className="text-2xl" />,
         shopInfoNumber: "33k",
         shopInfoDescription: "Monthly Product Sales",
     },
     {
         label: "shoppingBag",
-        shopInfoIcon: shoppingBag(),
+        shopInfoIcon: <FaBagShopping className="text-2xl" />,
         shopInfoNumber: "45.5k",
         shopInfoDescription: "Active customers in our site",
     },
     {
         label: "moneyBag",
-        shopInfoIcon: moneyBag(),
+        shopInfoIcon: <FaSackDollar className="text-2xl" />,
         shopInfoNumber: "25k",
         shopInfoDescription: "Anual gross sales in our site",
     },

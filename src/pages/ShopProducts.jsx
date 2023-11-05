@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { productCategories, shopProductsData } from "../constants";
 import { ProductCard, Breadcrumb, SvgIcon } from "../components";
-import { box, chevronLeft, chevronRight } from "../assets/icons/SvgIconsList";
 import { ShopContext } from "../contexts/ShopContext";
-import { motion, AnimatePresence, useAnimate } from "framer-motion";
+import { motion, useAnimate } from "framer-motion";
+import { FaAngleLeft, FaAngleRight, FaInbox } from "react-icons/fa6";
 const ShopProducts = () => {
     const { category } = useContext(ShopContext);
     const [products, setProducts] = useState(shopProductsData);
@@ -41,7 +41,7 @@ const ShopProducts = () => {
                         ref.current.scrollLeft -= 200;
                     }}
                 >
-                    <SvgIcon icon={chevronLeft("w-6 h-6")} />
+                    <FaAngleLeft />
                 </button>
 
                 <div
@@ -81,7 +81,7 @@ const ShopProducts = () => {
                         ref.current.scrollLeft += 200;
                     }}
                 >
-                    <SvgIcon icon={chevronRight("w-6 h-6")} />
+                    <FaAngleRight />
                 </button>
             </div>
 
@@ -108,7 +108,7 @@ const ShopProducts = () => {
                 })}
                 {products.length === 0 ? (
                     <div className="flex-center col-span-12 py-16 text-2xl">
-                        <SvgIcon icon={box("w-20 h-20")} /> No Available Product
+                        <FaInbox className="text-3xl" /> No Available Product
                     </div>
                 ) : (
                     ""

@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
-
-import { SvgIcon } from "./index";
-import { heart, eye, cart, xMark } from "../assets/icons/SvgIconsList";
 import { useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { Link } from "react-router-dom";
+import {
+    FaCartPlus,
+    FaHeart,
+    FaRegEye,
+    FaRegHeart,
+    FaXmark,
+} from "react-icons/fa6";
 
 const ProductCard = ({
     id,
@@ -78,19 +82,11 @@ const ProductCard = ({
                                   })
                         }
                     >
-                        <SvgIcon
-                            icon={heart(
-                                ` ${
-                                    activeWishlist
-                                        ? "fill-tertiary-100"
-                                        : "text-tertiary-200 fill-none hover:fill-tertiary-100"
-                                }`,
-                            )}
-                        />
+                        {activeWishlist ? <FaHeart /> : <FaRegHeart />}
                     </span>
 
                     <Link to={`/products/${id}`} className="icon grid-center ">
-                        <SvgIcon icon={eye("text-white fill-tertiary-200 ")} />
+                        <FaRegEye className="hover:fill-tertiary-100" />
                     </Link>
                 </div>
                 <img
@@ -119,11 +115,7 @@ const ProductCard = ({
                                   })
                         }
                     >
-                        {inCart ? (
-                            <SvgIcon icon={xMark("w-6 h-6")} />
-                        ) : (
-                            <SvgIcon icon={cart("w-6 h-6")} />
-                        )}
+                        {inCart ? <FaXmark /> : <FaCartPlus />}
                         {inCart ? "Remove " : "Add To Cart"}
                     </button>
                 )}

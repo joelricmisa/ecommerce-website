@@ -74,14 +74,11 @@
     }
 
     .navActive {
-        @apply font-medium after:absolute after:-bottom-[10%] after:left-0 after:h-[1.5px] after:w-full after:bg-secondary;
+        @apply font-medium after:absolute after:-bottom-[20%] after:left-0 after:h-[1.5px] after:w-full after:bg-secondary;
     }
 
     .navNotActive {
-        @apply after:absolute after:-bottom-[10%] after:left-[50%] after:h-[1.5px]  after:w-0 after:-translate-x-[50%] after:bg-secondary after:transition-all after:duration-300 hover:after:w-full;
-    }
-    .navNotActivee {
-        @apply after:absolute after:-bottom-[10%] after:left-[50%] after:h-[1.5px]  after:w-0 after:-translate-x-[50%] after:bg-secondary after:transition-all after:duration-300 hover:after:w-full;
+        @apply after:absolute after:-bottom-[20%] after:left-[50%] after:h-[1.5px]  after:w-0 after:-translate-x-[50%] after:bg-secondary after:transition-all after:duration-300  hover:after:w-full;
     }
 
     .searchResultLink {
@@ -103,7 +100,7 @@
     }
 
     .userIconLink {
-        @apply flex-center justify-start gap-2 bg-extraColor p-2 hover:font-medium;
+        @apply flex-center cursor-pointer justify-start gap-2 bg-extraColor p-2 px-4 hover:font-medium;
     }
 
     .errorMessage {
@@ -111,7 +108,7 @@
     }
 
     .accountBtnSection {
-        @apply w-full px-4 py-3 text-left text-lg font-medium text-secondary text-opacity-50 hover:bg-extraColor hover:text-opacity-100;
+        @apply flex w-full items-center gap-4 px-4 py-3 text-left text-lg font-medium text-secondary text-opacity-50 hover:bg-extraColor hover:text-opacity-100;
     }
 }
 

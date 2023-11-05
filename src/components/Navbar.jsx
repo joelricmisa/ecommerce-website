@@ -1,16 +1,17 @@
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { navLinks, navIconLinks, shopProductsData } from "../constants";
 import { useContext, useEffect, useState } from "react";
-import { SvgIcon } from "./index";
-import {
-    search,
-    menu,
-    user,
-    signIn,
-    signUp,
-} from "../assets/icons/SvgIconsList";
 import { ShopContext } from "../contexts/ShopContext";
 import useAuth from "../hooks/useAuth";
+import {
+    FaBars,
+    FaClipboardList,
+    FaMagnifyingGlass,
+    FaRegUser,
+    FaUserPlus,
+} from "react-icons/fa6";
+import { FaCog, FaRegListAlt, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { BsPerson } from "react-icons/bs";
 
 const Navbar = () => {
     const location = useLocation();
@@ -81,7 +82,7 @@ const Navbar = () => {
                         className="flex-center xl:hidden"
                         onClick={() => setToggle(!toggle)}
                     >
-                        <SvgIcon icon={menu("w-10 h-10")} />
+                        <FaBars />
                     </button>
                 </div>
                 <nav
@@ -102,7 +103,7 @@ const Navbar = () => {
                             className="flex-center xl:hidden"
                             onClick={() => setToggle(!toggle)}
                         >
-                            <SvgIcon icon={menu("w-10 h-10")} />
+                            <FaBars />{" "}
                         </button>
                     </div>
 
@@ -118,7 +119,7 @@ const Navbar = () => {
                                 type="button"
                                 className="flex-center absolute inset-y-0 right-0 pr-2"
                             >
-                                <SvgIcon icon={search()} />
+                                <FaMagnifyingGlass />
                             </button>
                             <input
                                 className="input rounded-md border border-slate-300 py-2 pr-9 placeholder:text-sm placeholder:text-slate-400"
@@ -142,8 +143,7 @@ const Navbar = () => {
                             <div className="absolute top-[100%] z-50 w-full rounded-md bg-extraColor xl:w-11/12">
                                 {searchResult.length === 0 ? (
                                     <span className="searchResultLink ">
-                                        No results found{" "}
-                                        <SvgIcon icon={search()} />
+                                        No results found <FaMagnifyingGlass />
                                     </span>
                                 ) : (
                                     searchResult.map((item, index) => (
@@ -157,8 +157,8 @@ const Navbar = () => {
                                                 setSearchInput("");
                                             }}
                                         >
-                                            {item.productName}{" "}
-                                            <SvgIcon icon={search()} />
+                                            {item.productName}
+                                            <FaMagnifyingGlass />
                                         </Link>
                                     ))
                                 )}
@@ -197,7 +197,7 @@ const Navbar = () => {
                                 <Link
                                     key={navIcon.label}
                                     to={navIcon.href}
-                                    className={`grid-center relative ml-1 block w-[30px] ${
+                                    className={`grid-center relative ml-1  w-[30px] ${
                                         currentPath === `/${navIcon.href}`
                                             ? "navActive"
                                             : "navNotActive"
@@ -207,7 +207,7 @@ const Navbar = () => {
                                     <span
                                         className={`z-20 ${
                                             showIconNum ? "absolute" : "hidden"
-                                        } -top-1 rounded-full  bg-tertiary-100 text-sm font-medium text-primary  ${
+                                        } -top-2 rounded-full  bg-tertiary-100 text-sm font-medium text-primary  ${
                                             navIcon.storageName ===
                                             "wishlistItems"
                                                 ? wishlistItems.length <= 99
@@ -232,22 +232,13 @@ const Navbar = () => {
                                                 : "99"
                                             : ""}
                                     </span>
-                                    <SvgIcon
-                                        icon={navIcon.icon(
-                                            `w-8 h-8 text-secondary ${
-                                                currentPath ===
-                                                `/${navIcon.href}`
-                                                    ? "fill-secondary"
-                                                    : ""
-                                            }`,
-                                        )}
-                                    />
+                                    {navIcon.icon}
                                 </Link>
                             ))}
 
                             <Link
                                 to={"#"}
-                                className="grid-center navNotActive relative ml-1 block w-[30px] "
+                                className=" navNotActive grid-center relative ml-1 w-[30px]  "
                                 onClick={() => setUserIconFocus(!userIconFocus)}
                                 onBlur={() =>
                                     setTimeout(() => {
@@ -255,21 +246,19 @@ const Navbar = () => {
                                     }, 150)
                                 }
                             >
-                                <SvgIcon icon={user()} />
+                                <FaRegUser className="text-2xl" />
                                 {userIconFocus && (
-                                    <span className="absolute bottom-[150%] right-0  z-[100] w-[150px] xl:top-[110%]">
+                                    <span className="absolute bottom-[150%] right-0  z-[100] w-[170px] xl:top-[110%]">
                                         {auth?.user ? (
                                             <>
                                                 <Link
-                                                    to={"/"}
+                                                    to={"/account"}
                                                     className="userIconLink"
                                                     onClick={() =>
                                                         handleActiveNav()
                                                     }
                                                 >
-                                                    <SvgIcon
-                                                        icon={signIn("w-7 h-7")}
-                                                    />{" "}
+                                                    <FaCog className="mr-2 text-3xl" />
                                                     <p>Manage My Account</p>
                                                 </Link>
                                                 <Link
@@ -279,9 +268,7 @@ const Navbar = () => {
                                                         handleActiveNav()
                                                     }
                                                 >
-                                                    <SvgIcon
-                                                        icon={signUp("w-7 h-7")}
-                                                    />
+                                                    <FaRegListAlt className="mr-2 text-xl" />
                                                     <p>My Order</p>
                                                 </Link>
                                                 <Link
@@ -291,9 +278,7 @@ const Navbar = () => {
                                                         handleActiveNav()
                                                     }
                                                 >
-                                                    <SvgIcon
-                                                        icon={signUp("w-7 h-7")}
-                                                    />
+                                                    <FaSignOutAlt className="mr-2 text-xl" />
                                                     <p>Logout</p>
                                                 </Link>
                                             </>
@@ -306,9 +291,7 @@ const Navbar = () => {
                                                         handleActiveNav()
                                                     }
                                                 >
-                                                    <SvgIcon
-                                                        icon={signIn("w-7 h-7")}
-                                                    />{" "}
+                                                    <FaSignInAlt className="mr-2 text-xl" />
                                                     <p>Log In</p>
                                                 </Link>
                                                 <Link
@@ -318,9 +301,7 @@ const Navbar = () => {
                                                         handleActiveNav()
                                                     }
                                                 >
-                                                    <SvgIcon
-                                                        icon={signUp("w-7 h-7")}
-                                                    />{" "}
+                                                    <FaUserPlus className="mr-2 text-xl" />
                                                     <p>Sign Up</p>
                                                 </Link>
                                             </>

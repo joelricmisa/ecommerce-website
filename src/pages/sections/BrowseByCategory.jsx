@@ -1,5 +1,4 @@
-import { CategoryCard, SvgIcon } from "../../components";
-import { arrowLeft, arrowRight } from "../../assets/icons/SvgIconsList";
+import { CategoryCard } from "../../components";
 import { ProductData } from "../../constants";
 import { v4 as uuid } from "uuid";
 

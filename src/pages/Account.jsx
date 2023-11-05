@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FaCircleInfo } from "react-icons/fa6";
+import { FaCog, FaEdit, FaRegListAlt, FaSignOutAlt } from "react-icons/fa";
 
 const formSchema = new yup.ObjectSchema({
     firstname: yup.string().required(),
@@ -23,6 +24,7 @@ const formSchema = new yup.ObjectSchema({
 });
 
 const Account = () => {
+    const [test, setTest] = useState(false);
     const {
         register,
         trigger,
@@ -32,6 +34,12 @@ const Account = () => {
         resolver: yupResolver(formSchema),
         mode: "onTouched",
         reValidateMode: "onSubmit",
+        defaultValues: {
+            firstname: "joe",
+            lastname: "misa",
+            email: "joe@gmail.com",
+            address: test ? "" : "empty",
+        },
     });
 
     const [active, setActive] = useState("");
@@ -55,7 +63,7 @@ const Account = () => {
                                 className="accountBtnSection"
                                 onClick={() => setActive("account")}
                             >
-                                Manage My Account
+                                <FaCog /> Manage My Account
                             </button>
                         </li>
                         <li>
@@ -63,7 +71,7 @@ const Account = () => {
                                 className="accountBtnSection"
                                 onClick={() => setActive("order")}
                             >
-                                My Orders
+                                <FaRegListAlt /> My Orders
                             </button>
                         </li>
                         <li>
@@ -71,13 +79,98 @@ const Account = () => {
                                 className="accountBtnSection"
                                 onClick={() => setActive("logout")}
                             >
+                                <FaSignOutAlt />
                                 Logout
                             </button>
                         </li>
                     </ul>
                 </div>
                 <div className="flex flex-col px-8 py-10 shadow-md xl:w-9/12">
-                    <form
+                    <form className="grid grid-cols-2 gap-5">
+                        <h1 className=" mb-10 text-xl font-medium">
+                            Account Info
+                        </h1>
+
+                        <button
+                            type="button"
+                            className="button m-0 ml-auto flex h-12 items-center gap-2 "
+                        >
+                            Edit <FaEdit className="text-lg" />
+                        </button>
+
+                        <div>
+                            <label
+                                htmlFor="firstname"
+                                className="mb-3 inline-block "
+                            >
+                                Firstname:
+                            </label>
+                            <input
+                                type="text"
+                                className="input"
+                                placeholder="Your Firstname"
+                                value={getValues("firstname")}
+                                {...register("firstname")}
+                                readOnly
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                htmlFor="lastname"
+                                className="mb-3 inline-block "
+                            >
+                                Lastname:
+                            </label>
+                            <input
+                                type="text"
+                                className="input"
+                                placeholder="Your Lastname"
+                                {...register("lastname")}
+                                readOnly
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                htmlFor="email"
+                                className="mb-3 inline-block "
+                            >
+                                Email:
+                            </label>
+                            <input
+                                type="email"
+                                className="input"
+                                placeholder="Your Email"
+                                {...register("email")}
+                                readOnly
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                htmlFor="address"
+                                className="mb-3 inline-block "
+                            >
+                                Address:
+                            </label>
+                            <input
+                                type="text"
+                                className="input"
+                                placeholder="Your Address"
+                                {...register("address")}
+                                readOnly
+                            />
+                        </div>
+
+                        <button
+                            type="button"
+                            className="button col-span-2 m-0 ml-auto mt-10"
+                        >
+                            Change Password
+                        </button>
+                    </form>
+                    {/* <form
                         onSubmit={handleSubmit}
                         className="grid grid-cols-2 gap-5"
                     >
@@ -237,7 +330,7 @@ const Account = () => {
                                 Save Changes
                             </button>
                         </div>
-                    </form>
+                    </form>   */}
                 </div>
             </div>
         </section>

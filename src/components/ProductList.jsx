@@ -1,12 +1,11 @@
 import { ProductCard } from "./index";
 import { timerImg } from "../assets/images";
 import { v4 as uuid } from "uuid";
-import { SvgIcon } from "./index";
-import { arrowLeft, arrowRight } from "../assets/icons/SvgIconsList";
 import Timer from "./Timer";
 import { Link } from "react-router-dom";
 import { useContext, useRef, useState } from "react";
 import { ShopContext } from "../contexts/ShopContext";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
 const ProductList = ({ data, category, title, timer }) => {
     const { setCategory } = useContext(ShopContext);
@@ -42,7 +41,7 @@ const ProductList = ({ data, category, title, timer }) => {
                             }}
                             className="icon grid-center"
                         >
-                            <SvgIcon icon={arrowLeft()} />
+                            <FaArrowLeft />
                         </button>
 
                         <button
@@ -52,7 +51,7 @@ const ProductList = ({ data, category, title, timer }) => {
                             }}
                             className="icon grid-center"
                         >
-                            <SvgIcon icon={arrowRight()} />
+                            <FaArrowRight />
                         </button>
                     </span>
                 </div>

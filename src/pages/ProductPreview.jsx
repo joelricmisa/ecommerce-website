@@ -1,11 +1,17 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { ProductCard, ScrollToTop, SvgIcon } from "../components";
+import { ProductCard } from "../components";
 import { shopProductsData } from "../constants";
-import { box, heart, cart, xMark } from "../assets/icons/SvgIconsList";
 import { useLocation, Link } from "react-router-dom";
 import { returnIcon, truck } from "../assets/icons";
 import { ShopContext } from "../contexts/ShopContext";
+import {
+    FaCartPlus,
+    FaHeart,
+    FaInbox,
+    FaRegHeart,
+    FaXmark,
+} from "react-icons/fa6";
 
 const ProductPreview = () => {
     const location = useLocation();
@@ -145,11 +151,7 @@ const ProductPreview = () => {
                                       })
                             }
                         >
-                            {inCart ? (
-                                <SvgIcon icon={xMark("w-6 h-6")} />
-                            ) : (
-                                <SvgIcon icon={cart("w-6 h-6")} />
-                            )}
+                            {inCart ? <FaXmark /> : <FaCartPlus />}
                             {inCart ? "Remove in Cart " : "Add To Cart"}
                         </button>
 
@@ -165,15 +167,7 @@ const ProductPreview = () => {
                                     : addToWishlist(productObj)
                             }
                         >
-                            <SvgIcon
-                                icon={heart(
-                                    ` ${
-                                        activeWishlist
-                                            ? "fill-tertiary-100"
-                                            : "text-tertiary-200 fill-none hover:fill-tertiary-100"
-                                    }`,
-                                )}
-                            />
+                            {activeWishlist ? <FaHeart /> : <FaRegHeart />}
                         </span>
                     </div>
                     <div className="my-3 flex w-full flex-col text-sm">
@@ -227,8 +221,7 @@ const ProductPreview = () => {
                         })
                     ) : (
                         <span className="flex-center col-span-12 py-10 text-xl">
-                            <SvgIcon icon={box("text-black h-14 w-14")} /> No
-                            results found
+                            <FaInbox className="text-3xl" /> No results found
                         </span>
                     )}
                 </div>
