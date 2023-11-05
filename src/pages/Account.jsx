@@ -25,6 +25,8 @@ const formSchema = new yup.ObjectSchema({
 
 const Account = () => {
     const [test, setTest] = useState(false);
+    const [edit, setEdit] = useState(false);
+    const [editPass, setEditPass] = useState(false);
     const {
         register,
         trigger,
@@ -60,7 +62,7 @@ const Account = () => {
                     <ul>
                         <li>
                             <button
-                                className="accountBtnSection"
+                                className="accountBtnSection text-secondary"
                                 onClick={() => setActive("account")}
                             >
                                 <FaCog /> Manage My Account
@@ -86,251 +88,279 @@ const Account = () => {
                     </ul>
                 </div>
                 <div className="flex flex-col px-8 py-10 shadow-md xl:w-9/12">
-                    <form className="grid grid-cols-2 gap-5">
-                        <h1 className=" mb-10 text-xl font-medium">
-                            Account Info
-                        </h1>
+                    {!edit ? (
+                        <form className="grid grid-cols-2 gap-5">
+                            <h1 className=" mb-10 text-xl font-medium">
+                                Account Info
+                            </h1>
 
-                        <button
-                            type="button"
-                            className="button m-0 ml-auto flex h-12 items-center gap-2 "
+                            <button
+                                type="button"
+                                className="button m-0 ml-auto flex h-12 items-center gap-2 "
+                                onClick={() => setEdit(true)}
+                            >
+                                Edit <FaEdit className="text-lg" />
+                            </button>
+
+                            <div>
+                                <label
+                                    htmlFor="firstname"
+                                    className="mb-3 inline-block "
+                                >
+                                    Firstname:
+                                </label>
+                                <input
+                                    type="text"
+                                    className="input"
+                                    placeholder="Your Firstname"
+                                    value={getValues("firstname")}
+                                    {...register("firstname")}
+                                    readOnly
+                                />
+                            </div>
+
+                            <div>
+                                <label
+                                    htmlFor="lastname"
+                                    className="mb-3 inline-block "
+                                >
+                                    Lastname:
+                                </label>
+                                <input
+                                    type="text"
+                                    className="input"
+                                    placeholder="Your Lastname"
+                                    {...register("lastname")}
+                                    readOnly
+                                />
+                            </div>
+
+                            <div>
+                                <label
+                                    htmlFor="email"
+                                    className="mb-3 inline-block "
+                                >
+                                    Email:
+                                </label>
+                                <input
+                                    type="email"
+                                    className="input"
+                                    placeholder="Your Email"
+                                    {...register("email")}
+                                    readOnly
+                                />
+                            </div>
+
+                            <div>
+                                <label
+                                    htmlFor="address"
+                                    className="mb-3 inline-block "
+                                >
+                                    Address:
+                                </label>
+                                <input
+                                    type="text"
+                                    className="input"
+                                    placeholder="Your Address"
+                                    {...register("address")}
+                                    readOnly
+                                />
+                            </div>
+                        </form>
+                    ) : (
+                        <form
+                            onSubmit={handleSubmit}
+                            className="grid grid-cols-2 gap-5"
                         >
-                            Edit <FaEdit className="text-lg" />
-                        </button>
+                            <h1 className="col-span-2 mb-10 text-xl font-medium">
+                                Edit Your Profile
+                            </h1>
 
-                        <div>
-                            <label
-                                htmlFor="firstname"
-                                className="mb-3 inline-block "
-                            >
-                                Firstname:
-                            </label>
-                            <input
-                                type="text"
-                                className="input"
-                                placeholder="Your Firstname"
-                                value={getValues("firstname")}
-                                {...register("firstname")}
-                                readOnly
-                            />
-                        </div>
+                            <div>
+                                <label
+                                    htmlFor="firstname"
+                                    className="mb-3 inline-block "
+                                >
+                                    Firstname:
+                                </label>
+                                <input
+                                    type="text"
+                                    className="input"
+                                    placeholder="Your Firstname"
+                                    {...register("firstname")}
+                                />
+                                {errors?.firstname?.message && (
+                                    <p className="errorMessage mb-1">
+                                        <span className="text-xl">
+                                            <FaCircleInfo />
+                                        </span>
+                                        {errors.firstname?.message}
+                                    </p>
+                                )}
+                            </div>
 
-                        <div>
-                            <label
-                                htmlFor="lastname"
-                                className="mb-3 inline-block "
-                            >
-                                Lastname:
-                            </label>
-                            <input
-                                type="text"
-                                className="input"
-                                placeholder="Your Lastname"
-                                {...register("lastname")}
-                                readOnly
-                            />
-                        </div>
+                            <div>
+                                <label
+                                    htmlFor="lastname"
+                                    className="mb-3 inline-block "
+                                >
+                                    Lastname:
+                                </label>
+                                <input
+                                    type="text"
+                                    className="input"
+                                    placeholder="Your Lastname"
+                                    {...register("lastname")}
+                                />
+                                {errors?.lastname?.message && (
+                                    <p className="errorMessage mb-1">
+                                        <span className="text-xl">
+                                            <FaCircleInfo />
+                                        </span>
+                                        {errors.lastname?.message}
+                                    </p>
+                                )}
+                            </div>
 
-                        <div>
-                            <label
-                                htmlFor="email"
-                                className="mb-3 inline-block "
-                            >
-                                Email:
-                            </label>
-                            <input
-                                type="email"
-                                className="input"
-                                placeholder="Your Email"
-                                {...register("email")}
-                                readOnly
-                            />
-                        </div>
+                            <div>
+                                <label
+                                    htmlFor="email"
+                                    className="mb-3 inline-block "
+                                >
+                                    Email:
+                                </label>
+                                <input
+                                    type="email"
+                                    className="input"
+                                    placeholder="Your Email"
+                                    {...register("email")}
+                                />
 
-                        <div>
-                            <label
-                                htmlFor="address"
-                                className="mb-3 inline-block "
-                            >
-                                Address:
-                            </label>
-                            <input
-                                type="text"
-                                className="input"
-                                placeholder="Your Address"
-                                {...register("address")}
-                                readOnly
-                            />
-                        </div>
+                                {errors?.email?.message && (
+                                    <p className="errorMessage mb-1">
+                                        <span className="text-xl">
+                                            <FaCircleInfo />
+                                        </span>
+                                        {errors.email?.message}
+                                    </p>
+                                )}
+                            </div>
 
+                            <div>
+                                <label
+                                    htmlFor="address"
+                                    className="mb-3 inline-block "
+                                >
+                                    Address:
+                                </label>
+                                <input
+                                    type="text"
+                                    className="input"
+                                    placeholder="Your Address"
+                                    {...register("address")}
+                                />
+
+                                {errors?.address?.message && (
+                                    <p className="errorMessage mb-1">
+                                        <span className="text-xl">
+                                            <FaCircleInfo />
+                                        </span>
+                                        {errors.address?.message}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div className="col-span-2 mt-5 flex justify-end gap-5 ">
+                                <button
+                                    type="button"
+                                    className="button m-0"
+                                    onClick={() => setEdit(false)}
+                                >
+                                    Cancel
+                                </button>
+                                <button type="submit" className="button m-0">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    )}
+
+                    {!editPass ? (
                         <button
                             type="button"
                             className="button col-span-2 m-0 ml-auto mt-10"
+                            onClick={() => setEditPass(true)}
                         >
                             Change Password
                         </button>
-                    </form>
-                    {/* <form
-                        onSubmit={handleSubmit}
-                        className="grid grid-cols-2 gap-5"
-                    >
-                        <h1 className="col-span-2 mb-10 text-xl font-medium">
-                            Edit Your Profile
-                        </h1>
-
-                        <div>
+                    ) : (
+                        <form className="grid grid-cols-2 gap-5">
                             <label
-                                htmlFor="firstname"
-                                className="mb-3 inline-block "
+                                htmlFor="pass"
+                                className="mt-5 inline-block "
                             >
-                                Firstname:
+                                Password Changes:
                             </label>
+
                             <input
-                                type="text"
-                                className="input"
-                                placeholder="Your Firstname"
-                                {...register("firstname")}
+                                type="password"
+                                className="input col-span-2"
+                                placeholder="Current Password"
+                                {...register("currentPassword")}
                             />
-                            {errors?.firstname?.message && (
-                                <p className="errorMessage mb-1">
+                            {errors?.currentPassword?.message && (
+                                <p className="errorMessage -mt-1 mb-1">
                                     <span className="text-xl">
                                         <FaCircleInfo />
                                     </span>
-                                    {errors.firstname?.message}
+                                    {errors.currentPassword?.message}
                                 </p>
                             )}
-                        </div>
-
-                        <div>
-                            <label
-                                htmlFor="lastname"
-                                className="mb-3 inline-block "
-                            >
-                                Lastname:
-                            </label>
                             <input
-                                type="text"
-                                className="input"
-                                placeholder="Your Lastname"
-                                {...register("lastname")}
+                                type="password"
+                                className="input col-span-2"
+                                placeholder="New Password"
+                                {...register("newPassword")}
                             />
-                            {errors?.lastname?.message && (
-                                <p className="errorMessage mb-1">
+
+                            {errors?.newPassword?.message && (
+                                <p className="errorMessage -mt-1 mb-1">
                                     <span className="text-xl">
                                         <FaCircleInfo />
                                     </span>
-                                    {errors.lastname?.message}
+                                    {errors.newPassword?.message}
                                 </p>
                             )}
-                        </div>
 
-                        <div>
-                            <label
-                                htmlFor="email"
-                                className="mb-3 inline-block "
-                            >
-                                Email:
-                            </label>
                             <input
-                                type="email"
-                                className="input"
-                                placeholder="Your Email"
-                                {...register("email")}
+                                type="password"
+                                className="input col-span-2"
+                                placeholder="Confirm New Password"
+                                {...register("confirmPassword")}
                             />
 
-                            {errors?.email?.message && (
-                                <p className="errorMessage mb-1">
+                            {errors?.confirmPassword?.message && (
+                                <p className="errorMessage -mt-1 mb-1">
                                     <span className="text-xl">
                                         <FaCircleInfo />
                                     </span>
-                                    {errors.email?.message}
+                                    {errors.confirmPassword?.message}
                                 </p>
                             )}
-                        </div>
-
-                        <div>
-                            <label
-                                htmlFor="address"
-                                className="mb-3 inline-block "
-                            >
-                                Address:
-                            </label>
-                            <input
-                                type="text"
-                                className="input"
-                                placeholder="Your Address"
-                                {...register("address")}
-                            />
-
-                            {errors?.address?.message && (
-                                <p className="errorMessage mb-1">
-                                    <span className="text-xl">
-                                        <FaCircleInfo />
-                                    </span>
-                                    {errors.address?.message}
-                                </p>
-                            )}
-                        </div>
-
-                        <label htmlFor="pass" className="mt-5 inline-block ">
-                            Password Changes:
-                        </label>
-
-                        <input
-                            type="password"
-                            className="input col-span-2"
-                            placeholder="Current Password"
-                            {...register("currentPassword")}
-                        />
-                        {errors?.currentPassword?.message && (
-                            <p className="errorMessage -mt-1 mb-1">
-                                <span className="text-xl">
-                                    <FaCircleInfo />
-                                </span>
-                                {errors.currentPassword?.message}
-                            </p>
-                        )}
-                        <input
-                            type="password"
-                            className="input col-span-2"
-                            placeholder="New Password"
-                            {...register("newPassword")}
-                        />
-
-                        {errors?.newPassword?.message && (
-                            <p className="errorMessage -mt-1 mb-1">
-                                <span className="text-xl">
-                                    <FaCircleInfo />
-                                </span>
-                                {errors.newPassword?.message}
-                            </p>
-                        )}
-
-                        <input
-                            type="password"
-                            className="input col-span-2"
-                            placeholder="Confirm New Password"
-                            {...register("confirmPassword")}
-                        />
-
-                        {errors?.confirmPassword?.message && (
-                            <p className="errorMessage -mt-1 mb-1">
-                                <span className="text-xl">
-                                    <FaCircleInfo />
-                                </span>
-                                {errors.confirmPassword?.message}
-                            </p>
-                        )}
-
-                        <div className="col-span-2 mt-5 flex justify-end gap-5 ">
-                            <button type="button" className="button m-0">
-                                Cancel
-                            </button>
-                            <button type="submit" className="button m-0">
-                                Save Changes
-                            </button>
-                        </div>
-                    </form>   */}
+                            <div className="col-span-2 mt-5 flex justify-end gap-5 ">
+                                <button
+                                    type="button"
+                                    className="button m-0"
+                                    onClick={() => setEditPass(false)}
+                                >
+                                    Cancel
+                                </button>
+                                <button type="submit" className="button m-0">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    )}
                 </div>
             </div>
         </section>
