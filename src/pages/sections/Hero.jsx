@@ -1,6 +1,5 @@
 import { sideLinks, HeroData } from "../../constants";
 import { Link } from "react-router-dom";
-import { apple } from "../../assets/logo";
 
 import { useContext, useState } from "react";
 import { ShopContext } from "../../contexts/ShopContext";

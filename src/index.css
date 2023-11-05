@@ -82,7 +82,7 @@
     }
 
     .searchResultLink {
-        @apply flex-between h-10 w-full px-2 py-2 hover:bg-secondary/10;
+        @apply flex-between h-10 w-full p-2 pr-4 hover:bg-secondary/10;
     }
 
     .flex-center {

@@ -34,27 +34,28 @@ import {
 } from "../assets/images";
 
 import {
-    category,
-    category2,
-    category3,
-    category4,
-    category5,
-    category6,
-} from "../assets/categoriesImages";
-import { blackTwitter, blackInstagram, blackLinkedin } from "../assets/logo";
-import { customerService, delivery, moneyGuarantee } from "../assets/icons";
-
-import {
     FaBagShopping,
+    FaCamera,
     FaCartShopping,
+    FaComputer,
     FaDollarSign,
+    FaGamepad,
+    FaHeadphones,
+    FaHeadset,
     FaHeart,
+    FaInstagram,
+    FaLinkedinIn,
+    FaMobileScreen,
+    FaRegCircleCheck,
     FaRegHeart,
     FaSackDollar,
+    FaSquareCheck,
     FaStore,
+    FaTruckFast,
+    FaXTwitter,
 } from "react-icons/fa6";
 
-import { BsCart3, BsHeart } from "react-icons/bs";
+import { GiWatch } from "react-icons/gi";
 
 export const navLinks = [
     { href: "/", label: "Home" },
@@ -242,27 +243,27 @@ export const ProductData = {
     browseByCategory: [
         {
             categoryName: "Phones",
-            categoryImage: category,
+            categoryImage: <FaMobileScreen className="text-3xl" />,
         },
         {
             categoryName: "Computers",
-            categoryImage: category2,
+            categoryImage: <FaComputer className="text-3xl" />,
         },
         {
             categoryName: "SmartWatch",
-            categoryImage: category3,
+            categoryImage: <GiWatch className="text-3xl" />,
         },
         {
             categoryName: "Camera",
-            categoryImage: category4,
+            categoryImage: <FaCamera className="text-3xl" />,
         },
         {
             categoryName: "HeadPhones",
-            categoryImage: category5,
+            categoryImage: <FaHeadphones className="text-3xl" />,
         },
         {
             categoryName: "Gaming",
-            categoryImage: category6,
+            categoryImage: <FaGamepad className="text-3xl" />,
         },
     ],
     bestSellingProducts: [
@@ -418,42 +419,42 @@ export const ProductData = {
 export const shopInfo = [
     {
         label: "shop",
-        shopInfoIcon: <FaStore className="text-2xl" />,
+        shopInfoIcon: <FaStore className="fill-white text-2xl" />,
         shopInfoNumber: "10.5k ",
         shopInfoDescription: "Active sellers in our site",
     },
     {
         label: "moneySign",
-        shopInfoIcon: <FaDollarSign className="text-2xl" />,
+        shopInfoIcon: <FaDollarSign className="fill-white text-2xl" />,
         shopInfoNumber: "33k",
         shopInfoDescription: "Monthly Product Sales",
     },
     {
         label: "shoppingBag",
-        shopInfoIcon: <FaBagShopping className="text-2xl" />,
+        shopInfoIcon: <FaBagShopping className="fill-white text-2xl" />,
         shopInfoNumber: "45.5k",
         shopInfoDescription: "Active customers in our site",
     },
     {
         label: "moneyBag",
-        shopInfoIcon: <FaSackDollar className="text-2xl" />,
+        shopInfoIcon: <FaSackDollar className="fill-white text-2xl" />,
         shopInfoNumber: "25k",
         shopInfoDescription: "Anual gross sales in our site",
     },
 ];
 export const services = [
     {
-        serviceImg: delivery,
+        serviceImg: <FaTruckFast className=" fill-white text-4xl" />,
         serviceTitle: "FREE AND FAST DELIVERY",
         serviceDescription: "Free delivery for all orders over $140",
     },
     {
-        serviceImg: customerService,
+        serviceImg: <FaHeadset className=" fill-white text-4xl" />,
         serviceTitle: "24/7 CUSTOMER SERVICE",
         serviceDescription: "Friendly 24/7 customer support",
     },
     {
-        serviceImg: moneyGuarantee,
+        serviceImg: <FaRegCircleCheck className="fill-white  text-4xl " />,
         serviceTitle: "MONEY BACK GUARANTEE",
         serviceDescription: "We reurn money within 30 days",
     },
@@ -480,15 +481,15 @@ export const people = [
 export const socials = [
     {
         name: "Twitter",
-        icon: blackTwitter,
+        icon: <FaXTwitter />,
     },
     {
         name: "Instagram",
-        icon: blackInstagram,
+        icon: <FaInstagram />,
     },
     {
         name: "LinkedIn",
-        icon: blackLinkedin,
+        icon: <FaLinkedinIn />,
     },
 ];
 

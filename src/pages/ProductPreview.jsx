@@ -3,13 +3,14 @@ import { useParams } from "react-router-dom";
 import { ProductCard } from "../components";
 import { shopProductsData } from "../constants";
 import { useLocation, Link } from "react-router-dom";
-import { returnIcon, truck } from "../assets/icons";
 import { ShopContext } from "../contexts/ShopContext";
 import {
     FaCartPlus,
     FaHeart,
     FaInbox,
     FaRegHeart,
+    FaRotate,
+    FaTruckFast,
     FaXmark,
 } from "react-icons/fa6";
 
@@ -167,19 +168,23 @@ const ProductPreview = () => {
                                     : addToWishlist(productObj)
                             }
                         >
-                            {activeWishlist ? <FaHeart /> : <FaRegHeart />}
+                            {activeWishlist ? (
+                                <FaHeart className="text-xl" />
+                            ) : (
+                                <FaRegHeart className="text-xl" />
+                            )}
                         </span>
                     </div>
                     <div className="my-3 flex w-full flex-col text-sm">
                         <p className="flex-center border-black/ justify-start border p-3 ">
-                            <img src={truck} alt="" />
+                            <FaTruckFast className="text-3xl" />
                             <span>
                                 Free delivery <br />
                                 Enter your postal code for Delivery Availability
                             </span>
                         </p>
                         <p className="flex-center border-black/ justify-start border p-3 ">
-                            <img src={returnIcon} alt="" />
+                            <FaRotate className="text-3xl" />
                             <span>
                                 Return Delivery <br />
                                 Free 30 Days Delivery Returns. Details

@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
-import {
-    appStore,
-    playStore,
-    facebook,
-    instagram,
-    twitter,
-    linkedIn,
-} from "../assets/logo";
-import { githubQr } from "../assets/icons";
+import { appStore, playStore } from "../assets/logo";
+import { githubQr } from "../assets/logo/index";
 import { footerLinks } from "../constants";
-import { FaRegCopyright, FaRegPaperPlane } from "react-icons/fa6";
+import {
+    FaFacebookF,
+    FaInstagram,
+    FaLinkedinIn,
+    FaRegCopyright,
+    FaRegPaperPlane,
+    FaXTwitter,
+} from "react-icons/fa6";
 const Footer = () => {
     const currentYear = new Date().getFullYear();
     return (
@@ -44,7 +44,7 @@ const Footer = () => {
                                     />
                                     <button
                                         type="button"
-                                        className="flex-center absolute inset-y-0 right-0 pr-2"
+                                        className="flex-center absolute inset-y-0 right-0  p-2 pr-4"
                                     >
                                         <FaRegPaperPlane />
                                     </button>
@@ -76,26 +76,10 @@ const Footer = () => {
                                     </span>
                                 </li>
                                 <li className="flex-center justify-start">
-                                    <img
-                                        src={facebook}
-                                        className="cursor-pointer"
-                                        alt="facebook icon"
-                                    />
-                                    <img
-                                        src={twitter}
-                                        className="cursor-pointer"
-                                        alt="twitter icon"
-                                    />
-                                    <img
-                                        src={instagram}
-                                        className="cursor-pointer"
-                                        alt="instagram icon"
-                                    />
-                                    <img
-                                        src={linkedIn}
-                                        className="cursor-pointer"
-                                        alt="linkedin icon"
-                                    />
+                                    <FaFacebookF className="text-2xl" />
+                                    <FaXTwitter className="text-2xl" />
+                                    <FaInstagram className="text-2xl" />
+                                    <FaLinkedinIn className="text-2xl" />
                                 </li>
                             </>
                         ) : (

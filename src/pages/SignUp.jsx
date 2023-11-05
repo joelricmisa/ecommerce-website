@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
 import { signUpImage } from "../assets/images";
-import { google } from "../assets/logo";
 import axios from "../api/axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { FaCircleInfo } from "react-icons/fa6";
+import { FaCircleInfo, FaGoogle } from "react-icons/fa6";
 
 const formSchema = new yup.ObjectSchema({
     name: yup.string().max(15).required(),
@@ -127,7 +126,7 @@ const SignUp = () => {
                 </form>
 
                 <button className="flex-center mt-5 w-full rounded-sm py-4 outline outline-1 outline-black/50">
-                    <img src={google} alt="" /> Sign up with Google
+                    <FaGoogle /> Sign up with Google
                 </button>
                 <div className="flex-center mt-5 flex-wrap py-4">
                     <p>Already have account?</p>

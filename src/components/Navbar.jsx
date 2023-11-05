@@ -5,13 +5,11 @@ import { ShopContext } from "../contexts/ShopContext";
 import useAuth from "../hooks/useAuth";
 import {
     FaBars,
-    FaClipboardList,
     FaMagnifyingGlass,
     FaRegUser,
     FaUserPlus,
 } from "react-icons/fa6";
 import { FaCog, FaRegListAlt, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
-import { BsPerson } from "react-icons/bs";
 
 const Navbar = () => {
     const location = useLocation();
@@ -61,9 +59,9 @@ const Navbar = () => {
                     <p>
                         Summer Sale For All Swim Suits And Free Express Delivery
                         - OFF 50%!
-                        <a href="" className="link ml-2">
+                        <Link to="/products" className="link ml-2">
                             ShopNow
-                        </a>
+                        </Link>
                     </p>
                     <select
                         className="cursor-pointer self-end bg-secondary px-2 text-sm"
@@ -117,7 +115,7 @@ const Navbar = () => {
                             <span className="sr-only">Search</span>
                             <button
                                 type="button"
-                                className="flex-center absolute inset-y-0 right-0 pr-2"
+                                className="flex-center absolute inset-y-0 right-0 p-2 pr-4"
                             >
                                 <FaMagnifyingGlass />
                             </button>
