@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Breadcrumb } from "../components";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FaCircleInfo } from "react-icons/fa6";
 import { FaCog, FaEdit, FaRegListAlt, FaSignOutAlt } from "react-icons/fa";
+import useAuth from "../hooks/useAuth";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const formSchema = new yup.ObjectSchema({
-    firstname: yup.string().required(),
-    lastname: yup.string().required(),
+    name: yup.string().required(),
     email: yup.string().email().required(),
     address: yup.string().required(),
     currentPassword: yup
@@ -24,27 +25,41 @@ const formSchema = new yup.ObjectSchema({
 });
 
 const Account = () => {
+    const { auth } = useAuth();
+    const axiosPrivate = useAxiosPrivate();
     const [test, setTest] = useState(false);
     const [edit, setEdit] = useState(false);
     const [editPass, setEditPass] = useState(false);
+
     const {
         register,
         trigger,
         formState: { errors },
         getValues,
+        setValue,
     } = useForm({
         resolver: yupResolver(formSchema),
         mode: "onTouched",
         reValidateMode: "onSubmit",
-        defaultValues: {
-            firstname: "joe",
-            lastname: "misa",
-            email: "joe@gmail.com",
-            address: test ? "" : "empty",
-        },
     });
 
     const [active, setActive] = useState("");
+
+    useEffect(() => {
+        const controller = new AbortController();
+        const getCurrentUser = async () => {
+            const response = await axiosPrivate.get("/api/users/current", {
+                signal: controller.signal,
+            });
+
+            setValue("name", response.data?.data?.name);
+            setValue("email", response.data?.data?.email);
+            setValue("address", response.data?.data?.address);
+            console.log(response.data);
+        };
+
+        getCurrentUser();
+    }, [auth]);
 
     const handleSubmit = (e) => {
         const isValid = trigger();
@@ -68,7 +83,7 @@ const Account = () => {
                                 <FaCog /> Manage My Account
                             </button>
                         </li>
-                        <li>
+                        {/* <li>
                             <button
                                 className="accountBtnSection"
                                 onClick={() => setActive("order")}
@@ -84,7 +99,7 @@ const Account = () => {
                                 <FaSignOutAlt />
                                 Logout
                             </button>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 <div className="flex flex-col px-8 py-10 shadow-md xl:w-9/12">
@@ -104,33 +119,17 @@ const Account = () => {
 
                             <div>
                                 <label
-                                    htmlFor="firstname"
+                                    htmlFor="name"
                                     className="mb-3 inline-block "
                                 >
-                                    Firstname:
+                                    Name:
                                 </label>
                                 <input
                                     type="text"
                                     className="input"
-                                    placeholder="Your Firstname"
-                                    value={getValues("firstname")}
-                                    {...register("firstname")}
-                                    readOnly
-                                />
-                            </div>
-
-                            <div>
-                                <label
-                                    htmlFor="lastname"
-                                    className="mb-3 inline-block "
-                                >
-                                    Lastname:
-                                </label>
-                                <input
-                                    type="text"
-                                    className="input"
-                                    placeholder="Your Lastname"
-                                    {...register("lastname")}
+                                    placeholder="Click edit to add your name"
+                                    value={getValues("name")}
+                                    {...register("name")}
                                     readOnly
                                 />
                             </div>
@@ -145,13 +144,13 @@ const Account = () => {
                                 <input
                                     type="email"
                                     className="input"
-                                    placeholder="Your Email"
+                                    placeholder="Click edit to add your email"
                                     {...register("email")}
                                     readOnly
                                 />
                             </div>
 
-                            <div>
+                            <div className="col-span-2">
                                 <label
                                     htmlFor="address"
                                     className="mb-3 inline-block "
@@ -161,7 +160,7 @@ const Account = () => {
                                 <input
                                     type="text"
                                     className="input"
-                                    placeholder="Your Address"
+                                    placeholder="Click edit to add your address"
                                     {...register("address")}
                                     readOnly
                                 />
@@ -178,46 +177,23 @@ const Account = () => {
 
                             <div>
                                 <label
-                                    htmlFor="firstname"
+                                    htmlFor="name"
                                     className="mb-3 inline-block "
                                 >
-                                    Firstname:
+                                    Name:
                                 </label>
                                 <input
                                     type="text"
                                     className="input"
-                                    placeholder="Your Firstname"
-                                    {...register("firstname")}
+                                    placeholder="Your Name"
+                                    {...register("name")}
                                 />
-                                {errors?.firstname?.message && (
+                                {errors?.name?.message && (
                                     <p className="errorMessage mb-1">
                                         <span className="text-xl">
                                             <FaCircleInfo />
                                         </span>
-                                        {errors.firstname?.message}
-                                    </p>
-                                )}
-                            </div>
-
-                            <div>
-                                <label
-                                    htmlFor="lastname"
-                                    className="mb-3 inline-block "
-                                >
-                                    Lastname:
-                                </label>
-                                <input
-                                    type="text"
-                                    className="input"
-                                    placeholder="Your Lastname"
-                                    {...register("lastname")}
-                                />
-                                {errors?.lastname?.message && (
-                                    <p className="errorMessage mb-1">
-                                        <span className="text-xl">
-                                            <FaCircleInfo />
-                                        </span>
-                                        {errors.lastname?.message}
+                                        {errors.name?.message}
                                     </p>
                                 )}
                             </div>
@@ -246,7 +222,7 @@ const Account = () => {
                                 )}
                             </div>
 
-                            <div>
+                            <div className="col-span-2">
                                 <label
                                     htmlFor="address"
                                     className="mb-3 inline-block "

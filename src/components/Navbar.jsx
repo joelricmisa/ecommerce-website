@@ -1,8 +1,9 @@
-import { NavLink, Link, useLocation } from "react-router-dom";
+import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import { navLinks, navIconLinks, shopProductsData } from "../constants";
 import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import useAuth from "../hooks/useAuth";
+import axios from "../api/axios";
 import {
     FaBars,
     FaMagnifyingGlass,
@@ -10,8 +11,10 @@ import {
     FaUserPlus,
 } from "react-icons/fa6";
 import { FaCog, FaRegListAlt, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const Navbar = () => {
+    const axiosPrivate = useAxiosPrivate();
     const location = useLocation();
     const { cartItems, wishlistItems, setCategory } = useContext(ShopContext);
 
@@ -28,7 +31,9 @@ const Navbar = () => {
     const [searchFocus, setSearchFocus] = useState(false);
     const [userIconFocus, setUserIconFocus] = useState(false);
     const [showIconNum, setShowIconNum] = useState(true);
-    const { auth } = useAuth();
+    const { auth, setAuth } = useAuth();
+    const LOGOUT_URL = "/api/logout";
+    const navigate = useNavigate();
 
     useEffect(() => {
         setCurrentPath(location.pathname);
@@ -45,6 +50,22 @@ const Navbar = () => {
 
         filtered.length !== 0 ? setSearchResult(filtered) : setSearchResult([]);
     }, [searchInput]);
+
+    const handleLogout = async () => {
+        try {
+            console.log("trigger logout");
+            const response = await axiosPrivate.post(LOGOUT_URL, {
+                headers: { "Content-Type": "application/json" },
+                withCredentials: true,
+            });
+
+            console.log(response?.data);
+            setAuth(null);
+            navigate("/", { replace: true });
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const handleActiveNav = (label = "") => {
         setActiveNav(label);
@@ -259,7 +280,7 @@ const Navbar = () => {
                                                     <FaCog className="mr-2 text-3xl" />
                                                     <p>Manage My Account</p>
                                                 </Link>
-                                                <Link
+                                                {/* <Link
                                                     to={"/"}
                                                     className="userIconLink"
                                                     onClick={() =>
@@ -268,13 +289,14 @@ const Navbar = () => {
                                                 >
                                                     <FaRegListAlt className="mr-2 text-xl" />
                                                     <p>My Order</p>
-                                                </Link>
+                                                </Link> */}
                                                 <Link
                                                     to={"/"}
                                                     className="userIconLink"
-                                                    onClick={() =>
-                                                        handleActiveNav()
-                                                    }
+                                                    onClick={() => {
+                                                        handleActiveNav();
+                                                        handleLogout();
+                                                    }}
                                                 >
                                                     <FaSignOutAlt className="mr-2 text-xl" />
                                                     <p>Logout</p>
