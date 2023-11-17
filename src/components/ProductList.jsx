@@ -3,14 +3,33 @@ import { timerImg } from "../assets/images";
 import { v4 as uuid } from "uuid";
 import Timer from "./Timer";
 import { Link } from "react-router-dom";
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
-const ProductList = ({ data, category, title, timer }) => {
+import axios from "../api/axios";
+
+const ProductList = ({ dataId, category, title, timer }) => {
     const { setCategory } = useContext(ShopContext);
     const [rotate, setRotate] = useState(0);
+    const [data, setData] = useState([]);
     const ref = useRef();
+
+    console.log(data);
+
+    useEffect(() => {
+        const getProductsByCategoryId = async (id) => {
+            const response = await axios.get(`/api/categories/${id}`);
+            console.log(response.data?.data?.products);
+
+            setData([...response.data?.data?.products]);
+        };
+
+        getProductsByCategoryId(dataId);
+
+        console.log(data);
+    }, [dataId]);
+
     return (
         <div className="padding border-bottom mt-10 flex w-full flex-col gap-8 lg:mt-0 ">
             <div
@@ -61,27 +80,27 @@ const ProductList = ({ data, category, title, timer }) => {
                 className=" min-h-[450px] snap-x  overflow-x-hidden  overflow-y-hidden py-10"
             >
                 <div className=" flex   whitespace-nowrap">
-                    {data.map((product) => {
-                        // console.log(product);
-                        return (
-                            <span key={uuid()} className="inline-block">
-                                <ProductCard
-                                    id={product.id}
-                                    productName={product.productName}
-                                    productImage={product.productImage}
-                                    currentPrice={product.currentPrice}
-                                    originalPrice={product.originalPrice}
-                                    rating={product.rating}
-                                    rateCount={product.rateCount}
-                                    discountPercentage={
-                                        product.discountPercentage
-                                    }
-                                    quantity={product.quantity}
-                                    subTotal={product.subTotal}
-                                />
-                            </span>
-                        );
-                    })}
+                    {Array.isArray(data)
+                        ? data.map((product) => {
+                              // console.log(product);
+                              return (
+                                  <span key={uuid()} className="inline-block">
+                                      <ProductCard
+                                          id={product._id}
+                                          productName={product.name}
+                                          productImage={product.image}
+                                          currentPrice={product.price}
+                                          originalPrice={product.price}
+                                          rating={product.rating}
+                                          rateCount={product.rating}
+                                          discountPercentage={product.discount}
+                                          quantity={product.quantity}
+                                          subTotal={product.subTotal}
+                                      />
+                                  </span>
+                              );
+                          })
+                        : "No data available"}
                 </div>
             </div>
 

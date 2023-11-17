@@ -13,20 +13,20 @@ const Home = () => {
         <div className="animate">
             <Hero />
             <ProductList
-                data={ProductData.flashSales}
+                dataId={"6554b1bfdb069acd41999b0d"}
                 category={`Today's`}
                 title="Flash Sales"
                 timer={true}
             />
             <BrowseByCategory />
             <ProductList
-                data={ProductData.bestSellingProducts}
+                dataId={"6555b76dbe32834a738b38d1"}
                 category={`This Month`}
                 title="Best Selling Products"
             />
             <BigSpeaker />
             <ProductList
-                data={ProductData.exploreOurProducts}
+                dataId={"6555b8dfbe32834a738b38fe"}
                 category={`Our Products`}
                 title="Explore Our Products"
             />
