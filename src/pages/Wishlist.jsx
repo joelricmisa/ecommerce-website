@@ -5,14 +5,26 @@ import { ShopContext } from "../contexts/ShopContext";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaInbox, FaRegEye, FaTrashCan } from "react-icons/fa6";
+import axios from "../api/axios";
+import { useQuery } from "@tanstack/react-query";
 
 const Wishlist = () => {
     const { wishlistItems, addToCart } = useContext(ShopContext);
     const [addAll, setAddAll] = useState(false);
+    const flashSalesId = "6554b1bfdb069acd41999b0d";
 
     useEffect(() => {
         addAll && wishlistItems.map((product) => addToCart(product));
     }, [addAll, addToCart]);
+
+    const { data, isError, error, isLoading } = useQuery({
+        queryKey: ["category", flashSalesId],
+        queryFn: async () => {
+            const response = await axios.get(`/api/categories/${flashSalesId}`);
+            console.log(response);
+            return response?.data?.data?.products;
+        },
+    });
 
     return (
         <section className="animate">
@@ -35,20 +47,11 @@ const Wishlist = () => {
                             return (
                                 <WishlistCard
                                     key={uuid()}
-                                    id={product.id}
-                                    productName={product.productName}
-                                    productImage={product.productImage}
-                                    currentPrice={product.currentPrice}
-                                    originalPrice={product.originalPrice}
-                                    discountPercentage={
-                                        product.discountPercentage
-                                    }
+                                    {...product}
+                                    iconName={"trash"}
                                     iconValue={
                                         <FaTrashCan className="hover:fill-tertiary-100" />
                                     }
-                                    iconName={"trash"}
-                                    quantity={product.quantity}
-                                    subTotal={product.subTotal}
                                 />
                             );
                         })}
@@ -60,41 +63,40 @@ const Wishlist = () => {
                 )}
             </div>
 
-            <div className="padding flex flex-col ">
-                <div className="flex-between mb-20 font-semibold text-tertiary-100">
-                    <div className="flex-center">
-                        <span className="h-10 w-5 rounded-sm bg-tertiary-100"></span>
-                        Just For You
+            {isError ? null : (
+                <div className="padding flex flex-col ">
+                    <div className="flex-between mb-20 font-semibold text-tertiary-100">
+                        <div className="flex-center">
+                            <span className="h-10 w-5 rounded-sm bg-tertiary-100"></span>
+                            Just For You
+                        </div>
+                        <Link to={"/products"} className="button mx-0">
+                            See All
+                        </Link>
                     </div>
-                    <Link to={"/products"} className="button mx-0">
-                        See All
-                    </Link>
-                </div>
 
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 ">
-                    {ProductData.flashSales.map((product) => {
-                        return (
-                            <WishlistCard
-                                key={uuid()}
-                                id={product.id}
-                                productName={product.productName}
-                                productImage={product.productImage}
-                                currentPrice={product.currentPrice}
-                                originalPrice={product.originalPrice}
-                                rating={product.rating}
-                                rateCount={product.rateCount}
-                                discountPercentage={product.discountPercentage}
-                                iconValue={
-                                    <FaRegEye className="hover:fill-tertiary-100" />
-                                }
-                                iconName={"eye"}
-                                quantity={product.quantity}
-                                subTotal={product.subTotal}
-                            />
-                        );
-                    })}
+                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 ">
+                        {isLoading ? (
+                            <span className="mx-auto inline-block">
+                                Loading...
+                            </span>
+                        ) : (
+                            data.map((product) => {
+                                return (
+                                    <WishlistCard
+                                        key={uuid()}
+                                        {...product}
+                                        iconValue={
+                                            <FaRegEye className="hover:fill-tertiary-100" />
+                                        }
+                                        iconName={"eye"}
+                                    />
+                                );
+                            })
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
         </section>
     );
 };

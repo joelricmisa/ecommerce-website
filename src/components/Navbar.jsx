@@ -10,30 +10,32 @@ import {
     FaRegUser,
     FaUserPlus,
 } from "react-icons/fa6";
-import { FaCog, FaRegListAlt, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { FaCog, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const Navbar = () => {
     const axiosPrivate = useAxiosPrivate();
     const location = useLocation();
     const { cartItems, wishlistItems, setCategory } = useContext(ShopContext);
+    const { auth, setAuth } = useAuth();
+    const navigate = useNavigate();
+    const LOGOUT_URL = "/api/logout";
 
     const [currentPath, setCurrentPath] = useState(location.pathname);
-    const currentActive = navLinks.filter(
-        (link) =>
-            (link.href.includes("/") ? `${link.href}` : `/${link.href}`) ===
-            currentPath,
-    );
-    const [activeNav, setActiveNav] = useState(currentActive[0]?.label);
+
     const [toggle, setToggle] = useState(false);
     const [searchInput, setSearchInput] = useState("");
     const [searchResult, setSearchResult] = useState([]);
     const [searchFocus, setSearchFocus] = useState(false);
     const [userIconFocus, setUserIconFocus] = useState(false);
     const [showIconNum, setShowIconNum] = useState(true);
-    const { auth, setAuth } = useAuth();
-    const LOGOUT_URL = "/api/logout";
-    const navigate = useNavigate();
+
+    const currentActive = navLinks.filter(
+        (link) =>
+            (link.href.includes("/") ? `${link.href}` : `/${link.href}`) ===
+            currentPath,
+    );
+    const [activeNav, setActiveNav] = useState(currentActive[0]?.label);
 
     useEffect(() => {
         setCurrentPath(location.pathname);
@@ -42,14 +44,19 @@ const Navbar = () => {
     }, [currentActive, currentPath]);
 
     useEffect(() => {
-        const filtered = shopProductsData.filter((product) =>
-            product.productName
-                .toLowerCase()
-                .includes(searchInput.toLowerCase()),
+        getSearchInput();
+    }, [searchInput]);
+
+    const getSearchInput = async () => {
+        const response = await axios.get("/api/products");
+        // console.log(response.data?.data);
+
+        const filtered = response.data?.data.filter((product) =>
+            product.name.toLowerCase().includes(searchInput.toLowerCase()),
         );
 
         filtered.length !== 0 ? setSearchResult(filtered) : setSearchResult([]);
-    }, [searchInput]);
+    };
 
     const handleLogout = async () => {
         try {
@@ -169,14 +176,14 @@ const Navbar = () => {
                                         <Link
                                             key={index}
                                             className="searchResultLink "
-                                            to={`/products/${item.id}`}
+                                            to={`/products/${item._id}`}
                                             onClick={() => {
                                                 setSearchFocus(false);
                                                 setToggle(!toggle);
                                                 setSearchInput("");
                                             }}
                                         >
-                                            {item.productName}
+                                            {item.name}
                                             <FaMagnifyingGlass />
                                         </Link>
                                     ))

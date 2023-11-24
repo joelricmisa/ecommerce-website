@@ -2,24 +2,32 @@ import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Breadcrumb, CartCard, SvgIcon } from "../components";
 import { ShopContext } from "../contexts/ShopContext";
-import { FaInbox } from "react-icons/fa6";
+import { FaInbox, FaUserXmark } from "react-icons/fa6";
+import useAuth from "../hooks/useAuth";
 
 const Cart = () => {
     const navigate = useNavigate();
     const { cartItems, getTotalCartAmount } = useContext(ShopContext);
     const [totalAmount, setTotalAmount] = useState(getTotalCartAmount());
-    const formatNumber = new Intl.NumberFormat("en-US", {
-        currency: "USD",
+    const { auth } = useAuth();
+    const formatNumber = new Intl.NumberFormat("fil-PH", {
+        currency: "PHP",
         style: "currency",
     });
 
-    const [disabled, setDisabled] = useState(true);
+    const [emptyCart, setEmptyCart] = useState(true);
+    const [hasUser, setHasUser] = useState(false);
     const [alert, setAlert] = useState(false);
 
     useEffect(() => {
         setTotalAmount(getTotalCartAmount());
-        cartItems.length !== 0 ? setDisabled(false) : setDisabled(true);
+        cartItems.length !== 0 ? setEmptyCart(false) : setEmptyCart(true);
     }, [cartItems]);
+
+    useEffect(() => {
+        auth ? setHasUser(true) : setHasUser(false);
+    }, [auth]);
+
     return (
         <div className="padding-x animate">
             <Breadcrumb />
@@ -30,14 +38,7 @@ const Cart = () => {
                 </h1>
 
                 {cartItems.map((product, index) => (
-                    <CartCard
-                        key={index}
-                        id={product.id}
-                        productImage={product.productImage}
-                        productName={product.productName}
-                        currentPrice={product.currentPrice.replace("$", "")}
-                        quantity={product.quantity}
-                    />
+                    <CartCard key={index} {...product} />
                 ))}
 
                 <Link to={"/"} className="button block ">
@@ -69,13 +70,17 @@ const Cart = () => {
                     <button
                         type="button"
                         className="button"
-                        onClick={() =>
-                            disabled ? setAlert(true) : navigate("checkout")
-                        }
+                        onClick={() => {
+                            !hasUser
+                                ? setAlert(true)
+                                : emptyCart
+                                ? setAlert(true)
+                                : navigate("checkout");
+                        }}
                     >
                         Process to Checkout
                     </button>
-                    {disabled ? (
+                    {emptyCart ? (
                         <div
                             className={`${
                                 alert ? "fixed" : "hidden"
@@ -84,9 +89,20 @@ const Cart = () => {
                             <span
                                 className={`flex-center absolute left-1/2 top-1/2 max-w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col  rounded-md bg-extraColor p-5 text-center text-black`}
                             >
-                                <FaInbox className="text-3xl" /> Your cart is
-                                empty, please add some products before checking
-                                out your cart.
+                                {!hasUser ? (
+                                    <>
+                                        <FaUserXmark className="text-3xl" />
+                                        Please make an account first or login if
+                                        you already have to checkout your cart.
+                                    </>
+                                ) : emptyCart ? (
+                                    <>
+                                        <FaInbox className="text-3xl" /> Your
+                                        cart is empty, please add some products
+                                        before checking out your cart.
+                                    </>
+                                ) : null}
+
                                 <button
                                     className="button py-2"
                                     onClick={() => setAlert(false)}

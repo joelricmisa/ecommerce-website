@@ -1,5 +1,4 @@
 import { ProductCard } from "./index";
-import { timerImg } from "../assets/images";
 import { v4 as uuid } from "uuid";
 import Timer from "./Timer";
 import { Link } from "react-router-dom";
@@ -8,27 +7,26 @@ import { ShopContext } from "../contexts/ShopContext";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
 import axios from "../api/axios";
+import { useQuery } from "@tanstack/react-query";
 
 const ProductList = ({ dataId, category, title, timer }) => {
     const { setCategory } = useContext(ShopContext);
-    const [rotate, setRotate] = useState(0);
-    const [data, setData] = useState([]);
     const ref = useRef();
 
-    console.log(data);
+    const { data, isError, error, isLoading } = useQuery({
+        queryKey: ["category", dataId],
+        queryFn: async () => {
+            //get products by category id
+            const response = await axios.get(`/api/categories/${dataId}`);
 
-    useEffect(() => {
-        const getProductsByCategoryId = async (id) => {
-            const response = await axios.get(`/api/categories/${id}`);
-            console.log(response.data?.data?.products);
+            // console.log(response);
+            return response.data?.data?.products;
+        },
+    });
 
-            setData([...response.data?.data?.products]);
-        };
+    // console.log(data);
 
-        getProductsByCategoryId(dataId);
-
-        console.log(data);
-    }, [dataId]);
+    if (isError) return <span>Error: {error.message}</span>;
 
     return (
         <div className="padding border-bottom mt-10 flex w-full flex-col gap-8 lg:mt-0 ">
@@ -49,72 +47,73 @@ const ProductList = ({ dataId, category, title, timer }) => {
                     <span
                         className={`font-inter text-2xl font-semibold sm:text-3xl lg:text-4xl`}
                     >
-                        {title}{" "}
+                        {title}
                     </span>
 
-                    <span className="flex-center ">
-                        <button
-                            type="button"
-                            onClick={() => {
-                                ref.current.scrollLeft -= 200;
-                            }}
-                            className="icon grid-center"
-                        >
-                            <FaArrowLeft />
-                        </button>
+                    {data?.length > 4 ? (
+                        <span className="flex-center ">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    ref.current.scrollLeft -= 200;
+                                }}
+                                className="icon grid-center"
+                            >
+                                <FaArrowLeft />
+                            </button>
 
-                        <button
-                            type="button"
-                            onClick={() => {
-                                ref.current.scrollLeft += 200;
-                            }}
-                            className="icon grid-center"
-                        >
-                            <FaArrowRight />
-                        </button>
-                    </span>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    ref.current.scrollLeft += 200;
+                                }}
+                                className="icon grid-center"
+                            >
+                                <FaArrowRight />
+                            </button>
+                        </span>
+                    ) : null}
                 </div>
             </div>
             <div
                 ref={ref}
-                className=" min-h-[450px] snap-x  overflow-x-hidden  overflow-y-hidden py-10"
+                className={`${
+                    isLoading ? "h-auto" : "min-h-[450px]"
+                }  snap-x  overflow-x-hidden  overflow-y-hidden py-10`}
             >
-                <div className=" flex   whitespace-nowrap">
-                    {Array.isArray(data)
-                        ? data.map((product) => {
-                              // console.log(product);
-                              return (
-                                  <span key={uuid()} className="inline-block">
-                                      <ProductCard
-                                          id={product._id}
-                                          productName={product.name}
-                                          productImage={product.image}
-                                          currentPrice={product.price}
-                                          originalPrice={product.price}
-                                          rating={product.rating}
-                                          rateCount={product.rating}
-                                          discountPercentage={product.discount}
-                                          quantity={product.quantity}
-                                          subTotal={product.subTotal}
-                                      />
-                                  </span>
-                              );
-                          })
-                        : "No data available"}
+                <div className="flex whitespace-nowrap ">
+                    {isLoading ? (
+                        <span className="mx-auto inline-block bg-blue-400">
+                            Loading...
+                        </span>
+                    ) : (
+                        data.map((product) => {
+                            // console.log(product);
+                            return (
+                                <span key={uuid()} className="inline-block">
+                                    <ProductCard
+                                        {...product}
+                                        originalPrice={product.price}
+                                        rateCount={product.rating}
+                                    />
+                                </span>
+                            );
+                        })
+                    )}
                 </div>
             </div>
 
-            <Link
-                to={"/products"}
-                className="button xl:px-20 "
-                onClick={() => {
-                    title === "Flash Sales"
-                        ? setCategory(title)
-                        : setCategory("all");
-                }}
-            >
-                View All Products
-            </Link>
+            {isLoading ? null : (
+                <Link
+                    to={"/products"}
+                    className="button xl:px-20 "
+                    onClick={() => {
+                        setCategory(title);
+                    }}
+                >
+                    View All Products
+                </Link>
+            )}
         </div>
     );
 };

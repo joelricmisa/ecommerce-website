@@ -6,16 +6,18 @@ import { ShopContext } from "../contexts/ShopContext";
 import { visa, masterCard } from "../assets/logo";
 import { FaCartShopping } from "react-icons/fa6";
 
+
 const Checkout = () => {
     const { cartItems, getTotalCartAmount } = useContext(ShopContext);
     const totalAmount = getTotalCartAmount();
-    const formatNumber = new Intl.NumberFormat("en-US", {
-        currency: "USD",
+    const formatNumber = new Intl.NumberFormat("fil-PH", {
+        currency: "PHP",
         style: "currency",
     });
     const slice = cartItems.slice(0, 5);
     const showVal = cartItems.length - 5;
     const [show, setShow] = useState(false);
+    const baseUrl = "https://exclusive-backend-te81.onrender.com";
     return (
         <div className="padding-x animate">
             <Breadcrumb />
@@ -48,15 +50,22 @@ const Checkout = () => {
                                   className="flex-center mb-3 border-b border-black/10 pb-3 "
                               >
                                   <img
-                                      src={item.productImage}
+                                      src={
+                                          baseUrl +
+                                          item.image
+                                              .replace("public", "")
+                                              .replaceAll("\\", "/")
+                                      }
                                       alt=""
                                       className="h-14 w-14"
                                   />
                                   <p>
-                                      {item.productName} ({item.quantity})
+                                      {item.name} ({item.quantity})
                                   </p>
                                   <p className="ml-auto">
-                                      {formatNumber.format(item.subTotal)}
+                                      {formatNumber.format(
+                                          item.quantity * item.price,
+                                      )}
                                   </p>
                               </div>
                           ))
@@ -66,15 +75,22 @@ const Checkout = () => {
                                   className="flex-center mb-3 border-b border-black/10 pb-3"
                               >
                                   <img
-                                      src={item.productImage}
+                                      src={
+                                          baseUrl +
+                                          item.image
+                                              .replace("public", "")
+                                              .replaceAll("\\", "/")
+                                      }
                                       alt=""
                                       className="h-14 w-14"
                                   />
                                   <p>
-                                      {item.productName} ({item.quantity})
+                                      {item.name} ({item.quantity})
                                   </p>
                                   <p className="ml-auto">
-                                      {formatNumber.format(item.subTotal)}
+                                      {formatNumber.format(
+                                          item.quantity * item.price,
+                                      )}
                                   </p>
                               </div>
                           ))}

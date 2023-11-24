@@ -13,14 +13,13 @@ import {
     FaTruckFast,
     FaXmark,
 } from "react-icons/fa6";
+import axios from "../api/axios";
+import { fiveStar, fourHalfStar, fourStar, threeStar } from "../assets/images";
+import { useQuery } from "@tanstack/react-query";
 
 const ProductPreview = () => {
     const location = useLocation();
     const { id } = useParams();
-    const currentItem = shopProductsData.filter(
-        (product) => product.id === Number(id),
-    );
-    const productObj = currentItem[0];
 
     const {
         cartItems,
@@ -32,44 +31,84 @@ const ProductPreview = () => {
         setCategory,
     } = useContext(ShopContext);
 
+    const [quantity, setQuantity] = useState(1);
+    const [activeWishlist, setActiveWishlist] = useState(false);
+    const [inCart, setInCart] = useState(false);
+    const baseUrl = "https://exclusive-backend-te81.onrender.com";
+
+    const formatNumber = new Intl.NumberFormat("fil-PH", {
+        currency: "PHP",
+        style: "currency",
+    });
+
+    const currentProduct = useQuery({
+        queryKey: ["product", id],
+        queryFn: async () => {
+            const response = await axios.get(`/api/products/${id}`);
+            console.log(response);
+            return response?.data?.data;
+        },
+    });
+
     const crumbsList = [
         { label: "Home", path: "/", setCateg: "all" },
         { label: "Products", path: "/products", setCateg: "all" },
         {
-            label: productObj.category,
+            label: currentProduct
+                ? currentProduct?.data?.categories?.[0]?.name
+                : "",
             path: "/products",
-            setCateg: productObj.category,
+            setCateg: currentProduct
+                ? currentProduct?.data?.categories?.[0]?.name
+                : "",
         },
         {
-            label: productObj.productName,
+            label: currentProduct ? currentProduct?.data?.name : "",
             path: location.pathname,
             setCateg: "all",
         },
     ];
 
-    const [quantity, setQuantity] = useState(1);
-    const [relatedProduct, setRelatedProduct] = useState([]);
-    const [activeWishlist, setActiveWishlist] = useState(false);
-    const [inCart, setInCart] = useState(false);
+    let ratingImg;
+
+    switch (currentProduct?.data?.rating) {
+        case "3":
+            ratingImg = threeStar;
+            console.log(ratingImg);
+            break;
+        case "4":
+            ratingImg = fourStar;
+            console.log(ratingImg);
+            break;
+        case "4.5":
+            ratingImg = fourHalfStar;
+            console.log(ratingImg);
+            break;
+        case "5":
+            ratingImg = fiveStar;
+            console.log(ratingImg);
+            break;
+    }
 
     useEffect(() => {
-        const filterWishlist = wishlistItems.filter(
-            (item) => item.id === Number(id),
-        );
-        const filterCart = cartItems.filter((item) => item.id === Number(id));
+        const filterWishlist = wishlistItems.filter((item) => item?._id === id);
+        const filterCart = cartItems.filter((item) => item?._id === id);
         filterWishlist.length === 0
             ? setActiveWishlist(false)
             : setActiveWishlist(true);
         filterCart.length === 0 ? setInCart(false) : setInCart(true);
     }, [wishlistItems, cartItems, id]);
 
-    useEffect(() => {
-        const relatedItems = shopProductsData
-            .filter((product) => product.category === productObj?.category)
-            .filter((item) => item.id !== Number(id));
-
-        setRelatedProduct(relatedItems);
-    }, [id]);
+    const relatedProducts = useQuery({
+        queryKey: ["category", currentProduct?.data?.categories?.[0]._id],
+        queryFn: async () => {
+            const response = await axios.get(
+                `/api/categories/${currentProduct?.data?.categories?.[0]._id}`,
+            );
+            console.log(response);
+            return response?.data?.data?.products;
+        },
+    });
 
     return (
         <section className="padding animate">
@@ -90,7 +129,12 @@ const ProductPreview = () => {
             <div className="flex-center my-10 flex-col items-start gap-10 xl:flex-row ">
                 <div className=" grid-center w-full bg-extraColor py-14   xl:min-h-[400px] xl:w-1/2">
                     <img
-                        src={productObj.productImage}
+                        src={
+                            baseUrl +
+                            currentProduct?.data?.image
+                                ?.replace("public", "")
+                                ?.replaceAll("\\", "/")
+                        }
                         alt=""
                         className="scale-100 xl:scale-150"
                     />
@@ -98,15 +142,17 @@ const ProductPreview = () => {
 
                 <div className="flex-center w-full flex-col items-start gap-3 xl:w-1/2">
                     <h1 className="text-2xl font-semibold">
-                        {productObj.productName}
+                        {currentProduct?.data?.name}
                     </h1>
                     <span className="flex-center justify-start text-black/60 ">
-                        <img src={productObj.rating} alt="" />
-                        <p>({productObj.rateCount} Reviews)</p>
+                        <img src={ratingImg} alt="" />
+                        <p>({currentProduct?.data?.rating} Reviews)</p>
                     </span>
-                    <p className="text-2xl">{productObj.currentPrice}</p>
+                    <p className="text-2xl">
+                        {formatNumber.format(currentProduct?.data?.price)}
+                    </p>
                     <p className="border-b border-black/10 pb-5 text-sm leading-7">
-                        {productObj.description}
+                        {currentProduct?.data?.description}wala muna
                     </p>
 
                     <div className="flex-center my-3 w-full flex-col xl:flex-row">
@@ -145,9 +191,9 @@ const ProductPreview = () => {
                             className="button flex-center w-full py-2 xl:w-1/2"
                             onClick={() =>
                                 inCart
-                                    ? removeToCart({ id: Number(id) })
+                                    ? removeToCart({ _id: id })
                                     : addToCart({
-                                          ...productObj,
+                                          ...currentProduct?.data,
                                           quantity: quantity,
                                       })
                             }
@@ -164,8 +210,8 @@ const ProductPreview = () => {
                             } `}
                             onClick={() =>
                                 activeWishlist
-                                    ? removeToWishlist({ id: Number(id) })
-                                    : addToWishlist(productObj)
+                                    ? removeToWishlist({ _id: id })
+                                    : addToWishlist({ ...currentProduct?.data })
                             }
                         >
                             {activeWishlist ? (
@@ -193,37 +239,25 @@ const ProductPreview = () => {
                     </div>
                 </div>
             </div>
-
             <div className="padding-y flex w-full flex-col gap-10">
                 <div className="flex-center h-10 justify-start font-semibold text-tertiary-100 ">
                     <span className="h-10 w-5 rounded-sm bg-tertiary-100 "></span>
 
-                    {relatedProduct.length > 1
+                    {relatedProducts.data?.length > 1
                         ? "Related Items"
                         : "Related Item"}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10">
-                    {relatedProduct.length !== 0 ? (
-                        relatedProduct.map((product, index) => {
-                            return (
-                                <ProductCard
-                                    key={index}
-                                    id={product.id}
-                                    productName={product.productName}
-                                    productImage={product.productImage}
-                                    currentPrice={product.currentPrice}
-                                    originalPrice={product.originalPrice}
-                                    rating={product.rating}
-                                    rateCount={product.rateCount}
-                                    discountPercentage={
-                                        product.discountPercentage
-                                    }
-                                    quantity={product.quantity}
-                                    subTotal={product.subTotal}
-                                />
-                            );
-                        })
+                    {relatedProducts.data?.length !== 0 ? (
+                        relatedProducts.data
+                            ?.filter(
+                                (item) =>
+                                    item._id !== currentProduct?.data?._id,
+                            )
+                            .map((product, index) => {
+                                return <ProductCard key={index} {...product} />;
+                            })
                     ) : (
                         <span className="flex-center col-span-12 py-10 text-xl">
                             <FaInbox className="text-3xl" /> No results found

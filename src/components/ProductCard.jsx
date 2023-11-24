@@ -9,20 +9,20 @@ import {
     FaRegHeart,
     FaXmark,
 } from "react-icons/fa6";
+import { fiveStar, fourHalfStar, fourStar, threeStar } from "../assets/images";
 
-const ProductCard = ({
-    id,
-    productName,
-    productImage,
-    currentPrice,
-    originalPrice,
-    rating,
-    rateCount,
-    discountPercentage,
-    quantity,
-    subTotal,
-    controlWidth = true,
-}) => {
+const ProductCard = (props) => {
+    const {
+        _id,
+        name,
+        image,
+        price,
+        originalPrice,
+        rating,
+        discount,
+        controlWidth = true,
+    } = props;
+
     const {
         addToCart,
         cartItems,
@@ -34,15 +34,37 @@ const ProductCard = ({
     const [activeWishlist, setActiveWishlist] = useState(false);
     const [inCart, setInCart] = useState(false);
     const [toggle, setToggle] = useState(false);
+    const baseUrl = "https://exclusive-backend-te81.onrender.com";
 
     useEffect(() => {
-        const filterWishlist = wishlistItems.filter((item) => item.id === id);
-        const filterCart = cartItems.filter((item) => item.id === id);
+        const filterWishlist = wishlistItems.filter((item) => item._id === _id);
+        const filterCart = cartItems.filter((item) => item._id === _id);
         filterWishlist.length === 0
             ? setActiveWishlist(false)
             : setActiveWishlist(true);
         filterCart.length === 0 ? setInCart(false) : setInCart(true);
     }, [wishlistItems, cartItems]);
+
+    let ratingImg;
+
+    switch (rating) {
+        case "3":
+            ratingImg = threeStar;
+            // console.log(ratingImg);
+            break;
+        case "4":
+            ratingImg = fourStar;
+            // console.log(ratingImg);
+            break;
+        case "4.5":
+            ratingImg = fourHalfStar;
+            // console.log(ratingImg);
+            break;
+        case "5":
+            ratingImg = fiveStar;
+            // console.log(ratingImg);
+            break;
+    }
 
     return (
         <div
@@ -53,9 +75,9 @@ const ProductCard = ({
             onMouseOut={() => setToggle(false)}
         >
             <div className="grid-center relative h-[270px] w-full  bg-extraColor">
-                {discountPercentage && (
+                {discount > 0 && (
                     <span className="grid-center absolute left-3 top-3 h-6 w-14 rounded-sm bg-tertiary-100 text-xs text-primary">
-                        {discountPercentage}
+                        -{discount}%
                     </span>
                 )}
                 <div className="absolute right-3 top-3 flex flex-col gap-2">
@@ -67,30 +89,22 @@ const ProductCard = ({
                         } `}
                         onClick={() =>
                             activeWishlist
-                                ? removeToWishlist({ id })
-                                : addToWishlist({
-                                      id,
-                                      productName,
-                                      productImage,
-                                      currentPrice,
-                                      originalPrice,
-                                      rating,
-                                      rateCount,
-                                      discountPercentage,
-                                      quantity,
-                                      subTotal,
-                                  })
+                                ? removeToWishlist({ _id })
+                                : addToWishlist({ ...props })
                         }
                     >
                         {activeWishlist ? <FaHeart /> : <FaRegHeart />}
                     </span>
 
-                    <Link to={`/products/${id}`} className="icon grid-center ">
+                    <Link to={`/products/${_id}`} className="icon grid-center ">
                         <FaRegEye className="hover:fill-tertiary-100" />
                     </Link>
                 </div>
                 <img
-                    src={productImage}
+                    src={
+                        baseUrl +
+                        image?.replace("public", "")?.replaceAll("\\", "/")
+                    }
                     className="scale-75  xl:scale-95"
                     alt=""
                 />
@@ -100,19 +114,8 @@ const ProductCard = ({
                         className="button flex-center absolute inset-x-0 bottom-0 gap-2 bg-secondary px-0 py-2"
                         onClick={() =>
                             inCart
-                                ? removeToCart({ id })
-                                : addToCart({
-                                      id,
-                                      productName,
-                                      productImage,
-                                      currentPrice,
-                                      originalPrice,
-                                      rating,
-                                      rateCount,
-                                      discountPercentage,
-                                      quantity,
-                                      subTotal,
-                                  })
+                                ? removeToCart({ _id })
+                                : addToCart({ ...props })
                         }
                     >
                         {inCart ? <FaXmark /> : <FaCartPlus />}
@@ -122,20 +125,20 @@ const ProductCard = ({
             </div>
 
             <div className="flex flex-wrap gap-2 p-2">
-                <h1 className="text-wrap whitespace-pre-wrap">{productName}</h1>
+                <h1 className="text-wrap whitespace-pre-wrap">{name}</h1>
                 <p className="text-secondary-100 font-medium">
-                    {currentPrice}
+                    ₱{price}
                     <span className="ml-3 text-black/50 line-through">
-                        {originalPrice}
+                        ₱{price}
                     </span>
                 </p>
                 <div className="flex-center justify-start gap-1 ">
                     <img
-                        src={rating}
+                        src={ratingImg}
                         alt=""
                         className="-ml-1 scale-75 xs:scale-90 xl:scale-95"
                     />{" "}
-                    <span className="text-black/50">({rateCount})</span>
+                    <span className="text-black/50">({rating})</span>
                 </div>
             </div>
         </div>

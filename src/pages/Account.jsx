@@ -30,6 +30,7 @@ const Account = () => {
     const [test, setTest] = useState(false);
     const [edit, setEdit] = useState(false);
     const [editPass, setEditPass] = useState(false);
+    const [id, setId] = useState("");
 
     const {
         register,
@@ -55,18 +56,36 @@ const Account = () => {
             setValue("name", response.data?.data?.name);
             setValue("email", response.data?.data?.email);
             setValue("address", response.data?.data?.address);
+            setId(response.data?.data?._id);
             console.log(response.data);
         };
 
         getCurrentUser();
     }, [auth]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         const isValid = trigger();
+        const { name, email, address } = getValues();
+        console.log("trigger edit btn");
         if (!isValid) {
             e.preventDefault();
         } else {
             e.preventDefault();
+
+            try {
+                const response = await axiosPrivate.put(
+                    `/api/users/${id}`,
+                    JSON.stringify({ name, email, address }),
+                    {
+                        headers: { "Content-Type": "application/json" },
+                        withCredentials: true,
+                    },
+                );
+
+                console.log(response?.data);
+                console.log(response);
+                 setEdit(false);
+            } catch (err) {}
         }
     };
     return (
