@@ -1,10 +1,10 @@
-import { SvgIcon, WishlistCard } from "../components";
+import { ProductCard, SvgIcon, WishlistCard } from "../components";
 import { v4 as uuid } from "uuid";
-import { ProductData } from "../constants";
+
 import { ShopContext } from "../contexts/ShopContext";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaInbox, FaRegEye, FaTrashCan } from "react-icons/fa6";
+import { FaInbox } from "react-icons/fa6";
 import axios from "../api/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -44,16 +44,7 @@ const Wishlist = () => {
                 {wishlistItems.length !== 0 ? (
                     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 ">
                         {wishlistItems.map((product) => {
-                            return (
-                                <WishlistCard
-                                    key={uuid()}
-                                    {...product}
-                                    iconName={"trash"}
-                                    iconValue={
-                                        <FaTrashCan className="hover:fill-tertiary-100" />
-                                    }
-                                />
-                            );
+                            return <WishlistCard key={uuid()} {...product} />;
                         })}
                     </div>
                 ) : (
@@ -81,18 +72,17 @@ const Wishlist = () => {
                                 Loading...
                             </span>
                         ) : (
-                            data.map((product) => {
-                                return (
-                                    <WishlistCard
-                                        key={uuid()}
-                                        {...product}
-                                        iconValue={
-                                            <FaRegEye className="hover:fill-tertiary-100" />
-                                        }
-                                        iconName={"eye"}
-                                    />
-                                );
-                            })
+                            data
+                                .filter((product) => {
+                                    return !wishlistItems?.some(
+                                        (item) => item._id === product._id,
+                                    );
+                                })
+                                .map((card) => {
+                                    return (
+                                        <ProductCard key={uuid()} {...card} />
+                                    );
+                                })
                         )}
                     </div>
                 </div>

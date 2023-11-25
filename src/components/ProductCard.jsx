@@ -120,7 +120,7 @@ const ProductCard = (props) => {
                         onClick={() =>
                             inCart
                                 ? removeToCart({ _id })
-                                : addToCart({ ...props })
+                                : addToCart({ ...props, price: finalPrice })
                         }
                     >
                         {inCart ? <FaXmark /> : <FaCartPlus />}
@@ -132,7 +132,7 @@ const ProductCard = (props) => {
             <div className="p-2">
                 <h1 className="text-wrap whitespace-pre-wrap">{name}</h1>
                 <div className="mt-2 flex flex-wrap justify-between ">
-                    <p className="text-secondary-100 font-medium">
+                    <p className="text-secondary-100 font-medium text-tertiary-100">
                         {formatNumber.format(finalPrice)}
                         <span className="ml-3 text-black/50 line-through">
                             {discount > 0 ? `₱${price}` : null}

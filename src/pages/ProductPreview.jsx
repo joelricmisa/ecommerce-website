@@ -10,6 +10,7 @@ import {
     FaInbox,
     FaRegHeart,
     FaRotate,
+    FaTag,
     FaTruckFast,
     FaXmark,
 } from "react-icons/fa6";
@@ -144,13 +145,41 @@ const ProductPreview = () => {
                     <h1 className="text-2xl font-semibold">
                         {currentProduct?.data?.name}
                     </h1>
+
                     <span className="flex-center justify-start text-black/60 ">
                         <img src={ratingImg} alt="" />
                         <p>({currentProduct?.data?.rating} Reviews)</p>
                     </span>
-                    <p className="text-2xl">
-                        {formatNumber.format(currentProduct?.data?.price)}
-                    </p>
+                    <div className="flex text-2xl">
+                        {currentProduct?.data?.discount > 0 ? (
+                            <span className="text-black/50 line-through">
+                                ₱{currentProduct?.data?.price}
+                            </span>
+                        ) : null}
+                        <span
+                            className={`${
+                                currentProduct?.data?.discount > 0 ? "ml-3" : ""
+                            }`}
+                        >
+                            {currentProduct?.data?.discount > 0
+                                ? formatNumber.format(
+                                      Number(currentProduct?.data?.price) -
+                                          Number(currentProduct?.data?.price) *
+                                              (currentProduct?.data?.discount /
+                                                  100),
+                                  )
+                                : formatNumber.format(
+                                      currentProduct?.data?.price,
+                                  )}
+                        </span>
+                        {currentProduct?.data?.discount > 0 ? (
+                            <span className="ml-3 flex h-8 items-center gap-2 rounded-md bg-tertiary-100 p-1 text-lg text-white">
+                                -{currentProduct?.data?.discount}%
+                                <FaTag />
+                            </span>
+                        ) : null}
+                    </div>
+
                     <p className="border-b border-black/10 pb-5 text-sm leading-7">
                         {currentProduct?.data?.description}wala muna
                     </p>
