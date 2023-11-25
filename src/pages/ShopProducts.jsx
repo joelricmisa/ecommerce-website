@@ -19,9 +19,9 @@ const ShopProducts = () => {
             const response = await axios.get("/api/products");
             console.log(response);
 
-            const filtered = response?.data?.data?.filter(
-                (item) => item.categories[0].name == currentCategory,
-            );
+            const filtered = response?.data?.data?.filter((item) => {
+                return item.categories?.[0]?.name == currentCategory;
+            });
 
             currentCategory === "all"
                 ? setProducts(response?.data?.data)
@@ -42,9 +42,12 @@ const ShopProducts = () => {
     });
 
     useEffect(() => {
-        const filtered = productsStorage?.data?.filter(
-            (item) => item.categories[0].name == currentCategory,
-        );
+        const filtered = productsStorage?.data?.filter((item) => {
+            return item.categories?.some(
+                (category) => category?.name == currentCategory,
+            );
+        });
+
         currentCategory === "all"
             ? setProducts(productsStorage?.data)
             : setProducts(filtered);

@@ -35,6 +35,10 @@ const ProductCard = (props) => {
     const [inCart, setInCart] = useState(false);
     const [toggle, setToggle] = useState(false);
     const baseUrl = "https://exclusive-backend-te81.onrender.com";
+    const formatNumber = new Intl.NumberFormat("fil-PH", {
+        currency: "PHP",
+        style: "currency",
+    });
 
     useEffect(() => {
         const filterWishlist = wishlistItems.filter((item) => item._id === _id);
@@ -124,21 +128,23 @@ const ProductCard = (props) => {
                 )}
             </div>
 
-            <div className="flex flex-wrap gap-2 p-2">
+            <div className="p-2">
                 <h1 className="text-wrap whitespace-pre-wrap">{name}</h1>
-                <p className="text-secondary-100 font-medium">
-                    ₱{price}
-                    <span className="ml-3 text-black/50 line-through">
-                        ₱{price}
-                    </span>
-                </p>
-                <div className="flex-center justify-start gap-1 ">
-                    <img
-                        src={ratingImg}
-                        alt=""
-                        className="-ml-1 scale-75 xs:scale-90 xl:scale-95"
-                    />{" "}
-                    <span className="text-black/50">({rating})</span>
+                <div className="mt-2 flex flex-wrap justify-between ">
+                    <p className="text-secondary-100 font-medium">
+                        {formatNumber.format(price)}
+                        <span className="ml-3 text-black/50 line-through">
+                            ₱{price}
+                        </span>
+                    </p>
+                    <div className="flex-center justify-start gap-1 ">
+                        <img
+                            src={ratingImg}
+                            alt=""
+                            className="-ml-1 scale-75 xs:scale-90 xl:scale-95"
+                        />{" "}
+                        <span className="text-black/50">({rating})</span>
+                    </div>
                 </div>
             </div>
         </div>
