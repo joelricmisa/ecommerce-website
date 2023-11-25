@@ -20,7 +20,9 @@ const ShopProducts = () => {
             console.log(response);
 
             const filtered = response?.data?.data?.filter((item) => {
-                return item.categories?.[0]?.name == currentCategory;
+                return item.categories?.some(
+                    (category) => category?.name == currentCategory,
+                );
             });
 
             currentCategory === "all"
