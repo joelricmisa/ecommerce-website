@@ -48,7 +48,7 @@ const ProductCard = (props) => {
             ? setActiveWishlist(false)
             : setActiveWishlist(true);
         filterCart.length === 0 ? setInCart(false) : setInCart(true);
-    }, [wishlistItems, cartItems]);
+    }, [wishlistItems, cartItems, _id]);
 
     let ratingImg;
 

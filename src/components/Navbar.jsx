@@ -172,21 +172,23 @@ const Navbar = () => {
                                         No results found <FaMagnifyingGlass />
                                     </span>
                                 ) : (
-                                    searchResult.map((item, index) => (
-                                        <Link
-                                            key={index}
-                                            className="searchResultLink "
-                                            to={`/products/${item._id}`}
-                                            onClick={() => {
-                                                setSearchFocus(false);
-                                                setToggle(!toggle);
-                                                setSearchInput("");
-                                            }}
-                                        >
-                                            {item.name}
-                                            <FaMagnifyingGlass />
-                                        </Link>
-                                    ))
+                                    <ul className="max-h-[400px] overflow-auto  rounded-md">
+                                        {searchResult.map((item, index) => (
+                                            <Link
+                                                key={index}
+                                                className="searchResultLink "
+                                                to={`/products/${item._id}`}
+                                                onClick={() => {
+                                                    setSearchFocus(false);
+                                                    setToggle(!toggle);
+                                                    setSearchInput("");
+                                                }}
+                                            >
+                                                {item.name}
+                                                <FaMagnifyingGlass />
+                                            </Link>
+                                        ))}
+                                    </ul>
                                 )}
                             </div>
                         )}

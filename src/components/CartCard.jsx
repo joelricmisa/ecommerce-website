@@ -47,7 +47,7 @@ const CartCard = ({ _id, name, image, price, quantity }) => {
             </div>
             <div className="flex-center w-1/2 flex-col pb-10 pt-14 xl:w-4/6 xl:flex-row">
                 <div className="flex-center justify-evenly xl:w-1/2 ">
-                    <p>₱{price} (1)</p>
+                    <p>{formatNumber.format(price)} (1)</p>
 
                     <input
                         type="number"

@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 
 import { ShopContext } from "../contexts/ShopContext";
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
 import { FaInbox } from "react-icons/fa6";
 import axios from "../api/axios";
 import { useQuery } from "@tanstack/react-query";
@@ -14,7 +14,15 @@ const Wishlist = () => {
     const flashSalesId = "6554b1bfdb069acd41999b0d";
 
     useEffect(() => {
-        addAll && wishlistItems.map((product) => addToCart(product));
+        addAll &&
+            wishlistItems.map((product) =>
+                addToCart({
+                    ...product,
+                    price:
+                        Number(product.price) -
+                        Number(product.price) * (product.discount / 100),
+                }),
+            );
     }, [addAll, addToCart]);
 
     const { data, isError, error, isLoading } = useQuery({
@@ -54,16 +62,15 @@ const Wishlist = () => {
                 )}
             </div>
 
-            {isError ? null : (
+            {isError ? null : data?.filter((product) => {
+                  return !wishlistItems?.some(
+                      (item) => item._id === product._id,
+                  );
+              }).length > 0 ? (
                 <div className="padding flex flex-col ">
-                    <div className="flex-between mb-20 font-semibold text-tertiary-100">
-                        <div className="flex-center">
-                            <span className="h-10 w-5 rounded-sm bg-tertiary-100"></span>
-                            Just For You
-                        </div>
-                        <Link to={"/products"} className="button mx-0">
-                            See All
-                        </Link>
+                    <div className="flex-center mb-20 w-full justify-start font-semibold text-tertiary-100">
+                        <span className="h-10 w-5 rounded-sm bg-tertiary-100"></span>
+                        Just For You
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 ">
@@ -86,7 +93,7 @@ const Wishlist = () => {
                         )}
                     </div>
                 </div>
-            )}
+            ) : null}
         </section>
     );
 };

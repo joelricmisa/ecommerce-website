@@ -159,7 +159,7 @@ const ProductPreview = () => {
                         <span
                             className={`${
                                 currentProduct?.data?.discount > 0 ? "ml-3" : ""
-                            }`}
+                            } text-tertiary-100`}
                         >
                             {currentProduct?.data?.discount > 0
                                 ? formatNumber.format(
