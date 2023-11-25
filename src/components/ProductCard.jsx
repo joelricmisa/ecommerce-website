@@ -39,6 +39,7 @@ const ProductCard = (props) => {
         currency: "PHP",
         style: "currency",
     });
+    const finalPrice = Number(price) - Number(price) * (discount / 100);
 
     useEffect(() => {
         const filterWishlist = wishlistItems.filter((item) => item._id === _id);
@@ -132,9 +133,9 @@ const ProductCard = (props) => {
                 <h1 className="text-wrap whitespace-pre-wrap">{name}</h1>
                 <div className="mt-2 flex flex-wrap justify-between ">
                     <p className="text-secondary-100 font-medium">
-                        {formatNumber.format(price)}
+                        {formatNumber.format(finalPrice)}
                         <span className="ml-3 text-black/50 line-through">
-                            ₱{price}
+                            {discount > 0 ? `₱${price}` : null}
                         </span>
                     </p>
                     <div className="flex-center justify-start gap-1 ">
