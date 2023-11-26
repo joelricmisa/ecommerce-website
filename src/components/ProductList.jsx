@@ -4,7 +4,7 @@ import Timer from "./Timer";
 import { Link } from "react-router-dom";
 import { useContext, useRef, useState, useEffect } from "react";
 import { ShopContext } from "../contexts/ShopContext";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import { FaArrowLeft, FaArrowRight, FaSpinner } from "react-icons/fa6";
 
 import axios from "../api/axios";
 import { useQuery } from "@tanstack/react-query";
@@ -83,7 +83,8 @@ const ProductList = ({ dataId, category, title, timer }) => {
             >
                 <div className="flex whitespace-nowrap ">
                     {isLoading ? (
-                        <span className="mx-auto inline-block bg-blue-400">
+                        <span className="mx-auto  flex items-center gap-2 bg-blue-400">
+                            <FaSpinner className="animate-spin" />
                             Loading...
                         </span>
                     ) : (

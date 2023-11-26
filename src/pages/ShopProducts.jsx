@@ -3,7 +3,7 @@ import { productCategories, shopProductsData } from "../constants";
 import { ProductCard, Breadcrumb, SvgIcon } from "../components";
 import { ShopContext } from "../contexts/ShopContext";
 import { motion, useAnimate } from "framer-motion";
-import { FaAngleLeft, FaAngleRight, FaInbox } from "react-icons/fa6";
+import { FaAngleLeft, FaAngleRight, FaInbox, FaSpinner } from "react-icons/fa6";
 import axios, { axiosPrivate } from "../api/axios";
 import { useQuery } from "@tanstack/react-query";
 const ShopProducts = () => {
@@ -95,7 +95,10 @@ const ShopProducts = () => {
                     </button>
 
                     {categories.isLoading ? (
-                        <span>Loading...</span>
+                        <span className="flex items-center gap-2">
+                            <FaSpinner className="animate-spin" />
+                            Loading...
+                        </span>
                     ) : (
                         categories?.data?.map((link) => (
                             <button
@@ -129,7 +132,10 @@ const ShopProducts = () => {
                 className="padding-b grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 "
             >
                 {productsStorage.isLoading ? (
-                    <span>Loading...</span>
+                    <span className="flex items-center gap-2">
+                        <FaSpinner className="animate-spin" />
+                        Loading...
+                    </span>
                 ) : (
                     products?.map((product, index) => {
                         // console.log(product);

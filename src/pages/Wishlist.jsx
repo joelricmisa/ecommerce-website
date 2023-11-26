@@ -75,7 +75,8 @@ const Wishlist = () => {
 
                     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 ">
                         {isLoading ? (
-                            <span className="mx-auto inline-block">
+                            <span className="mx-auto flex items-center gap-2">
+                                <FaSpinner className="animate-spin" />
                                 Loading...
                             </span>
                         ) : (
