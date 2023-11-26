@@ -86,7 +86,7 @@ export const sideLinks = [
     { label: "Home & Lifestyle", category: "Home & Lifestyle" },
     { label: "Medicine", category: "Medicine" },
     { label: "Sports & Outdoor", category: "Sports & Outdoor" },
-    { label: "Baby’s & Toys", category: "Baby's & Toys" },
+    { label: "Baby’s & Toys", category: "Baby’s & Toys" },
     { label: "Groceries & Pets", category: "Groceries & Pets" },
     { label: "Health & Beauty", category: "Health & Beauty" },
 ];

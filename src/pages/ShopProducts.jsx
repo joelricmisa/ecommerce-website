@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { productCategories, shopProductsData } from "../constants";
 import { ProductCard, Breadcrumb, SvgIcon } from "../components";
 import { ShopContext } from "../contexts/ShopContext";
 import { motion, useAnimate } from "framer-motion";
@@ -68,7 +67,7 @@ const ShopProducts = () => {
         <div className="padding animate">
             <Breadcrumb padding="" />
 
-            <div className="relative mx-auto w-10/12 sm:w-11/12 lg:w-full">
+            <div className="relative mx-auto w-10/12 sm:w-11/12 lg:w-full ">
                 <button
                     type="button"
                     className="button absolute -left-10 top-3 px-0"
@@ -81,10 +80,10 @@ const ShopProducts = () => {
 
                 <div
                     ref={ref}
-                    className="flex-center my-10 justify-start gap-5 overflow-x-hidden border-y border-black/10 py-5"
+                    className="flex-center my-10 snap-x justify-start gap-5 overflow-x-hidden border-y border-black/10 py-5"
                 >
                     <button
-                        className={`categoryBtn h-[35px] ${
+                        className={`categoryBtn h-[35px] snap-start ${
                             currentCategory === "all"
                                 ? ""
                                 : "bg-primary text-secondary hover:text-primary"
@@ -93,7 +92,6 @@ const ShopProducts = () => {
                     >
                         All
                     </button>
-
                     {categories.isLoading ? (
                         <span className="flex items-center gap-2">
                             <FaSpinner className="animate-spin" />
@@ -103,7 +101,7 @@ const ShopProducts = () => {
                         categories?.data?.map((link) => (
                             <button
                                 key={link.name}
-                                className={`categoryBtn h-[35px]  whitespace-nowrap ${
+                                className={`categoryBtn h-[35px]  snap-start whitespace-nowrap ${
                                     currentCategory === link.name
                                         ? ""
                                         : "bg-primary text-secondary hover:text-primary"

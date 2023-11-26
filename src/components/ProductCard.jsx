@@ -41,7 +41,7 @@ const ProductCard = (props) => {
     });
     const finalPrice = Number(price) - Number(price) * (discount / 100);
 
-    console.log(rate_count);
+    // console.log(rate_count);
     useEffect(() => {
         const filterWishlist = wishlistItems.filter((item) => item._id === _id);
         const filterCart = cartItems.filter((item) => item._id === _id);
