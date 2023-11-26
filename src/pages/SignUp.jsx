@@ -125,9 +125,6 @@ const SignUp = () => {
                     </button>
                 </form>
 
-                <button className="flex-center mt-5 w-full rounded-sm py-4 outline outline-1 outline-black/50">
-                    <FaGoogle /> Sign up with Google
-                </button>
                 <div className="flex-center mt-5 flex-wrap py-4">
                     <p>Already have account?</p>
                     <Link to={"/signin"} className="link">
