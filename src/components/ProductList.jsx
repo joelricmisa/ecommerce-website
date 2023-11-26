@@ -91,11 +91,7 @@ const ProductList = ({ dataId, category, title, timer }) => {
                             // console.log(product);
                             return (
                                 <span key={uuid()} className="inline-block">
-                                    <ProductCard
-                                        {...product}
-                                        originalPrice={product.price}
-                                        rateCount={product.rating}
-                                    />
+                                    <ProductCard {...product} />
                                 </span>
                             );
                         })

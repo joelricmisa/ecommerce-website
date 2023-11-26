@@ -148,7 +148,7 @@ const ProductPreview = () => {
 
                     <span className="flex-center justify-start text-black/60 ">
                         <img src={ratingImg} alt="" />
-                        <p>({currentProduct?.data?.rating} Reviews)</p>
+                        <p>({currentProduct?.data?.rate_count} Reviews)</p>
                     </span>
                     <div className="flex text-2xl">
                         {currentProduct?.data?.discount > 0 ? (
@@ -180,8 +180,8 @@ const ProductPreview = () => {
                         ) : null}
                     </div>
 
-                    <p className="border-b border-black/10 pb-5 text-sm leading-7">
-                        {currentProduct?.data?.description}wala muna
+                    <p className="mt-2 border-b border-black/10 pb-5 text-sm leading-7">
+                        {currentProduct?.data?.description}
                     </p>
 
                     <div className="flex-center my-3 w-full flex-col xl:flex-row">

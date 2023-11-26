@@ -17,9 +17,9 @@ const ProductCard = (props) => {
         name,
         image,
         price,
-        originalPrice,
         rating,
         discount,
+        rate_count,
         controlWidth = true,
     } = props;
 
@@ -41,6 +41,7 @@ const ProductCard = (props) => {
     });
     const finalPrice = Number(price) - Number(price) * (discount / 100);
 
+    console.log(rate_count);
     useEffect(() => {
         const filterWishlist = wishlistItems.filter((item) => item._id === _id);
         const filterCart = cartItems.filter((item) => item._id === _id);
@@ -144,7 +145,7 @@ const ProductCard = (props) => {
                             alt=""
                             className="-ml-1 scale-75 xs:scale-90 xl:scale-95"
                         />{" "}
-                        <span className="text-black/50">({rating})</span>
+                        <span className="text-black/50">({rate_count})</span>
                     </div>
                 </div>
             </div>
