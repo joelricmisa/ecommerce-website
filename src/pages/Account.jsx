@@ -27,7 +27,6 @@ const formSchema = new yup.ObjectSchema({
 const Account = () => {
     const { auth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
-    const [test, setTest] = useState(false);
     const [edit, setEdit] = useState(false);
     const [editPass, setEditPass] = useState(false);
     const [id, setId] = useState("");
@@ -38,6 +37,7 @@ const Account = () => {
         formState: { errors },
         getValues,
         setValue,
+        reset,
     } = useForm({
         resolver: yupResolver(formSchema),
         mode: "onTouched",
@@ -61,9 +61,9 @@ const Account = () => {
         };
 
         getCurrentUser();
-    }, [auth]);
+    }, [auth, edit]);
 
-    const handleSubmit = async (e) => {
+    const handleEditInfo = async (e) => {
         const isValid = trigger();
         const { name, email, address } = getValues();
         console.log("trigger edit btn");
@@ -84,8 +84,43 @@ const Account = () => {
 
                 console.log(response?.data);
                 console.log(response);
-                 setEdit(false);
-            } catch (err) {}
+                setEdit(false);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    };
+
+    const handleChangePass = async (e) => {
+        const isValid = trigger();
+        const { currentPassword, newPassword } = getValues();
+        console.log("trigger change pass btn");
+        if (!isValid) {
+            e.preventDefault();
+        } else {
+            e.preventDefault();
+
+            try {
+                const response = await axiosPrivate.post(
+                    `/api/change-password`,
+                    JSON.stringify({ currentPassword, newPassword }),
+                    {
+                        headers: { "Content-Type": "application/json" },
+                        withCredentials: true,
+                    },
+                );
+
+                console.log(response?.data);
+                console.log(response);
+                reset({
+                    currentPassword: "",
+                    newPassword: "",
+                    confirmPassword: "",
+                });
+                setEditPass(false);
+            } catch (err) {
+                console.log(err);
+            }
         }
     };
     return (
@@ -187,7 +222,7 @@ const Account = () => {
                         </form>
                     ) : (
                         <form
-                            onSubmit={handleSubmit}
+                            onSubmit={handleEditInfo}
                             className="grid grid-cols-2 gap-5"
                         >
                             <h1 className="col-span-2 mb-10 text-xl font-medium">
@@ -289,7 +324,10 @@ const Account = () => {
                             Change Password
                         </button>
                     ) : (
-                        <form className="grid grid-cols-2 gap-5">
+                        <form
+                            className="grid grid-cols-2 gap-5"
+                            onSubmit={handleChangePass}
+                        >
                             <label
                                 htmlFor="pass"
                                 className="mt-5 inline-block "
