@@ -6,6 +6,7 @@ import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 import {
     FaBars,
+    FaCircleUser,
     FaMagnifyingGlass,
     FaRegUser,
     FaUserPlus,
@@ -274,10 +275,15 @@ const Navbar = () => {
                                     }, 150)
                                 }
                             >
-                                <FaRegUser className="text-2xl" />
+                                {!auth ? (
+                                    <FaRegUser className=" text-2xl" />
+                                ) : (
+                                    <FaCircleUser className=" text-2xl" />
+                                )}
+
                                 {userIconFocus && (
                                     <span className="absolute bottom-[150%] right-0  z-[100] w-[170px] xl:top-[110%]">
-                                        {auth?.user ? (
+                                        {auth ? (
                                             <>
                                                 <Link
                                                     to={"/account"}
