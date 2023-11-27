@@ -1,10 +1,17 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { ProductCard, Breadcrumb, SvgIcon, SkeletonCard } from "../components";
+import {
+    ProductCard,
+    Breadcrumb,
+    SvgIcon,
+    SkeletonCard,
+    SkeletonCategory,
+} from "../components";
 import { ShopContext } from "../contexts/ShopContext";
 import { motion, useAnimate } from "framer-motion";
 import { FaAngleLeft, FaAngleRight, FaInbox, FaSpinner } from "react-icons/fa6";
 import axios, { axiosPrivate } from "../api/axios";
 import { useQuery } from "@tanstack/react-query";
+
 const ShopProducts = () => {
     const { category } = useContext(ShopContext);
     const [products, setProducts] = useState();
@@ -12,6 +19,7 @@ const ShopProducts = () => {
     const ref = useRef();
     const [scope, animate] = useAnimate();
     const dummyArr = [1, 2, 3, 4, 1, 2, 3, 4];
+    const dummyArrCategory = [1, 2, 3, 4, 1, 2, 3, 4, 4, 1, 2, 3, 4];
 
     const productsStorage = useQuery({
         queryKey: ["products"],
@@ -93,26 +101,34 @@ const ShopProducts = () => {
                     >
                         All
                     </button>
-                    {categories.isLoading ? (
-                        <span className="flex items-center gap-2">
-                            <FaSpinner className="animate-spin" />
-                            Loading...
-                        </span>
-                    ) : (
-                        categories?.data?.map((link) => (
-                            <button
-                                key={link.name}
-                                className={`categoryBtn h-[35px]  snap-start whitespace-nowrap ${
-                                    currentCategory === link.name
-                                        ? ""
-                                        : "bg-primary text-secondary hover:text-primary"
-                                }`}
-                                onClick={() => setCurrentCategory(link.name)}
-                            >
-                                {link.name}
-                            </button>
-                        ))
-                    )}
+
+                    {categories.isLoading
+                        ? dummyArrCategory.map((val, index) => {
+                              return (
+                                  <motion.div
+                                      variants={variant}
+                                      initial="initial"
+                                      animate="animate"
+                                      custom={index}
+                                      key={index}
+                                  >
+                                      <SkeletonCategory />
+                                  </motion.div>
+                              );
+                          })
+                        : categories?.data?.map((link) => (
+                              <button
+                                  key={link.name}
+                                  className={`categoryBtn h-[35px]  snap-start whitespace-nowrap ${
+                                      currentCategory === link.name
+                                          ? ""
+                                          : "bg-primary text-secondary hover:text-primary"
+                                  }`}
+                                  onClick={() => setCurrentCategory(link.name)}
+                              >
+                                  {link.name}
+                              </button>
+                          ))}
                 </div>
 
                 <button

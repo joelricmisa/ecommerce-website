@@ -13,6 +13,7 @@ import NewArrivalCardText from "./NewArrivalCardText";
 import CartCard from "./CartCard";
 import ScrollToTop from "./ScrollToTop";
 import SkeletonCard from "./SkeletonCard";
+import SkeletonCategory from "./SkeletonCategory";
 
 export {
     CategoryCard,
@@ -30,4 +31,5 @@ export {
     CartCard,
     ScrollToTop,
     SkeletonCard,
+    SkeletonCategory,
 };
