@@ -19,6 +19,7 @@ import {
     ProductPreview,
     ForgotPassword,
     Account,
+    ResetPassword,
 } from "./pages";
 import ShopContextProvider from "./contexts/ShopContext";
 
@@ -40,6 +41,7 @@ const router = createBrowserRouter(
             <Route path="signup" element={<SignUp />} />
             <Route path="signin" element={<SignIn />} />
             <Route path="forgot" element={<ForgotPassword />} />
+            <Route path="reset/:token" element={<ResetPassword />} />
             <Route path="account" element={<Account />} />
 
             <Route path="/*" element={<NotFound />} />

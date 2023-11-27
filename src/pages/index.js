@@ -11,6 +11,7 @@ import ProductPreview from "./ProductPreview";
 import ShopProducts from "./ShopProducts";
 import ForgotPassword from "./ForgotPassword";
 import Account from "./Account";
+import ResetPassword from "./ResetPassword";
 
 export {
     Home,
@@ -26,4 +27,5 @@ export {
     ShopProducts,
     ForgotPassword,
     Account,
+    ResetPassword,
 };
