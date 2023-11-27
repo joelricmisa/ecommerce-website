@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { ProductCard, Breadcrumb, SvgIcon } from "../components";
+import { ProductCard, Breadcrumb, SvgIcon, SkeletonCard } from "../components";
 import { ShopContext } from "../contexts/ShopContext";
 import { motion, useAnimate } from "framer-motion";
 import { FaAngleLeft, FaAngleRight, FaInbox, FaSpinner } from "react-icons/fa6";
@@ -11,6 +11,7 @@ const ShopProducts = () => {
     const [currentCategory, setCurrentCategory] = useState(category);
     const ref = useRef();
     const [scope, animate] = useAnimate();
+    const dummyArr = [1, 2, 3, 4, 1, 2, 3, 4];
 
     const productsStorage = useQuery({
         queryKey: ["products"],
@@ -129,30 +130,37 @@ const ShopProducts = () => {
                 ref={scope}
                 className="padding-b grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 "
             >
-                {productsStorage.isLoading ? (
-                    <span className="flex items-center gap-2">
-                        <FaSpinner className="animate-spin" />
-                        Loading...
-                    </span>
-                ) : (
-                    products?.map((product, index) => {
-                        // console.log(product);
-                        return (
-                            <motion.div
-                                variants={variant}
-                                initial="initial"
-                                animate="animate"
-                                custom={index}
-                                key={index}
-                            >
-                                <ProductCard
-                                    {...product}
-                                    controlWidth={false}
-                                />
-                            </motion.div>
-                        );
-                    })
-                )}
+                {productsStorage.isLoading
+                    ? dummyArr.map((val, index) => {
+                          return (
+                              <motion.div
+                                  variants={variant}
+                                  initial="initial"
+                                  animate="animate"
+                                  custom={index}
+                                  key={index}
+                              >
+                                  <SkeletonCard />
+                              </motion.div>
+                          );
+                      })
+                    : products?.map((product, index) => {
+                          // console.log(product);
+                          return (
+                              <motion.div
+                                  variants={variant}
+                                  initial="initial"
+                                  animate="animate"
+                                  custom={index}
+                                  key={index}
+                              >
+                                  <ProductCard
+                                      {...product}
+                                      controlWidth={false}
+                                  />
+                              </motion.div>
+                          );
+                      })}
                 {products?.length === 0 ? (
                     <div className="flex-center col-span-12 py-16 text-2xl">
                         <FaInbox className="text-3xl" /> No Available Product

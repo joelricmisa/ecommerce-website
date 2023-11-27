@@ -1,4 +1,4 @@
-import { ProductCard } from "./index";
+import { ProductCard, SkeletonCard } from "./index";
 import { v4 as uuid } from "uuid";
 import Timer from "./Timer";
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const ProductList = ({ dataId, category, title, timer }) => {
     const { setCategory } = useContext(ShopContext);
+    const dummyArr = [1, 2, 3, 4];
     const ref = useRef();
 
     const { data, isError, error, isLoading } = useQuery({
@@ -81,23 +82,28 @@ const ProductList = ({ dataId, category, title, timer }) => {
                     isLoading ? "h-auto" : "min-h-[450px]"
                 }  snap-x  overflow-x-hidden  overflow-y-hidden py-10`}
             >
-                <div className="flex whitespace-nowrap ">
-                    {isLoading ? (
-                        <span className="mx-auto  flex items-center gap-2 bg-blue-400">
-                            <FaSpinner className="animate-spin" />
-                            Loading...
-                        </span>
-                    ) : (
-                        data.map((product) => {
+                {isLoading ? (
+                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10">
+                        {dummyArr.map((val, index) => {
+                            return (
+                                <span key={index} className="inline-block">
+                                    <SkeletonCard />
+                                </span>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <div className="flex whitespace-nowrap ">
+                        {data.map((product) => {
                             // console.log(product);
                             return (
                                 <span key={uuid()} className="inline-block">
                                     <ProductCard {...product} />
                                 </span>
                             );
-                        })
-                    )}
-                </div>
+                        })}
+                    </div>
+                )}
             </div>
 
             {isLoading ? null : (

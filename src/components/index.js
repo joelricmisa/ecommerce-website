@@ -12,20 +12,22 @@ import Timer from "./Timer";
 import NewArrivalCardText from "./NewArrivalCardText";
 import CartCard from "./CartCard";
 import ScrollToTop from "./ScrollToTop";
+import SkeletonCard from "./SkeletonCard";
 
 export {
-	CategoryCard,
-	Footer,
-	Navbar,
-	ProductCard,
-	ProductList,
-	WishlistCard,
-	SvgIcon,
-	ShopInfoCard,
-	ServiceCard,
-	Breadcrumb,
-	Timer,
-	NewArrivalCardText,
-	CartCard,
-	ScrollToTop,
+    CategoryCard,
+    Footer,
+    Navbar,
+    ProductCard,
+    ProductList,
+    WishlistCard,
+    SvgIcon,
+    ShopInfoCard,
+    ServiceCard,
+    Breadcrumb,
+    Timer,
+    NewArrivalCardText,
+    CartCard,
+    ScrollToTop,
+    SkeletonCard,
 };
