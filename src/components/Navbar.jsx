@@ -56,7 +56,9 @@ const Navbar = () => {
             product.name.toLowerCase().includes(searchInput.toLowerCase()),
         );
 
-        filtered.length !== 0 ? setSearchResult(filtered) : setSearchResult([]);
+        filtered?.length !== 0
+            ? setSearchResult(filtered)
+            : setSearchResult([]);
     };
 
     const handleLogout = async () => {
@@ -168,7 +170,7 @@ const Navbar = () => {
                         </label>
                         {searchInput && searchFocus && (
                             <div className="absolute top-[100%] z-50 w-full rounded-md bg-extraColor xl:w-11/12">
-                                {searchResult.length === 0 ? (
+                                {searchResult?.length === 0 ? (
                                     <span className="searchResultLink ">
                                         No results found <FaMagnifyingGlass />
                                     </span>
@@ -239,25 +241,25 @@ const Navbar = () => {
                                         } -top-2 rounded-full  bg-tertiary-100 text-sm font-medium text-primary  ${
                                             navIcon.storageName ===
                                             "wishlistItems"
-                                                ? wishlistItems.length <= 99
+                                                ? wishlistItems?.length <= 99
                                                     ? "-right-2 px-1.5"
                                                     : "-right-4 px-1"
                                                 : navIcon.storageName ===
                                                   "cartItems"
-                                                ? cartItems.length <= 99
+                                                ? cartItems?.length <= 99
                                                     ? "-right-2 px-1.5"
                                                     : "-right-4 px-1"
                                                 : ""
                                         } `}
                                     >
                                         {navIcon.storageName === "wishlistItems"
-                                            ? wishlistItems.length <= 99
-                                                ? wishlistItems.length
+                                            ? wishlistItems?.length <= 99
+                                                ? wishlistItems?.length
                                                 : "99"
                                             : navIcon.storageName ===
                                               "cartItems"
-                                            ? cartItems.length <= 99
-                                                ? cartItems.length
+                                            ? cartItems?.length <= 99
+                                                ? cartItems?.length
                                                 : "99"
                                             : ""}
                                     </span>
