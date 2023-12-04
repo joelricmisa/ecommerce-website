@@ -10,22 +10,23 @@ const ShopContextProvider = (props) => {
     const axiosPrivate = useAxiosPrivate();
     const { auth } = useAuth();
     const [cartItems, setCartItems] = useState();
-    const [wishlistItems, setWishlistItems] = useState([]);
+    const [wishlistItems, setWishlistItems] = useState();
     const [category, setCategory] = useState("all");
     const queryClient = useQueryClient();
 
     const { data: currentUser } = useQuery({
-        queryKey: "currentUser",
+        queryKey: ["currentUser"],
         queryFn: async () => {
             const response = await axiosPrivate.get("/api/users/current");
 
-            getProducts(response?.data?.data?.cart);
+            getCartProducts(response?.data?.data?.cart);
+            getWishlistProducts(response?.data?.data?.wishlist);
 
             return response?.data?.data;
         },
     });
 
-    const getProducts = async (arrayIds) => {
+    const getCartProducts = async (arrayIds) => {
         const response = await axios.get("/api/products");
         const products = response?.data?.data;
         //console.log(products);
@@ -36,6 +37,17 @@ const ShopContextProvider = (props) => {
         setCartItems([...filteredProducts]);
     };
 
+    const getWishlistProducts = async (arrayIds) => {
+        const response = await axios.get("/api/products");
+        const products = response?.data?.data;
+        //console.log(products);
+        const filteredProducts = products?.filter((product) => {
+            return arrayIds.includes(product._id.toString());
+        });
+        //console.log(filteredProducts);
+        setWishlistItems([...filteredProducts]);
+    };
+
     const updateCartData = async (newCartItems) => {
         if (auth) {
             try {
@@ -43,13 +55,14 @@ const ShopContextProvider = (props) => {
                     `/api/users/${currentUser?._id}`,
                     JSON.stringify({
                         ...currentUser,
-                        productIds: [...newCartItems?.map((item) => item._id)],
+                        cartIds: [...newCartItems?.map((item) => item._id)],
                     }),
                     {
                         headers: { "Content-Type": "application/json" },
                         withCredentials: true,
                     },
                 );
+
                 //console.log(response?.data);
                 //console.log(response);
                 setCartItems([...response?.data?.cart]);
@@ -58,6 +71,34 @@ const ShopContextProvider = (props) => {
             }
         } else {
             setCartItems([]);
+        }
+    };
+
+    const updateWishlistData = async (newWishlistItems) => {
+        if (auth) {
+            try {
+                const response = await axiosPrivate.put(
+                    `/api/users/${currentUser?._id}`,
+                    JSON.stringify({
+                        ...currentUser,
+                        wishlistIds: [
+                            ...newWishlistItems?.map((item) => item._id),
+                        ],
+                    }),
+                    {
+                        headers: { "Content-Type": "application/json" },
+                        withCredentials: true,
+                    },
+                );
+
+                //console.log(response?.data);
+                //console.log(response);
+                setWishlistItems([...response?.data?.wishlist]);
+            } catch (err) {
+                //console.log(err);
+            }
+        } else {
+            setWishlistItems([]);
         }
     };
 
@@ -71,18 +112,38 @@ const ShopContextProvider = (props) => {
                     withCredentials: true,
                 },
             );
-            getProducts(response?.data?.data);
+            getCartProducts(response?.data?.data);
             // //console.log(response?.data);
 
-            queryClient.invalidateQueries("currentUser");
+            queryClient.invalidateQueries(["currentUser"]);
             return response;
         } catch (error) {
             console.error("Error removing product from cart:", error);
         }
     };
 
+    const removeFromWishlist = async (productId) => {
+        try {
+            const response = await axiosPrivate.put(
+                `/api/users/${currentUser?._id}/remove-from-wishlist/${productId}`,
+                {},
+                {
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true,
+                },
+            );
+            getWishlistProducts(response?.data?.data);
+            // //console.log(response?.data);
+
+            queryClient.invalidateQueries(["currentUser"]);
+            return response;
+        } catch (error) {
+            console.error("Error removing product from wishlist:", error);
+        }
+    };
+
     useEffect(() => {
-        if (auth && cartItems.length === 0 && currentUser?.cart) {
+        if (auth && cartItems?.length === 0 && currentUser?.cart) {
             // Only set cart items initially if they are not already set
             setCartItems([...currentUser?.cart]);
         } else {
@@ -91,14 +152,26 @@ const ShopContextProvider = (props) => {
         }
     }, [auth, cartItems]);
 
+    useEffect(() => {
+        if (auth && wishlistItems?.length === 0 && currentUser?.wishlist) {
+            // Only set cart items initially if they are not already set
+            setWishlistItems([...currentUser?.wishlist]);
+        } else {
+            // Update cart data if auth changes or cartItems change
+            updateWishlistData(wishlistItems);
+        }
+    }, [auth, wishlistItems]);
+
     const addToCart = (data) => {
         const filtered = cartItems.filter((item) => item._id === data._id);
-        filtered.length === 0 ? setCartItems([...cartItems, data]) : "";
+        filtered?.length === 0 ? setCartItems([...cartItems, data]) : "";
     };
 
     const addToWishlist = (data) => {
         const filtered = wishlistItems.filter((item) => item._id === data._id);
-        filtered.length === 0 ? setWishlistItems([...wishlistItems, data]) : "";
+        filtered?.length === 0
+            ? setWishlistItems([...wishlistItems, data])
+            : "";
     };
 
     const removeToCart = (data) => {
@@ -110,10 +183,12 @@ const ShopContextProvider = (props) => {
     const removeToWishlist = (data) => {
         const filtered = wishlistItems.filter((item) => data._id !== item._id);
         setWishlistItems(filtered);
+        removeFromWishlist(data._id);
     };
+
     const getTotalCartAmount = () => {
         let totalAmount = 0;
-        cartItems.map(
+        cartItems?.map(
             (product) => (totalAmount += product.quantity * product.price),
         );
 
