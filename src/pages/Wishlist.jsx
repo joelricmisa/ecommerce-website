@@ -15,7 +15,7 @@ const Wishlist = () => {
 
     useEffect(() => {
         addAll &&
-            wishlistItems.map((product) =>
+            wishlistItems?.map((product) =>
                 addToCart({
                     ...product,
                     price:
@@ -39,7 +39,7 @@ const Wishlist = () => {
             <div className="padding border-bottom flex flex-col ">
                 <div className="flex-center xl:flex-between mb-20 h-10 flex-wrap font-semibold text-tertiary-100 ">
                     <span className="text-xl text-black">
-                        Wishlist ({wishlistItems.length})
+                        Wishlist ({wishlistItems?.length})
                     </span>
                     <button
                         type="button"
@@ -49,9 +49,9 @@ const Wishlist = () => {
                         Move All To Cart
                     </button>
                 </div>
-                {wishlistItems.length !== 0 ? (
+                {wishlistItems?.length !== 0 ? (
                     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 ">
-                        {wishlistItems.map((product) => {
+                        {wishlistItems?.map((product) => {
                             return <WishlistCard key={uuid()} {...product} />;
                         })}
                     </div>
@@ -66,7 +66,7 @@ const Wishlist = () => {
                   return !wishlistItems?.some(
                       (item) => item._id === product._id,
                   );
-              }).length > 0 ? (
+              })?.length > 0 ? (
                 <div className="padding flex flex-col ">
                     <div className="flex-center mb-20 w-full justify-start font-semibold text-tertiary-100">
                         <span className="h-10 w-5 rounded-sm bg-tertiary-100"></span>

@@ -92,12 +92,14 @@ const ProductPreview = () => {
     }
 
     useEffect(() => {
-        const filterWishlist = wishlistItems.filter((item) => item?._id === id);
-        const filterCart = cartItems.filter((item) => item?._id === id);
-        filterWishlist.length === 0
+        const filterWishlist = wishlistItems?.filter(
+            (item) => item?._id === id,
+        );
+        const filterCart = cartItems?.filter((item) => item?._id === id);
+        filterWishlist?.length === 0
             ? setActiveWishlist(false)
             : setActiveWishlist(true);
-        filterCart.length === 0 ? setInCart(false) : setInCart(true);
+        filterCart?.length === 0 ? setInCart(false) : setInCart(true);
     }, [wishlistItems, cartItems, id]);
 
     const relatedProducts = useQuery({

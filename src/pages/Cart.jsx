@@ -21,7 +21,7 @@ const Cart = () => {
 
     useEffect(() => {
         setTotalAmount(getTotalCartAmount());
-        cartItems.length !== 0 ? setEmptyCart(false) : setEmptyCart(true);
+        cartItems?.length !== 0 ? setEmptyCart(false) : setEmptyCart(true);
     }, [cartItems]);
 
     useEffect(() => {
@@ -33,11 +33,11 @@ const Cart = () => {
             <Breadcrumb />
             <div className="w-full rounded-sm border border-black text-center font-poppins ">
                 <h1 className="rounded-sm border-b py-5 font-medium shadow-sm">
-                    Shopping Cart ({cartItems.length}{" "}
-                    {cartItems.length > 1 ? "products" : "product"})
+                    Shopping Cart ({cartItems?.length}{" "}
+                    {cartItems?.length > 1 ? "products" : "product"})
                 </h1>
 
-                {cartItems.map((product, index) => (
+                {cartItems?.map((product, index) => (
                     <CartCard key={index} {...product} />
                 ))}
 

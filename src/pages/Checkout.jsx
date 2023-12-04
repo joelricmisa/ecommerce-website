@@ -6,7 +6,6 @@ import { ShopContext } from "../contexts/ShopContext";
 import { visa, masterCard } from "../assets/logo";
 import { FaCartShopping } from "react-icons/fa6";
 
-
 const Checkout = () => {
     const { cartItems, getTotalCartAmount } = useContext(ShopContext);
     const totalAmount = getTotalCartAmount();
@@ -14,8 +13,8 @@ const Checkout = () => {
         currency: "PHP",
         style: "currency",
     });
-    const slice = cartItems.slice(0, 5);
-    const showVal = cartItems.length - 5;
+    const slice = cartItems?.slice(0, 5);
+    const showVal = cartItems?.length - 5;
     const [show, setShow] = useState(false);
     const baseUrl = "https://exclusive-backend-te81.onrender.com";
     return (
@@ -26,7 +25,7 @@ const Checkout = () => {
             </h1>
             <div className="flex-between mt-10 w-full flex-col items-start xl:flex-row">
                 <div className="flex w-full flex-col xl:w-2/5 ">
-                    {billingDetails.map((input, index) => (
+                    {billingDetails?.map((input, index) => (
                         <label
                             key={index}
                             htmlFor={input.id}
@@ -44,7 +43,7 @@ const Checkout = () => {
                     </h1>
 
                     {show
-                        ? cartItems.map((item, index) => (
+                        ? cartItems?.map((item, index) => (
                               <div
                                   key={index}
                                   className="flex-center mb-3 border-b border-black/10 pb-3 "
@@ -69,7 +68,7 @@ const Checkout = () => {
                                   </p>
                               </div>
                           ))
-                        : slice.map((item, index) => (
+                        : slice?.map((item, index) => (
                               <div
                                   key={index}
                                   className="flex-center mb-3 border-b border-black/10 pb-3"
@@ -95,7 +94,7 @@ const Checkout = () => {
                               </div>
                           ))}
 
-                    {cartItems.length > 5 && (
+                    {cartItems?.length > 5 && (
                         <button
                             onClick={() => setShow(!show)}
                             className="button my-5 w-1/2 rounded-md"

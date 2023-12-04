@@ -45,10 +45,10 @@ const ProductCard = (props) => {
     useEffect(() => {
         const filterWishlist = wishlistItems.filter((item) => item._id === _id);
         const filterCart = cartItems.filter((item) => item._id === _id);
-        filterWishlist.length === 0
+        filterWishlist?.length === 0
             ? setActiveWishlist(false)
             : setActiveWishlist(true);
-        filterCart.length === 0 ? setInCart(false) : setInCart(true);
+        filterCart?.length === 0 ? setInCart(false) : setInCart(true);
     }, [wishlistItems, cartItems, _id]);
 
     let ratingImg;

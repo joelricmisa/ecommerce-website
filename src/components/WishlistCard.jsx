@@ -18,7 +18,7 @@ const WishlistCard = (props) => {
 
     useEffect(() => {
         const filterCart = cartItems.filter((item) => item._id === _id);
-        filterCart.length === 0 ? setInCart(false) : setInCart(true);
+        filterCart?.length === 0 ? setInCart(false) : setInCart(true);
     }, [cartItems]);
 
     console.log(props);
