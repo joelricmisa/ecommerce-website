@@ -59,20 +59,20 @@ import { GiWatch } from "react-icons/gi";
 
 export const navLinks = [
     { href: "/", label: "Home" },
-    { href: "products", label: "Products" },
-    { href: "contact", label: "Contact" },
-    { href: "about", label: "About" },
+    { href: "/products", label: "Products" },
+    { href: "/contact", label: "Contact" },
+    { href: "/about", label: "About" },
 ];
 
 export const navIconLinks = [
     {
-        href: "wishlist",
+        href: "/wishlist",
         label: "Wishlist",
         icon: <FaRegHeart className="text-2xl" />,
         storageName: "wishlistItems",
     },
     {
-        href: "cart",
+        href: "/cart",
         label: "Cart",
         icon: <FaCartShopping className="text-2xl" />,
         storageName: "cartItems",
