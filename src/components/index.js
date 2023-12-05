@@ -14,6 +14,9 @@ import CartCard from "./CartCard";
 import ScrollToTop from "./ScrollToTop";
 import SkeletonCard from "./SkeletonCard";
 import SkeletonCategory from "./SkeletonCategory";
+import SearchBar from "./SearchBar";
+import NavLinks from "./NavLinks";
+import NavIcons from "./NavIcons";
 
 export {
     CategoryCard,
@@ -32,4 +35,7 @@ export {
     ScrollToTop,
     SkeletonCard,
     SkeletonCategory,
+    SearchBar,
+    NavLinks,
+    NavIcons,
 };
