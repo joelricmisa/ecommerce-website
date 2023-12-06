@@ -35,14 +35,8 @@ const NavIcons = () => {
                     } `}
                 >
                     {storageName === "wishlistItems"
-                        ? wishlistItems?.length <= 99
-                            ? wishlistItems?.length
-                            : "99"
-                        : storageName === "cartItems"
-                        ? cartItems?.length <= 99
-                            ? cartItems?.length
-                            : "99"
-                        : ""}
+                        ? wishlistItems?.length
+                        : cartItems?.length}
                 </span>
                 {icon}
             </NavLink>
@@ -60,7 +54,6 @@ const NavIcons = () => {
 
         return (
             <Link
-                role="button"
                 to={"#"}
                 className=" navNotActive grid-center relative ml-1 w-[30px]  "
                 onClick={() => setUserIconFocus(!userIconFocus)}
@@ -129,8 +122,8 @@ const NavIcons = () => {
 
     return (
         <div className="flex-center w-full justify-end xl:w-2/6 ">
-            {navIconLinks.map((navIcon) => (
-                <RenderNavIconLink {...navIcon} />
+            {navIconLinks.map((navIcon, index) => (
+                <RenderNavIconLink {...navIcon} key={index} />
             ))}
 
             {<RenderUserIconSection />}
