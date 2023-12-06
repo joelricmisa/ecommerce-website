@@ -38,7 +38,7 @@ const CartCard = ({ _id, name, image, price, quantity }) => {
                 <img
                     src={
                         baseUrl +
-                        image.replace("public", "").replaceAll("\\", "/")
+                        image?.replace("public", "")?.replaceAll("\\", "/")
                     }
                     className="h-16 w-20 object-contain"
                     alt=""
