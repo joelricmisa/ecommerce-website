@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 import ProductCard from "./ProductCard";
 import ProductList from "./ProductList";
 import WishlistCard from "./WishlistCard";
-import SvgIcon from "./SvgIcon";
+
 import ShopInfoCard from "./ShopInfoCard";
 import ServiceCard from "./ServiceCard";
 import Breadcrumb from "./Breadcrumb";
@@ -25,7 +25,7 @@ export {
     ProductCard,
     ProductList,
     WishlistCard,
-    SvgIcon,
+   
     ShopInfoCard,
     ServiceCard,
     Breadcrumb,

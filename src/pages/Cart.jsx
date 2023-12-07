@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Breadcrumb, CartCard, SvgIcon } from "../components";
+import { Breadcrumb, CartCard } from "../components";
 import { ShopContext } from "../contexts/ShopContext";
 import { FaInbox, FaUserXmark } from "react-icons/fa6";
 import useAuth from "../hooks/useAuth";

@@ -1,4 +1,4 @@
-import { Breadcrumb, SvgIcon } from "../components/index";
+import { Breadcrumb } from "../components/index";
 import { FaEnvelope, FaPhone } from "react-icons/fa6";
 
 const Contact = () => {

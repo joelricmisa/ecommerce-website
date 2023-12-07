@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import {
     ProductCard,
     Breadcrumb,
-    SvgIcon,
     SkeletonCard,
     SkeletonCategory,
 } from "../components";

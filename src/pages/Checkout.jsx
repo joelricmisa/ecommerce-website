@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Breadcrumb, SvgIcon } from "../components";
+import { Breadcrumb } from "../components";
 import { billingDetails } from "../constants";
 import { useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";

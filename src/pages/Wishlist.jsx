@@ -1,4 +1,4 @@
-import { ProductCard, SvgIcon, WishlistCard } from "../components";
+import { ProductCard, WishlistCard } from "../components";
 import { v4 as uuid } from "uuid";
 
 import { ShopContext } from "../contexts/ShopContext";

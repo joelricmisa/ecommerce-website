@@ -1,5 +1,3 @@
-import { SvgIcon } from "./index";
-
 const ShopInfoCard = ({ iconVal, numbers, description }) => {
     return (
         <div className="flex-center h-[300px] flex-col flex-wrap rounded-sm text-center  shadow-md ">
