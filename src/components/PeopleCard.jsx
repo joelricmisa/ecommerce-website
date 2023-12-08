@@ -1,5 +1,6 @@
 import React from "react";
 import { socials } from "../constants";
+import { Link } from "react-router-dom";
 
 const PeopleCard = ({ personImg, personName, personPosition }) => {
     return (
@@ -12,9 +13,9 @@ const PeopleCard = ({ personImg, personName, personPosition }) => {
                 <p className="mb-3 mt-2 text-base">{personPosition}</p>
                 <div className="flex-center justify-start">
                     {socials.map((social, index) => (
-                        <a key={index} href="#">
+                        <Link key={index} href="#">
                             {social.icon}
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </div>
