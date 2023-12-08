@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect, useRef } from "react";
+import { useState, createContext, useEffect, memo, useMemo } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useAuth from "../hooks/useAuth";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -12,11 +12,8 @@ const ShopContextProvider = (props) => {
     const [cartItems, setCartItems] = useState([]);
     const [wishlistItems, setWishlistItems] = useState([]);
     const [category, setCategory] = useState("all");
-    const [isCartUpdated, setIsCartUpdated] = useState(false);
-    const [isWishlistUpdated, setIsWishlistUpdated] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
     const queryClient = useQueryClient();
-    const prevCartItems = useRef(cartItems.length);
-    const prevWishlistItems = useRef(wishlistItems.length);
 
     const { data: currentUser } = useQuery({
         queryKey: ["currentUser"],
@@ -32,11 +29,13 @@ const ShopContextProvider = (props) => {
             localStorage.setItem("wishlistIds", JSON.stringify(wishlistIds));
 
             const response = await axiosPrivate.get("/api/users/current");
-            console.log("running current user");
+
             getCartProducts(response?.data?.data?.cart);
+
             getWishlistProducts(response?.data?.data?.wishlist);
 
             console.log(response?.data);
+            // setIsLoading(false);
             return response?.data?.data;
         },
         enabled: !!auth,
@@ -46,34 +45,36 @@ const ShopContextProvider = (props) => {
 
     useEffect(() => {
         const cartIds = JSON.parse(localStorage.getItem("cartIds"));
-        cartIds?.length > 0 ? updateCartData(cartIds) : "";
-
-        setIsCartUpdated(true);
+        cartIds?.length > 0 ? updateCartItems(cartIds) : "";
         localStorage.removeItem("cartIds");
     }, [currentUser?._id]);
 
-    useEffect(() => {
-        if (auth && currentUser?._id && isCartUpdated) {
-            let cartIds = [];
-            cartItems?.map((item) => cartIds.push(item._id));
-
-            if (cartItems.length > prevCartItems.current) {
-                updateCartData(cartIds);
-            }
-
-            prevCartItems.current = cartItems.length;
+    const addToCart = (data) => {
+        if (auth) {
+            const isItemInList = cartItems?.some(
+                (item) => item._id === data._id,
+            );
+            !isItemInList ? updateCartItems([data._id]) : "";
         }
-    }, [cartItems.length]);
 
-    const updateCartData = async (newCartItems) => {
+        if (!auth) {
+            // setIsLoading(false);
+            const isItemInList = cartItems?.some(
+                (item) => item._id === data._id,
+            );
+            !isItemInList ? setCartItems([...cartItems, data]) : "";
+        }
+    };
+
+    const updateCartItems = async (newCartItems) => {
         if (currentUser) {
             try {
                 // console.log("Request Data:", {
                 //     ...currentUser,
-                //     cartIds: newCartItems || [],
+                //     cartIds: [newCartItems] || [],
                 // });
 
-                const response = await axiosPrivate.put(
+                await axiosPrivate.put(
                     `/api/users/${currentUser?._id}`,
                     {
                         ...currentUser,
@@ -100,11 +101,23 @@ const ShopContextProvider = (props) => {
         const filteredProducts = products?.filter((product) => {
             return arrayIds.includes(product._id.toString());
         });
-
         setCartItems([...filteredProducts]);
     };
 
-    const removeFromCart = async (productId) => {
+    const removeCartItem = (data) => {
+        if (auth) {
+            removeCartItemFromUser(data._id);
+        }
+
+        if (!auth) {
+            // setIsLoading(false);
+            const filtered = cartItems.filter((item) => data._id !== item._id);
+            setCartItems(filtered);
+        }
+    };
+
+    //remove product from cart db
+    const removeCartItemFromUser = async (productId) => {
         try {
             const response = await axiosPrivate.put(
                 `/api/users/${currentUser?._id}/remove-from-cart/${productId}`,
@@ -123,43 +136,32 @@ const ShopContextProvider = (props) => {
         }
     };
 
-    const addToCart = (data) => {
-        const isItemInList = cartItems?.some((item) => item._id === data._id);
-        !isItemInList ? setCartItems([...cartItems, data]) : "";
-    };
-
-    const removeToCart = (data) => {
-        const filtered = cartItems.filter((item) => data._id !== item._id);
-        setCartItems(filtered);
-        if (auth) {
-            removeFromCart(data._id);
-        }
-    };
-
     //WISHLIST//WISHLIST//WISHLIST//WISHLIST//WISHLIST//WISHLIST
 
     useEffect(() => {
         const wishlistIds = JSON.parse(localStorage.getItem("wishlistIds"));
-        wishlistIds?.length > 0 ? updateWishlistData(wishlistIds) : "";
-
-        setIsWishlistUpdated(true);
+        wishlistIds?.length > 0 ? updateWishlistItems(wishlistIds) : "";
         localStorage.removeItem("wishlistIds");
     }, [currentUser?._id]);
 
-    useEffect(() => {
-        if (auth && currentUser?._id && isWishlistUpdated) {
-            let wishlistIds = [];
-            wishlistItems?.map((item) => wishlistIds.push(item._id));
-
-            if (wishlistItems.length > prevWishlistItems.current) {
-                updateWishlistData(wishlistIds);
-            }
-
-            prevWishlistItems.current = wishlistItems.length;
+    const addToWishlist = (data) => {
+        if (auth) {
+            const isItemInList = wishlistItems?.some(
+                (item) => item._id === data._id,
+            );
+            !isItemInList ? updateWishlistItems([data._id]) : "";
         }
-    }, [wishlistItems.length]);
 
-    const updateWishlistData = async (newWishlistItems) => {
+        if (!auth) {
+            // setIsLoading(false);
+            const isItemInList = wishlistItems?.some(
+                (item) => item._id === data._id,
+            );
+            !isItemInList ? setWishlistItems([...wishlistItems, data]) : "";
+        }
+    };
+
+    const updateWishlistItems = async (newWishlistItems) => {
         if (currentUser) {
             try {
                 // console.log("Request Data for wishlist:", {
@@ -167,7 +169,7 @@ const ShopContextProvider = (props) => {
                 //     wishlistIds: newWishlistItems || [],
                 // });
 
-                const response = await axiosPrivate.put(
+                await axiosPrivate.put(
                     `/api/users/${currentUser?._id}`,
                     JSON.stringify({
                         ...currentUser,
@@ -198,7 +200,21 @@ const ShopContextProvider = (props) => {
         setWishlistItems([...filteredProducts]);
     };
 
-    const removeFromWishlist = async (productId) => {
+    const removeWishlistItem = (data) => {
+        if (auth) {
+            removeWishlistItemFromUser(data._id);
+        }
+
+        if (!auth) {
+            // setIsLoading(false);
+            const filtered = wishlistItems.filter(
+                (item) => data._id !== item._id,
+            );
+            setWishlistItems(filtered);
+        }
+    };
+
+    const removeWishlistItemFromUser = async (productId) => {
         try {
             const response = await axiosPrivate.put(
                 `/api/users/${currentUser?._id}/remove-from-wishlist/${productId}`,
@@ -217,21 +233,6 @@ const ShopContextProvider = (props) => {
         }
     };
 
-    const addToWishlist = (data) => {
-        const isItemInList = wishlistItems?.some(
-            (item) => item._id === data._id,
-        );
-        !isItemInList ? setWishlistItems([...wishlistItems, data]) : "";
-    };
-
-    const removeToWishlist = (data) => {
-        const filtered = wishlistItems.filter((item) => data._id !== item._id);
-        setWishlistItems(filtered);
-        if (auth) {
-            removeFromWishlist(data._id);
-        }
-    };
-
     const getTotalCartAmount = () => {
         let totalAmount = 0;
         cartItems?.map(
@@ -241,20 +242,25 @@ const ShopContextProvider = (props) => {
         return totalAmount;
     };
 
-    const contextValue = {
-        cartItems,
-        setCartItems,
-        wishlistItems,
-        setWishlistItems,
-        addToCart,
-        addToWishlist,
-        removeToWishlist,
-        removeToCart,
-        getTotalCartAmount,
-        category,
-        setCategory,
-        currentUser,
-    };
+    const contextValue = useMemo(
+        () => ({
+            cartItems,
+            setCartItems,
+            wishlistItems,
+            setWishlistItems,
+            addToCart,
+            addToWishlist,
+            removeWishlistItem,
+            removeCartItem,
+            getTotalCartAmount,
+            category,
+            setCategory,
+            currentUser,
+            // isLoading,
+            // setIsLoading,
+        }),
+        [cartItems, wishlistItems],
+    );
 
     return (
         <ShopContext.Provider value={contextValue}>
@@ -263,4 +269,4 @@ const ShopContextProvider = (props) => {
     );
 };
 
-export default ShopContextProvider;
+export default memo(ShopContextProvider);
