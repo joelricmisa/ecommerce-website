@@ -1,124 +1,138 @@
-import { ProductCard, SkeletonCard } from "./index";
-import { v4 as uuid } from "uuid";
-import Timer from "./Timer";
+import { useContext, useRef, memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useContext, useRef, useState, useEffect } from "react";
-import { ShopContext } from "../contexts/ShopContext";
-import { FaArrowLeft, FaArrowRight, FaSpinner } from "react-icons/fa6";
-
-import axios from "../api/axios";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { useQuery } from "@tanstack/react-query";
+import { SkeletonCard, Timer } from "./index";
+import { ProductCard } from "./index";
+import { ShopContext } from "../contexts/ShopContext";
+import axios from "../api/axios";
 
 const ProductList = ({ dataId, category, title, timer }) => {
-    const { setCategory } = useContext(ShopContext);
     const dummyArr = [1, 2, 3, 4];
     const ref = useRef();
 
     const { data, isError, error, isLoading } = useQuery({
         queryKey: ["category", dataId],
         queryFn: async () => {
-            //get products by category id
             const response = await axios.get(`/api/categories/${dataId}`);
 
-            // console.log(response);
             return response.data?.data?.products;
         },
     });
 
-    // console.log(data);
+    //Product List Components
 
-    if (isError) return <span>Error: {error.message}</span>;
+    const SubjectBox = () => (
+        <div
+            className=" flex-center h-10 w-full !justify-start font-semibold  text-tertiary-100 
+			"
+        >
+            <span className="h-10 w-5 rounded-sm bg-tertiary-100"></span>
+            {category}
+        </div>
+    );
+
+    const TimerBox = () => {
+        return timer && <Timer />;
+    };
+
+    const CategoryTitle = () => (
+        <span
+            className={`font-inter text-2xl font-semibold sm:text-3xl lg:text-4xl`}
+        >
+            {title}
+        </span>
+    );
+
+    const SliderBtns = () => {
+        return data?.length > 4 ? (
+            <span className="flex-center ">
+                <button
+                    type="button"
+                    onClick={() => {
+                        ref.current.scrollLeft -= 200;
+                    }}
+                    className="icon grid-center"
+                >
+                    <FaArrowLeft />
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => {
+                        ref.current.scrollLeft += 200;
+                    }}
+                    className="icon grid-center"
+                >
+                    <FaArrowRight />
+                </button>
+            </span>
+        ) : null;
+    };
+
+    const ContentProducts = () => {
+        return isLoading ? (
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10">
+                {dummyArr.map((val, index) => {
+                    return (
+                        <span key={index} className="inline-block">
+                            <SkeletonCard />
+                        </span>
+                    );
+                })}
+            </div>
+        ) : (
+            <div className="flex whitespace-nowrap ">
+                {data.map((product, index) => (
+                    <span key={index} className="inline-block">
+                        <ProductCard {...product} />
+                    </span>
+                ))}
+            </div>
+        );
+    };
+
+    const ViewAllBtn = () => {
+        const { setCategory } = useContext(ShopContext);
+
+        return isLoading ? null : data?.length > 4 ? (
+            <Link
+                to={"/products"}
+                className="button xl:px-20 "
+                onClick={() => {
+                    setCategory(title);
+                }}
+            >
+                View All Products
+            </Link>
+        ) : null;
+    };
 
     return (
         <div className="padding border-bottom mt-10 flex w-full flex-col gap-8 lg:mt-0 ">
-            <div
-                className=" flex-center h-10 w-full !justify-start font-semibold  text-tertiary-100 
-			"
-            >
-                <span className="h-10 w-5 rounded-sm bg-tertiary-100"></span>
-                {category}
-            </div>
+            <SubjectBox />
 
             <div className="flex-center w-full flex-col items-start gap-2 ">
-                {timer && (
-                    <Timer days={3} hours={12} minutes={30} seconds={15} />
-                )}
+                <TimerBox />
 
                 <div className={`${timer && "mt-5"} flex-between w-full `}>
-                    <span
-                        className={`font-inter text-2xl font-semibold sm:text-3xl lg:text-4xl`}
-                    >
-                        {title}
-                    </span>
-
-                    {data?.length > 4 ? (
-                        <span className="flex-center ">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    ref.current.scrollLeft -= 200;
-                                }}
-                                className="icon grid-center"
-                            >
-                                <FaArrowLeft />
-                            </button>
-
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    ref.current.scrollLeft += 200;
-                                }}
-                                className="icon grid-center"
-                            >
-                                <FaArrowRight />
-                            </button>
-                        </span>
-                    ) : null}
+                    <CategoryTitle />
+                    <SliderBtns />
                 </div>
             </div>
+
             <div
                 ref={ref}
                 className={`${
                     isLoading ? "h-auto" : "min-h-[450px]"
                 }  snap-x  overflow-x-hidden  overflow-y-hidden py-10`}
             >
-                {isLoading ? (
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10">
-                        {dummyArr.map((val, index) => {
-                            return (
-                                <span key={index} className="inline-block">
-                                    <SkeletonCard />
-                                </span>
-                            );
-                        })}
-                    </div>
-                ) : (
-                    <div className="flex whitespace-nowrap ">
-                        {data.map((product) => {
-                            // console.log(product);
-                            return (
-                                <span key={uuid()} className="inline-block">
-                                    <ProductCard {...product} />
-                                </span>
-                            );
-                        })}
-                    </div>
-                )}
+                <ContentProducts />
             </div>
 
-            {isLoading ? null : (
-                <Link
-                    to={"/products"}
-                    className="button xl:px-20 "
-                    onClick={() => {
-                        setCategory(title);
-                    }}
-                >
-                    View All Products
-                </Link>
-            )}
+            <ViewAllBtn />
         </div>
     );
 };
 
-export default ProductList;
+export default memo(ProductList);
