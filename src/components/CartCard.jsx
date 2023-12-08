@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { FaXmark } from "react-icons/fa6";
 const CartCard = ({ _id, name, image, price, quantity }) => {
-    const { cartItems, setCartItems, removeToCart } = useContext(ShopContext);
+    const { cartItems, setCartItems, removeCartItem } = useContext(ShopContext);
     const [state, setState] = useState(quantity);
     const [productSubTotal, setProductSubTotal] = useState(
         Number(price) * Number(state),
@@ -30,7 +30,7 @@ const CartCard = ({ _id, name, image, price, quantity }) => {
 
     useEffect(() => {
         setState(quantity);
-    }, [removeToCart]);
+    }, [removeCartItem]);
 
     return (
         <div className="flex-center relative w-full gap-0 rounded-sm shadow-sm last:mb-0">
@@ -64,7 +64,7 @@ const CartCard = ({ _id, name, image, price, quantity }) => {
                     </p>
                     <span
                         className="flex-center absolute  right-0 top-0  h-8 w-8 cursor-pointer bg-tertiary-100 p-0.5 shadow-sm hover:bg-tertiary-200 hover:ring hover:ring-black/70 active:bg-tertiary-300 xl:static"
-                        onClick={() => removeToCart({ _id: _id })}
+                        onClick={() => removeCartItem({ _id: _id })}
                     >
                         <FaXmark className="fill-white" />
                     </span>

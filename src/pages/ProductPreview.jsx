@@ -25,9 +25,9 @@ const ProductPreview = () => {
     const {
         cartItems,
         addToCart,
-        removeToCart,
+        removeCartItem,
         addToWishlist,
-        removeToWishlist,
+        removeWishlistItem,
         wishlistItems,
         setCategory,
     } = useContext(ShopContext);
@@ -222,7 +222,7 @@ const ProductPreview = () => {
                             className="button flex-center w-full py-2 xl:w-1/2"
                             onClick={() =>
                                 inCart
-                                    ? removeToCart({ _id: id })
+                                    ? removeCartItem({ _id: id })
                                     : addToCart({
                                           ...currentProduct?.data,
                                           quantity: quantity,
@@ -241,7 +241,7 @@ const ProductPreview = () => {
                             } `}
                             onClick={() =>
                                 activeWishlist
-                                    ? removeToWishlist({ _id: id })
+                                    ? removeWishlistItem({ _id: id })
                                     : addToWishlist({ ...currentProduct?.data })
                             }
                         >
