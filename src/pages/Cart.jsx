@@ -10,13 +10,13 @@ const Cart = () => {
     const { cartItems, getTotalCartAmount } = useContext(ShopContext);
     const [totalAmount, setTotalAmount] = useState(getTotalCartAmount());
     const { auth } = useAuth();
-    const formatNumber = new Intl.NumberFormat("fil-PH", {
+    const numberFormatter = new Intl.NumberFormat("fil-PH", {
         currency: "PHP",
         style: "currency",
     });
 
     const [emptyCart, setEmptyCart] = useState(true);
-    const [hasUser, setHasUser] = useState(false);
+    const [hasUser, setHasUser] = useState(true);
     const [alert, setAlert] = useState(false);
 
     useEffect(() => {
@@ -41,7 +41,7 @@ const Cart = () => {
                     <CartCard key={index} {...product} />
                 ))}
 
-                <Link to={"/"} className="button block ">
+                <Link to={"/products"} className="button block ">
                     Go to Shop
                 </Link>
             </div>
@@ -58,29 +58,31 @@ const Cart = () => {
                     <h1 className="mb-7 text-xl font-medium">Cart Total</h1>
                     <p className="flex-between mb-4 w-full border-b border-black/30 pb-4">
                         Subtotal:{" "}
-                        <span>{formatNumber.format(totalAmount)}</span>
+                        <span>{numberFormatter.format(totalAmount)}</span>
                     </p>
                     <p className="flex-between mb-4 w-full border-b border-black/30 pb-4">
                         Shipping: <span>Free</span>
                     </p>
                     <p className="flex-between mb-4 w-full pb-4">
-                        Total: <span>{formatNumber.format(totalAmount)}</span>
+                        Total:{" "}
+                        <span>{numberFormatter.format(totalAmount)}</span>
                     </p>
                     {/* <span className="absolute bg-black inset-0 text-white z-[99]">hello</span> */}
                     <button
                         type="button"
                         className="button"
                         onClick={() => {
-                            !hasUser
+                            !hasUser || (!hasUser && !emptyCart)
                                 ? setAlert(true)
-                                : emptyCart
-                                ? setAlert(true)
-                                : navigate("checkout");
+                                : null;
+                            emptyCart ? setAlert(true) : null;
+                            hasUser && !emptyCart ? navigate("checkout") : null;
                         }}
                     >
                         Process to Checkout
                     </button>
-                    {emptyCart ? (
+
+                    {!hasUser || emptyCart ? (
                         <div
                             className={`${
                                 alert ? "fixed" : "hidden"
@@ -89,17 +91,24 @@ const Cart = () => {
                             <span
                                 className={`flex-center absolute left-1/2 top-1/2 max-w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col  rounded-md bg-extraColor p-5 text-center text-black`}
                             >
-                                {!hasUser ? (
+                                {!hasUser && emptyCart ? (
                                     <>
-                                        <FaUserXmark className="text-3xl" />
-                                        Please make an account first or login if
-                                        you already have to checkout your cart.
+                                        <FaInbox className="text-3xl" /> Your
+                                        cart is empty, please add some products
+                                        and make sure you have an account before
+                                        checking out your cart.
                                     </>
                                 ) : emptyCart ? (
                                     <>
                                         <FaInbox className="text-3xl" /> Your
                                         cart is empty, please add some products
                                         before checking out your cart.
+                                    </>
+                                ) : !hasUser && !emptyCart ? (
+                                    <>
+                                        <FaUserXmark className="text-3xl" />
+                                        Please make an account first or login if
+                                        you already have to checkout your cart.
                                     </>
                                 ) : null}
 
