@@ -1,11 +1,22 @@
 import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { FaXmark } from "react-icons/fa6";
-const CartCard = ({ _id, name, image, price, quantity, discount }) => {
-    const { cartItems, setCartItems, removeCartItem } = useContext(ShopContext);
-    const [qty, setQty] = useState(quantity);
+const CartCard = ({ _id, name, image, price, discount }) => {
+    const { removeCartItem, setTriggerQty } = useContext(ShopContext);
+
+    const getProductQuantity = () => {
+        const itemsQty = JSON.parse(localStorage.getItem("productQty"));
+
+        const productQty = itemsQty.filter((item) => {
+            return item.id === _id;
+        });
+        // console.log(productQty[0].quantity);
+        return productQty[0].quantity;
+    };
+
+    const [quantity, setQuantity] = useState(getProductQuantity());
     const finalPrice = Number(price) - Number(price) * (discount / 100);
-    const productSubTotal = Number(finalPrice) * Number(qty);
+    const productSubTotal = Number(finalPrice) * Number(quantity);
 
     const formatNumber = new Intl.NumberFormat("fil-PH", {
         currency: "PHP",
@@ -18,23 +29,25 @@ const CartCard = ({ _id, name, image, price, quantity, discount }) => {
         ?.replaceAll("\\", "/")}`;
 
     useEffect(() => {
-        const cartList = cartItems.map((item) =>
-            item._id === _id
-                ? {
-                      ...item,
-                      quantity: qty,
-                  }
-                : item,
-        );
-        //not auth
-        setCartItems(cartList);
-        //auth
-        // updateCartItems();
-    }, [qty]);
+        const productsQty = JSON.parse(localStorage.getItem("productQty"));
 
-    //not auth
+        const productIndex = productsQty.findIndex((item) => {
+            return item.id === _id;
+        });
+
+        if (productIndex !== -1) {
+            productsQty.splice(productIndex, 1, {
+                id: _id,
+                quantity: quantity,
+            });
+        }
+
+        localStorage.setItem("productQty", JSON.stringify(productsQty));
+        setTriggerQty(1);
+    }, [quantity]);
+
     useEffect(() => {
-        setQty(quantity);
+        setQuantity(getProductQuantity());
     }, [removeCartItem]);
 
     return (
@@ -54,10 +67,10 @@ const CartCard = ({ _id, name, image, price, quantity, discount }) => {
                     <input
                         type="number"
                         min={1}
-                        max={99}
-                        value={quantity < 10 ? `0${quantity}` : quantity}
+                        max={100}
+                        value={`${quantity < 10 ? `0${quantity}` : quantity}`}
                         className="input w-16 text-center font-inter "
-                        onChange={(e) => setQty(e.target.value)}
+                        onChange={(e) => setQuantity(Number(e.target.value))}
                     />
                 </div>
                 <div className="flex-center justify-evenly xl:w-1/2 ">
