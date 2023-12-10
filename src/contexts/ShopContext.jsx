@@ -12,6 +12,9 @@ const ShopContextProvider = (props) => {
     const [cartItems, setCartItems] = useState([]);
     const [wishlistItems, setWishlistItems] = useState([]);
     const [category, setCategory] = useState("all");
+    const [triggerQty, setTriggerQty] = useState(0);
+
+    const [totalAmount, setTotalAmount] = useState(0);
     // const [isLoading, setIsLoading] = useState(false);
     const queryClient = useQueryClient();
 
@@ -64,6 +67,31 @@ const ShopContextProvider = (props) => {
             );
             !isItemInList ? setCartItems([...cartItems, data]) : "";
         }
+
+        // localstorage quantity
+        const itemQty = localStorage.getItem("productQty");
+
+        const productsQty = itemQty ? JSON.parse(itemQty) : [];
+
+        const productIndex = productsQty.findIndex((item) => {
+            return item.id === data._id;
+        });
+
+        if (productIndex !== -1) {
+            productsQty.splice(productIndex, 1, {
+                id: data._id,
+                quantity: data.quantity,
+            });
+        } else {
+            productsQty.push({
+                id: data._id,
+                quantity: data.quantity,
+            });
+        }
+
+        localStorage.setItem("productQty", JSON.stringify(productsQty));
+
+        // console.log(productsQty);
     };
 
     const updateCartItems = async (newCartItems) => {
@@ -114,6 +142,20 @@ const ShopContextProvider = (props) => {
             const filtered = cartItems.filter((item) => data._id !== item._id);
             setCartItems(filtered);
         }
+
+        const itemQty = localStorage.getItem("productQty");
+
+        const productsQty = itemQty ? JSON.parse(itemQty) : [];
+
+        const productIndex = productsQty.findIndex((item) => {
+            return item.id === data._id;
+        });
+
+        if (productIndex !== -1) {
+            productsQty.splice(productIndex, 1);
+        }
+
+        localStorage.setItem("productQty", JSON.stringify(productsQty));
     };
 
     //remove product from cart db
@@ -233,14 +275,37 @@ const ShopContextProvider = (props) => {
         }
     };
 
-    const getTotalCartAmount = () => {
-        let totalAmount = 0;
-        cartItems?.map(
-            (product) => (totalAmount += product.quantity * product.price),
-        );
+    //clean up localstorage when refresh
+    useEffect(() => {
+        const productsQty = JSON.parse(localStorage.getItem("productQty"));
 
-        return totalAmount;
-    };
+        const result = productsQty?.filter((product) => {
+            return cartItems.some((item) => product.id === item._id);
+        });
+
+        result?.length === 0 ? localStorage.removeItem("productQty") : null;
+    }, []);
+
+    useEffect(() => {
+        let totalPay = 0;
+
+        const itemsQty = JSON.parse(localStorage.getItem("productQty"));
+
+        cartItems?.forEach((product) => {
+            const item = itemsQty.find((item) => item.id === product._id);
+
+            if (item) {
+                totalPay +=
+                    item.quantity *
+                    (Number(product.price) -
+                        Number(product.price) * (product.discount / 100));
+            }
+        });
+
+        setTotalAmount(totalPay);
+
+        setTriggerQty(0);
+    }, [cartItems, triggerQty]);
 
     const contextValue = useMemo(
         () => ({
@@ -252,14 +317,18 @@ const ShopContextProvider = (props) => {
             addToWishlist,
             removeWishlistItem,
             removeCartItem,
-            getTotalCartAmount,
+            // getTotalCartAmount,
+            triggerQty,
+            setTriggerQty,
+            totalAmount,
             category,
             setCategory,
             currentUser,
+
             // isLoading,
             // setIsLoading,
         }),
-        [cartItems, wishlistItems],
+        [cartItems, wishlistItems, totalAmount],
     );
 
     return (
