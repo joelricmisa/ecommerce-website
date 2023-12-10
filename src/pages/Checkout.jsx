@@ -7,8 +7,7 @@ import { visa, masterCard } from "../assets/logo";
 import { FaCartShopping } from "react-icons/fa6";
 
 const Checkout = () => {
-    const { cartItems, getTotalCartAmount } = useContext(ShopContext);
-    const totalAmount = getTotalCartAmount();
+    const { cartItems, totalAmount } = useContext(ShopContext);
     const formatNumber = new Intl.NumberFormat("fil-PH", {
         currency: "PHP",
         style: "currency",
@@ -43,56 +42,84 @@ const Checkout = () => {
                     </h1>
 
                     {show
-                        ? cartItems?.map((item, index) => (
-                              <div
-                                  key={index}
-                                  className="flex-center mb-3 border-b border-black/10 pb-3 "
-                              >
-                                  <img
-                                      src={
-                                          baseUrl +
-                                          item.image
-                                              .replace("public", "")
-                                              .replaceAll("\\", "/")
-                                      }
-                                      alt=""
-                                      className="h-14 w-14"
-                                  />
-                                  <p>
-                                      {item.name} ({item.quantity})
-                                  </p>
-                                  <p className="ml-auto">
-                                      {formatNumber.format(
-                                          item.quantity * item.price,
-                                      )}
-                                  </p>
-                              </div>
-                          ))
-                        : slice?.map((item, index) => (
-                              <div
-                                  key={index}
-                                  className="flex-center mb-3 border-b border-black/10 pb-3"
-                              >
-                                  <img
-                                      src={
-                                          baseUrl +
-                                          item.image
-                                              .replace("public", "")
-                                              .replaceAll("\\", "/")
-                                      }
-                                      alt=""
-                                      className="h-14 w-14"
-                                  />
-                                  <p>
-                                      {item.name} ({item.quantity})
-                                  </p>
-                                  <p className="ml-auto">
-                                      {formatNumber.format(
-                                          item.quantity * item.price,
-                                      )}
-                                  </p>
-                              </div>
-                          ))}
+                        ? cartItems?.map((product, index) => {
+                              const itemsQty = JSON.parse(
+                                  localStorage.getItem("productQty"),
+                              );
+
+                              const item = itemsQty.find(
+                                  (item) => item.id === product._id,
+                              );
+
+                              const itemPrice =
+                                  item.quantity *
+                                  (Number(product.price) -
+                                      Number(product.price) *
+                                          (product.discount / 100));
+
+                              return (
+                                  <div
+                                      key={index}
+                                      className="flex-center mb-3 border-b border-black/10 pb-3 "
+                                  >
+                                      <img
+                                          src={
+                                              baseUrl +
+                                              product.image
+                                                  .replace("public", "")
+                                                  .replaceAll("\\", "/")
+                                          }
+                                          alt=""
+                                          className="h-14 w-14"
+                                      />
+                                      <p>
+                                          {product.name} ({item.quantity})
+                                      </p>
+                                      <p className="ml-auto">
+                                          {formatNumber.format(itemPrice)}
+                                      </p>
+                                  </div>
+                              );
+                          })
+                        : slice?.map((product, index) => {
+                              const itemsQty = JSON.parse(
+                                  localStorage.getItem("productQty"),
+                              );
+
+                              const item = itemsQty.find(
+                                  (item) => item.id === product._id,
+                              );
+
+                              const itemPrice =
+                                  item.quantity *
+                                  (Number(product.price) -
+                                      Number(product.price) *
+                                          (product.discount / 100));
+
+                              return (
+                                  <div
+                                      key={index}
+                                      className="flex-center mb-3 border-b border-black/10 pb-3"
+                                  >
+                                      <img
+                                          src={
+                                              baseUrl +
+                                              product.image
+                                                  .replace("public", "")
+                                                  .replaceAll("\\", "/")
+                                          }
+                                          alt=""
+                                          className="h-14 w-14"
+                                      />
+                                      <p>
+                                          {product.name} ({item.quantity})
+                                      </p>
+                                      <p className="ml-auto">
+                                          {formatNumber.format(itemPrice)}
+                                      </p>
+                                  </div>
+                              );
+                          })}
 
                     {cartItems?.length > 5 && (
                         <button
