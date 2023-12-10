@@ -7,8 +7,7 @@ import useAuth from "../hooks/useAuth";
 
 const Cart = () => {
     const navigate = useNavigate();
-    const { cartItems, getTotalCartAmount } = useContext(ShopContext);
-    const [totalAmount, setTotalAmount] = useState(getTotalCartAmount());
+    const { cartItems, totalAmount } = useContext(ShopContext);
     const { auth } = useAuth();
     const numberFormatter = new Intl.NumberFormat("fil-PH", {
         currency: "PHP",
@@ -20,7 +19,6 @@ const Cart = () => {
     const [alert, setAlert] = useState(false);
 
     useEffect(() => {
-        setTotalAmount(getTotalCartAmount());
         cartItems?.length !== 0 ? setEmptyCart(false) : setEmptyCart(true);
     }, [cartItems]);
 
