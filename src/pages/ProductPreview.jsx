@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { ProductCard } from "../components";
-import { shopProductsData } from "../constants";
 import { useLocation, Link } from "react-router-dom";
 import { ShopContext } from "../contexts/ShopContext";
 import {
@@ -75,19 +74,19 @@ const ProductPreview = () => {
     switch (currentProduct?.data?.rating) {
         case "3":
             ratingImg = threeStar;
-            console.log(ratingImg);
+            // console.log(ratingImg);
             break;
         case "4":
             ratingImg = fourStar;
-            console.log(ratingImg);
+            // console.log(ratingImg);
             break;
         case "4.5":
             ratingImg = fourHalfStar;
-            console.log(ratingImg);
+            // console.log(ratingImg);
             break;
         case "5":
             ratingImg = fiveStar;
-            console.log(ratingImg);
+            // console.log(ratingImg);
             break;
     }
 
@@ -112,6 +111,35 @@ const ProductPreview = () => {
             return response?.data?.data?.products;
         },
     });
+
+    const handleAddToCart = () => {
+        const itemQty = localStorage.getItem("productQty");
+
+        const productsQty = itemQty ? JSON.parse(itemQty) : [];
+
+        const productIndex = productsQty.findIndex((item) => {
+            return item.id === id;
+        });
+
+        if (productIndex !== -1) {
+            productsQty.splice(productIndex, 1, {
+                id: id,
+                quantity: quantity,
+            });
+        } else {
+            productsQty.push({
+                id: id,
+                quantity: quantity,
+            });
+        }
+
+        localStorage.setItem("productQty", JSON.stringify(productsQty));
+
+        return addToCart({
+            ...currentProduct?.data,
+            quantity: quantity,
+        });
+    };
 
     return (
         <section className="padding animate">
@@ -202,11 +230,14 @@ const ProductPreview = () => {
                             <input
                                 type="number"
                                 min={1}
+                                max={100}
                                 value={`${
                                     quantity < 10 ? `0${quantity}` : quantity
                                 }`}
                                 className="input mx-0 py-2 text-center"
-                                onChange={(e) => setQuantity(e.target.value)}
+                                onChange={(e) =>
+                                    setQuantity(Number(e.target.value))
+                                }
                             />
                             <button
                                 type="button"
@@ -223,10 +254,7 @@ const ProductPreview = () => {
                             onClick={() =>
                                 inCart
                                     ? removeCartItem({ _id: id })
-                                    : addToCart({
-                                          ...currentProduct?.data,
-                                          quantity: quantity,
-                                      })
+                                    : handleAddToCart()
                             }
                         >
                             {inCart ? <FaXmark /> : <FaCartPlus />}
