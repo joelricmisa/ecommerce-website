@@ -52,7 +52,7 @@ const WishlistCard = (props) => {
         <span
             className="icon grid-center hover:text-tertiary-100"
             onClick={() => {
-                removeWishlistItem({ _id });
+                removeWishlistItem({ _id, name });
             }}
         >
             <FaTrashCan className="hover:fill-tertiary-100" />
@@ -78,14 +78,14 @@ const WishlistCard = (props) => {
         const handleCartButtonClick = () => {
             // setIsLoading((prev) => !prev);
             inCart
-                ? removeCartItem({ _id })
+                ? removeCartItem({ _id, name })
                 : addToCart({ ...props, price: finalPrice });
         };
 
         useEffect(() => {
             const isItemInCart = cartItems?.some((item) => item._id === _id);
             setInCart((prev) => isItemInCart);
-        }, [cartItems.length]);
+        }, [cartItems?.length]);
 
         return (
             <button

@@ -79,12 +79,12 @@ const ProductCard = (props) => {
                 (item) => item._id === _id,
             );
             setActiveWishlist((prev) => isItemInWishlist);
-        }, [wishlistItems.length]);
+        }, [wishlistItems?.length]);
 
         const handleWishlistButtonClick = () => {
             // setIsLoading((prev) => !prev);
             activeWishlist
-                ? removeWishlistItem({ _id })
+                ? removeWishlistItem({ _id, name })
                 : addToWishlist({ ...props });
         };
 
@@ -118,14 +118,14 @@ const ProductCard = (props) => {
         const handleCartButtonClick = () => {
             // setIsLoading((prev) => !prev);
             inCart
-                ? removeCartItem({ _id })
+                ? removeCartItem({ _id, name })
                 : addToCart({ ...props, price: finalPrice });
         };
 
         useEffect(() => {
             const isItemInCart = cartItems?.some((item) => item._id === _id);
             setInCart((prev) => isItemInCart);
-        }, [cartItems.length]);
+        }, [cartItems?.length]);
 
         return (
             <button

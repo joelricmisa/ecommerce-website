@@ -79,8 +79,8 @@ const CartCard = ({ _id, name, image, price, discount }) => {
                         {formatNumber.format(productSubTotal)}{" "}
                     </p>
                     <span
-                        className="flex-center absolute  right-0 top-0  h-8 w-8 cursor-pointer bg-tertiary-100 p-0.5 shadow-sm hover:bg-tertiary-200 hover:ring hover:ring-black/70 active:bg-tertiary-300 xl:static"
-                        onClick={() => removeCartItem({ _id: _id })}
+                        className="flex-center absolute  right-0 top-0  h-8 w-8 cursor-pointer bg-tertiary-100 p-0.5 shadow-sm hover:bg-tertiary-200 hover:ring hover:ring-black/100 active:bg-tertiary-300 xl:static"
+                        onClick={() => removeCartItem({ _id: _id, name })}
                     >
                         <FaXmark className="fill-white" />
                     </span>

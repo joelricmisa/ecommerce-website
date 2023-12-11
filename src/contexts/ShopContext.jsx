@@ -1,8 +1,16 @@
-import { useState, createContext, useEffect, memo, useMemo } from "react";
+import {
+    useState,
+    createContext,
+    useEffect,
+    memo,
+    useMemo,
+    useContext,
+} from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useAuth from "../hooks/useAuth";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "../api/axios";
+import FeedbackContext from "./FeedbackProvider";
 
 export const ShopContext = createContext(0);
 
@@ -17,6 +25,7 @@ const ShopContextProvider = (props) => {
     const [totalAmount, setTotalAmount] = useState(0);
     // const [isLoading, setIsLoading] = useState(false);
     const queryClient = useQueryClient();
+    const { setMessage, setShowAlert, setType } = useContext(FeedbackContext);
 
     const { data: currentUser } = useQuery({
         queryKey: ["currentUser"],
@@ -58,6 +67,10 @@ const ShopContextProvider = (props) => {
                 (item) => item._id === data._id,
             );
             !isItemInList ? updateCartItems([data._id]) : "";
+
+            setType("success");
+            setShowAlert(true);
+            setMessage(`Added ${data.name} to cart successfully`);
         }
 
         if (!auth) {
@@ -66,6 +79,9 @@ const ShopContextProvider = (props) => {
                 (item) => item._id === data._id,
             );
             !isItemInList ? setCartItems([...cartItems, data]) : "";
+            setType("success");
+            setShowAlert(true);
+            setMessage(`Added ${data.name} to cart successfully`);
         }
 
         // localstorage quantity
@@ -135,12 +151,20 @@ const ShopContextProvider = (props) => {
     const removeCartItem = (data) => {
         if (auth) {
             removeCartItemFromUser(data._id);
+
+            setType("delete");
+            setShowAlert(true);
+            setMessage(`Removed ${data.name} from cart successfully`);
         }
 
         if (!auth) {
             // setIsLoading(false);
             const filtered = cartItems.filter((item) => data._id !== item._id);
             setCartItems(filtered);
+
+            setType("delete");
+            setShowAlert(true);
+            setMessage(`Removed ${data.name} from cart successfully`);
         }
 
         const itemQty = localStorage.getItem("productQty");
@@ -192,6 +216,10 @@ const ShopContextProvider = (props) => {
                 (item) => item._id === data._id,
             );
             !isItemInList ? updateWishlistItems([data._id]) : "";
+
+            setType("success");
+            setShowAlert(true);
+            setMessage(`Added ${data.name} to wishlist successfully`);
         }
 
         if (!auth) {
@@ -200,6 +228,10 @@ const ShopContextProvider = (props) => {
                 (item) => item._id === data._id,
             );
             !isItemInList ? setWishlistItems([...wishlistItems, data]) : "";
+
+            setType("success");
+            setShowAlert(true);
+            setMessage(`Added ${data.name} to wishlist successfully`);
         }
     };
 
@@ -245,6 +277,10 @@ const ShopContextProvider = (props) => {
     const removeWishlistItem = (data) => {
         if (auth) {
             removeWishlistItemFromUser(data._id);
+
+            setType("delete");
+            setShowAlert(true);
+            setMessage(`Removed ${data.name} from wishlist successfully`);
         }
 
         if (!auth) {
@@ -253,6 +289,10 @@ const ShopContextProvider = (props) => {
                 (item) => data._id !== item._id,
             );
             setWishlistItems(filtered);
+
+            setType("delete");
+            setShowAlert(true);
+            setMessage(`Removed ${data.name} from wishlist successfully`);
         }
     };
 
@@ -292,7 +332,7 @@ const ShopContextProvider = (props) => {
         const itemsQty = JSON.parse(localStorage.getItem("productQty"));
 
         cartItems?.forEach((product) => {
-            const item = itemsQty.find((item) => item.id === product._id);
+            const item = itemsQty?.find((item) => item.id === product._id);
 
             if (item) {
                 totalPay +=
@@ -328,7 +368,7 @@ const ShopContextProvider = (props) => {
             // isLoading,
             // setIsLoading,
         }),
-        [cartItems, wishlistItems, totalAmount],
+        [cartItems, wishlistItems, totalAmount, category],
     );
 
     return (

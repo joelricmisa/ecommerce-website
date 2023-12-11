@@ -253,7 +253,10 @@ const ProductPreview = () => {
                             className="button flex-center w-full py-2 xl:w-1/2"
                             onClick={() =>
                                 inCart
-                                    ? removeCartItem({ _id: id })
+                                    ? removeCartItem({
+                                          _id: id,
+                                          name: currentProduct?.data?.name,
+                                      })
                                     : handleAddToCart()
                             }
                         >
@@ -269,7 +272,10 @@ const ProductPreview = () => {
                             } `}
                             onClick={() =>
                                 activeWishlist
-                                    ? removeWishlistItem({ _id: id })
+                                    ? removeWishlistItem({
+                                          _id: id,
+                                          name: currentProduct?.data?.name,
+                                      })
                                     : addToWishlist({ ...currentProduct?.data })
                             }
                         >
