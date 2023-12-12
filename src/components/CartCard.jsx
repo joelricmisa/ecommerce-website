@@ -7,11 +7,11 @@ const CartCard = ({ _id, name, image, price, discount }) => {
     const getProductQuantity = () => {
         const itemsQty = JSON.parse(localStorage.getItem("productQty"));
 
-        const productQty = itemsQty.filter((item) => {
+        const productQty = itemsQty?.filter((item) => {
             return item.id === _id;
         });
         // console.log(productQty[0].quantity);
-        return productQty[0].quantity;
+        return productQty?.[0]?.quantity;
     };
 
     const [quantity, setQuantity] = useState(getProductQuantity());
@@ -31,12 +31,12 @@ const CartCard = ({ _id, name, image, price, discount }) => {
     useEffect(() => {
         const productsQty = JSON.parse(localStorage.getItem("productQty"));
 
-        const productIndex = productsQty.findIndex((item) => {
+        const productIndex = productsQty?.findIndex((item) => {
             return item.id === _id;
         });
 
         if (productIndex !== -1) {
-            productsQty.splice(productIndex, 1, {
+            productsQty?.splice(productIndex, 1, {
                 id: _id,
                 quantity: quantity,
             });
