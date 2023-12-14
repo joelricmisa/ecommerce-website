@@ -25,7 +25,8 @@ const ShopContextProvider = (props) => {
     const [totalAmount, setTotalAmount] = useState(0);
     // const [isLoading, setIsLoading] = useState(false);
     const queryClient = useQueryClient();
-    const { setMessage, setShowAlert, setType } = useContext(FeedbackContext);
+    const { setMessage, setShowAlert, setType, setModalMessage, setShowModal } =
+        useContext(FeedbackContext);
 
     const { data: currentUser } = useQuery({
         queryKey: ["currentUser"],
@@ -134,6 +135,22 @@ const ShopContextProvider = (props) => {
                 queryClient.invalidateQueries({ queryKey: ["currentUser"] });
             } catch (err) {
                 console.log(err);
+
+                if (err.code === "ERR_NETWORK") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
+                    );
+                }
+
+                if (err.code === "ERR_BAD_RESPONSE") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
+                    );
+                }
             }
         }
     };
@@ -199,6 +216,22 @@ const ShopContextProvider = (props) => {
             return response;
         } catch (error) {
             console.error("Error removing product from cart:", error);
+
+            if (err.code === "ERR_NETWORK") {
+                setType("error");
+                setShowModal(true);
+                setModalMessage(
+                    "Something went wrong with your network connection. Please try again once your connection is stable. ",
+                );
+            }
+
+            if (err.code === "ERR_BAD_RESPONSE") {
+                setType("error");
+                setShowModal(true);
+                setModalMessage(
+                    "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
+                );
+            }
         }
     };
 
@@ -259,6 +292,22 @@ const ShopContextProvider = (props) => {
                 queryClient.invalidateQueries({ queryKey: ["currentUser"] });
             } catch (err) {
                 console.log(err);
+
+                if (err.code === "ERR_NETWORK") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
+                    );
+                }
+
+                if (err.code === "ERR_BAD_RESPONSE") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
+                    );
+                }
             }
         }
     };
@@ -312,6 +361,22 @@ const ShopContextProvider = (props) => {
             return response;
         } catch (error) {
             console.error("Error removing product from wishlist:", error);
+
+            if (err.code === "ERR_NETWORK") {
+                setType("error");
+                setShowModal(true);
+                setModalMessage(
+                    "Something went wrong with your network connection. Please try again once your connection is stable. ",
+                );
+            }
+
+            if (err.code === "ERR_BAD_RESPONSE") {
+                setType("error");
+                setShowModal(true);
+                setModalMessage(
+                    "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
+                );
+            }
         }
     };
 
@@ -322,9 +387,9 @@ const ShopContextProvider = (props) => {
         const result = productsQty?.filter((product) => {
             return cartItems.some((item) => product.id === item._id);
         });
-
+        console.log(result);
         result?.length === 0 ? localStorage.removeItem("productQty") : null;
-    }, []);
+    }, [cartItems]);
 
     useEffect(() => {
         let totalPay = 0;
