@@ -10,8 +10,10 @@ const CartCard = ({ _id, name, image, price, discount }) => {
         const productQty = itemsQty?.filter((item) => {
             return item.id === _id;
         });
+
+        const result = productQty?.[0]?.quantity;
         // console.log(productQty[0].quantity);
-        return productQty?.[0]?.quantity;
+        return result ? result : 1;
     };
 
     const [quantity, setQuantity] = useState(getProductQuantity());
@@ -29,7 +31,9 @@ const CartCard = ({ _id, name, image, price, discount }) => {
         ?.replaceAll("\\", "/")}`;
 
     useEffect(() => {
-        const productsQty = JSON.parse(localStorage.getItem("productQty"));
+        let productsQty = JSON.parse(localStorage.getItem("productQty"));
+
+        productsQty === null ? (productsQty = []) : null;
 
         const productIndex = productsQty?.findIndex((item) => {
             return item.id === _id;
@@ -37,6 +41,11 @@ const CartCard = ({ _id, name, image, price, discount }) => {
 
         if (productIndex !== -1) {
             productsQty?.splice(productIndex, 1, {
+                id: _id,
+                quantity: quantity,
+            });
+        } else {
+            productsQty.push({
                 id: _id,
                 quantity: quantity,
             });
