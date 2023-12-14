@@ -10,7 +10,15 @@ const useLogout = () => {
     const axiosPrivate = useAxiosPrivate();
     const { setAuth } = useAuth();
     const { setCartItems, setWishlistItems } = useContext(ShopContext);
-    const { setType, setShowAlert, setMessage } = useContext(FeedbackContext);
+    const {
+        setType,
+        setShowAlert,
+        setMessage,
+        setShowModal,
+        setModalMessage,
+        setShowLoadingOverlay,
+        setLoadingMessage,
+    } = useContext(FeedbackContext);
 
     const LOGOUT_URL = "/api/logout";
     const navigate = useNavigate();
@@ -18,28 +26,50 @@ const useLogout = () => {
     const queryClient = useQueryClient();
 
     const handleLogout = async ({ email }) => {
-        try {
-            console.log("trigger logout");
-            const response = await axiosPrivate.post(LOGOUT_URL, {
-                headers: { "Content-Type": "application/json" },
-                withCredentials: true,
-            });
+        setLoadingMessage("Logging Out");
+        setShowLoadingOverlay(true);
 
-            console.log(response?.data);
+        setTimeout(async () => {
+            try {
+                console.log("trigger logout");
+                const response = await axiosPrivate.post(LOGOUT_URL, {
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true,
+                });
 
-            setAuth(null);
-            setCartItems([]);
-            setWishlistItems([]);
-            queryClient.clear();
+                console.log(response?.data);
 
-            navigate("/", { replace: true });
+                setAuth(null);
+                setCartItems([]);
+                setWishlistItems([]);
+                queryClient.clear();
+                setShowLoadingOverlay(false);
 
-            setType("info");
-            setShowAlert(true);
-            setMessage(`Logout ${email} successfully!`);
-        } catch (err) {
-            console.log(err);
-        }
+                navigate("/signin", { replace: true });
+
+                setType("info");
+                setShowAlert(true);
+                setMessage(`Logout ${email} successfully!`);
+            } catch (err) {
+                console.log(err);
+
+                if (err.code === "ERR_NETWORK") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
+                    );
+                }
+
+                if (err.code === "ERR_BAD_RESPONSE") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
+                    );
+                }
+            }
+        }, 1000);
     };
 
     return handleLogout;
