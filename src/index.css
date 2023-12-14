@@ -30,7 +30,7 @@
     @apply mt-10 block w-full rounded-sm border-b px-4 py-3 text-base outline-none focus:bg-tertiary-100/10 focus:ring-1 focus:ring-tertiary-100;
 }
 .checkLabel {
-    @apply block w-full py-3 text-base opacity-50;
+    @apply block w-full py-3 text-base;
 }
 
 @keyframes opacityAnimate {
@@ -58,7 +58,7 @@
     }
 
     .input {
-        @apply block w-full rounded-sm border border-secondary/10 bg-extraColor px-3 py-3 text-base outline-none focus:bg-tertiary-100/10 focus:ring-1 focus:ring-tertiary-100;
+        @apply block w-full rounded-sm border border-secondary/10 bg-extraColor px-3 py-3 text-base text-black outline-none focus:bg-tertiary-100/10 focus:ring-1 focus:ring-tertiary-100;
     }
 
     .icon {

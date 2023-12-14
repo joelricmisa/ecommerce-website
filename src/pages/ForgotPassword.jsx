@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { resetPassword } from "../assets/images";
 import { Link } from "react-router-dom";
 
@@ -7,6 +7,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "../api/axios";
 import { FaCircleInfo } from "react-icons/fa6";
+import FeedbackContext from "../contexts/FeedbackProvider";
+import { FaSpinner } from "react-icons/fa";
 
 const formSchema = new yup.ObjectSchema({
     email: yup.string().email().required(),
@@ -18,6 +20,7 @@ const ForgotPassword = () => {
         reset,
         getValues,
         trigger,
+        setError,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(formSchema),
@@ -25,13 +28,19 @@ const ForgotPassword = () => {
         reValidateMode: "onSubmit",
     });
 
+    const { setType, setMessage, setShowAlert, setShowModal, setModalMessage } =
+        useContext(FeedbackContext);
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleSubmit = async (e) => {
         const isValid = await trigger();
         console.log("trigger reset btn");
         const { email } = getValues();
+        setIsLoading(true);
 
         if (!isValid) {
             e.preventDefault();
+            setIsLoading(false);
         } else {
             e.preventDefault();
 
@@ -47,8 +56,36 @@ const ForgotPassword = () => {
 
                 console.log(response?.data);
                 reset();
+                setType("info");
+                setShowModal(true);
+                setModalMessage(
+                    `Check your email to get the reset link for your password.`,
+                );
+                setIsLoading(false);
             } catch (err) {
-                console.log(err);
+                setIsLoading(false);
+                // error when email is already used
+                setError("email", {
+                    type: "custom",
+                    message: err.response.data.message,
+                });
+
+                if (err.code === "ERR_NETWORK") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
+                    );
+                }
+
+                if (err.code === "ERR_BAD_RESPONSE") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
+                    );
+                }
+                // console.log(err);
             }
         }
     };
@@ -83,7 +120,14 @@ const ForgotPassword = () => {
 
                     <div className="flex-center mt-5 w-full flex-wrap py-4">
                         <button type="submit" className="button mx-0 xl:w-1/2">
-                            Reset Password
+                            {isLoading ? (
+                                <span className="flex items-center justify-center gap-2">
+                                    <FaSpinner className="animate-spin" />
+                                    Processing...
+                                </span>
+                            ) : (
+                                "Reset Password"
+                            )}
                         </button>
                         <Link to={"/signin"} className="link text-tertiary-100">
                             Back to Login

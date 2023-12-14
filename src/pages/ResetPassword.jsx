@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { resetPassword } from "../assets/images";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -6,6 +6,8 @@ import axios from "../api/axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FaCircleInfo } from "react-icons/fa6";
+import FeedbackContext from "../contexts/FeedbackProvider";
+import { FaSpinner } from "react-icons/fa";
 
 const formSchema = new yup.ObjectSchema({
     newPassword: yup.string().min(4).max(15).required(),
@@ -30,17 +32,26 @@ const ResetPassword = () => {
         resolver: yupResolver(formSchema),
     });
 
+    const { setType, setMessage, setShowAlert } = useContext(FeedbackContext);
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleSubmit = async (e) => {
         const isValid = await trigger();
         console.log("trigger reset submit");
         const { newPassword } = getValues();
 
+        setIsLoading(true);
+
         if (!isValid) {
             e.preventDefault();
+            setIsLoading(false);
         } else {
             e.preventDefault();
 
-            const RESET_URL = `/api/reset-password/${token.replace(/-/g, ".")}`;
+            const RESET_URL = `/api/reset-password/${token.replace(
+                /---/g,
+                ".",
+            )}`;
 
             try {
                 const response = await axios.post(
@@ -55,9 +66,31 @@ const ResetPassword = () => {
                 console.log(response?.data);
 
                 reset();
+                setType("success");
+                setShowAlert(true);
+                setMessage(`Your password has been successfully updated!`);
+                setIsLoading(false);
                 navigate("/signin", { replace: true });
             } catch (err) {
-                console.log(err);
+                setIsLoading(false);
+
+                if (err.code === "ERR_NETWORK") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
+                    );
+                }
+
+                if (err.code === "ERR_BAD_RESPONSE") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
+                    );
+                }
+
+                // console.log(err);
             }
         }
     };
@@ -82,7 +115,7 @@ const ResetPassword = () => {
                         />
                     </label>
                     {errors?.newPassword?.message && (
-                        <p className="errorMessage -mt-1 mb-1">
+                        <p className="errorMessage mb-1 mt-1">
                             <span className="text-xl">
                                 <FaCircleInfo />
                             </span>
@@ -99,7 +132,7 @@ const ResetPassword = () => {
                         />
                     </label>
                     {errors?.confirmPassword?.message && (
-                        <p className="errorMessage -mt-1 mb-1">
+                        <p className="errorMessage mb-1 mt-1">
                             <span className="text-xl">
                                 <FaCircleInfo />
                             </span>
@@ -109,7 +142,14 @@ const ResetPassword = () => {
 
                     <div className="flex-center mt-5 w-full flex-wrap py-4">
                         <button type="submit" className="button mx-0 xl:w-1/2">
-                            Submit
+                            {isLoading ? (
+                                <span className="flex items-center justify-center gap-2">
+                                    <FaSpinner className="animate-spin" />
+                                    Processing...
+                                </span>
+                            ) : (
+                                "Submit"
+                            )}
                         </button>
                     </div>
                 </form>

@@ -6,6 +6,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FaCircleInfo } from "react-icons/fa6";
+import { useContext, useState } from "react";
+import FeedbackContext from "../contexts/FeedbackProvider";
+import { FaSpinner } from "react-icons/fa";
 
 const formSchema = new yup.ObjectSchema({
     email: yup.string().email().required(),
@@ -19,6 +22,7 @@ const SignIn = () => {
         reset,
         formState: { errors },
         getValues,
+        setError,
     } = useForm({
         resolver: yupResolver(formSchema),
         mode: "onTouched",
@@ -27,15 +31,20 @@ const SignIn = () => {
 
     const LOGIN_URL = "/api/auth";
     const { setAuth } = useAuth();
+    const { setType, setMessage, setShowAlert, setModalMessage, setShowModal } =
+        useContext(FeedbackContext);
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         const isValid = await trigger();
         console.log("trigger submit");
+        setIsLoading(true);
         const { email, password } = getValues();
 
         if (!isValid) {
             e.preventDefault();
+            setIsLoading(false);
         } else {
             e.preventDefault();
 
@@ -53,11 +62,44 @@ const SignIn = () => {
 
                 const accessToken = response?.data?.accessToken;
                 const role = response?.data?.role;
-                setAuth({ user: "joel", role, accessToken });
+                const user = response?.data?.user;
+                setAuth({ user, role, accessToken });
 
                 reset();
                 navigate("/", { replace: true });
+
+                setType("info");
+                setShowAlert(true);
+                setMessage(`Authenticated as ${user}.`);
+                setIsLoading(false);
+                console.log(response?.data);
             } catch (err) {
+                setIsLoading(false);
+
+                switch (err.code) {
+                    case "ERR_NETWORK":
+                        setType("error");
+                        setShowModal(true);
+                        setModalMessage(
+                            "Something went wrong with your network connection. Please try again once your connection is stable. ",
+                        );
+                        break;
+
+                    case "ERR_BAD_REQUEST":
+                        setType("error");
+                        setShowModal(true);
+                        setModalMessage(err.response.data.message);
+                        break;
+
+                    default:
+                        setType("error");
+                        setShowModal(true);
+                        setModalMessage(
+                            "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
+                        );
+                        break;
+                }
+
                 console.log(err);
             }
         }
@@ -109,7 +151,14 @@ const SignIn = () => {
 
                     <div className="flex-center mt-10 w-full flex-wrap py-4">
                         <button type="submit" className="button xl:w-1/2">
-                            Log in
+                            {isLoading ? (
+                                <span className="flex items-center justify-center gap-2">
+                                    <FaSpinner className="animate-spin" />
+                                    Logging in...
+                                </span>
+                            ) : (
+                                "Log in"
+                            )}
                         </button>
 
                         <Link

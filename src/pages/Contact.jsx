@@ -69,7 +69,23 @@ const Contact = () => {
             } catch (err) {
                 setIsLoading(false);
 
-                console.log(err);
+                if (err.code === "ERR_NETWORK") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
+                    );
+                }
+
+                if (err.code === "ERR_BAD_RESPONSE") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
+                    );
+                }
+
+                // console.log(err);
             }
         }
     };

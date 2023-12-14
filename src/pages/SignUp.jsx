@@ -1,14 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signUpImage } from "../assets/images";
 import axios from "../api/axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FaCircleInfo, FaGoogle } from "react-icons/fa6";
+import useAuth from "../hooks/useAuth";
+import { useContext, useState } from "react";
+import FeedbackContext from "../contexts/FeedbackProvider";
+import { FaSpinner } from "react-icons/fa";
 
 const formSchema = new yup.ObjectSchema({
     name: yup.string().max(15).required(),
-    email: yup.string().email().required(),
+    email: yup.string().email().max(25).required(),
     password: yup.string().min(4).max(15).required(),
 });
 
@@ -19,21 +23,29 @@ const SignUp = () => {
         reset,
         formState: { errors },
         getValues,
+        setError,
     } = useForm({
         resolver: yupResolver(formSchema),
         mode: "onTouched",
         reValidateMode: "onSubmit",
     });
+    const { setType, setMessage, setShowAlert, setShowModal, setModalMessage } =
+        useContext(FeedbackContext);
+    const { setAuth } = useAuth();
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
     const REGISTER_URL = "/api/register";
     const handleSubmit = async (e) => {
         const isValid = await trigger();
         console.log("trigger submit");
+        setIsLoading(true);
 
         const { name, email, password } = getValues();
 
         if (!isValid) {
             e.preventDefault();
+            setIsLoading(false);
         } else {
             e.preventDefault();
             try {
@@ -48,9 +60,59 @@ const SignUp = () => {
 
                 console.log(response?.data);
 
-                reset();
+                try {
+                    const response = await axios.post(
+                        "/api/auth",
+                        JSON.stringify({ email, password }),
+                        {
+                            headers: { "Content-Type": "application/json" },
+                            withCredentials: true,
+                        },
+                    );
+
+                    console.log(response?.data);
+
+                    const accessToken = response?.data?.accessToken;
+                    const role = response?.data?.role;
+                    const user = response?.data?.user;
+
+                    setAuth({ user, role, accessToken });
+
+                    setIsLoading(false);
+                    reset();
+
+                    navigate("/", { replace: true });
+
+                    setType("info");
+                    setShowAlert(true);
+                    setMessage(
+                        `Created an account successfully and authenticated it as ${email}.`,
+                    );
+                } catch (err) {
+                    navigate("/signin", { replace: true });
+                    // console.log(err);
+                }
             } catch (err) {
-                console.log(err);
+                // console.log(err);
+                // console.log(err.code);
+
+                setIsLoading(false);
+
+                if (err.code === "ERR_NETWORK") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
+                    );
+                }
+
+                if (err.code === "ERR_BAD_RESPONSE") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
+                    );
+                }
             }
         }
     };
@@ -121,7 +183,14 @@ const SignUp = () => {
                     )}
 
                     <button type="submit" className="button mt-10 w-full">
-                        Create Account
+                        {isLoading ? (
+                            <span className="flex items-center justify-center gap-2">
+                                <FaSpinner className="animate-spin" />
+                                Processing...
+                            </span>
+                        ) : (
+                            "Create Account"
+                        )}
                     </button>
                 </form>
 

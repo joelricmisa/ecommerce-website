@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Breadcrumb } from "../components";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FaCircleInfo } from "react-icons/fa6";
-import { FaCog, FaEdit, FaRegListAlt, FaSignOutAlt } from "react-icons/fa";
+import {
+    FaCog,
+    FaEdit,
+    FaRegListAlt,
+    FaSignOutAlt,
+    FaSpinner,
+} from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import FeedbackContext from "../contexts/FeedbackProvider";
 
 const formSchema = new yup.ObjectSchema({
     name: yup.string().required(),
@@ -30,6 +37,8 @@ const Account = () => {
     const [edit, setEdit] = useState(false);
     const [editPass, setEditPass] = useState(false);
     const [id, setId] = useState("");
+    const { setType, setMessage, setShowAlert } = useContext(FeedbackContext);
+    const [isLoading, setIsLoading] = useState(false);
 
     const {
         register,
@@ -38,6 +47,7 @@ const Account = () => {
         getValues,
         setValue,
         reset,
+        setError,
     } = useForm({
         resolver: yupResolver(formSchema),
         mode: "onTouched",
@@ -67,8 +77,11 @@ const Account = () => {
         const isValid = trigger();
         const { name, email, address } = getValues();
         console.log("trigger edit btn");
+        setIsLoading(true);
+
         if (!isValid) {
             e.preventDefault();
+            setIsLoading(false);
         } else {
             e.preventDefault();
 
@@ -84,9 +97,34 @@ const Account = () => {
 
                 console.log(response?.data);
                 console.log(response);
+                setIsLoading(false);
+
+                setType("success");
+                setShowAlert(true);
+                setMessage(
+                    `Your profile information has been successfully updated!`,
+                );
                 setEdit(false);
             } catch (err) {
-                console.log(err);
+                setIsLoading(false);
+
+                if (err.code === "ERR_NETWORK") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
+                    );
+                }
+
+                if (err.code === "ERR_BAD_RESPONSE") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
+                    );
+                }
+
+                // console.log(err);
             }
         }
     };
@@ -95,8 +133,11 @@ const Account = () => {
         const isValid = trigger();
         const { currentPassword, newPassword } = getValues();
         console.log("trigger change pass btn");
+        setIsLoading(true);
+
         if (!isValid) {
             e.preventDefault();
+            setIsLoading(false);
         } else {
             e.preventDefault();
 
@@ -117,9 +158,37 @@ const Account = () => {
                     newPassword: "",
                     confirmPassword: "",
                 });
+
+                setIsLoading(false);
+                setType("success");
+                setShowAlert(true);
+                setMessage(`Your password has been successfully updated!`);
                 setEditPass(false);
             } catch (err) {
-                console.log(err);
+                setIsLoading(false);
+
+                //error when the current password is invalid
+                setError("currentPassword", {
+                    type: "custom",
+                    message: err.response.data.message,
+                });
+
+                if (err.code === "ERR_NETWORK") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
+                    );
+                }
+
+                if (err.code === "ERR_BAD_RESPONSE") {
+                    setType("error");
+                    setShowModal(true);
+                    setModalMessage(
+                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
+                    );
+                }
+                // console.log(err);
             }
         }
     };
@@ -309,7 +378,14 @@ const Account = () => {
                                     Cancel
                                 </button>
                                 <button type="submit" className="button m-0">
-                                    Save Changes
+                                    {isLoading ? (
+                                        <span className="flex items-center justify-center gap-2">
+                                            <FaSpinner className="animate-spin" />
+                                            Updating...
+                                        </span>
+                                    ) : (
+                                        "Save Changes"
+                                    )}
                                 </button>
                             </div>
                         </form>
@@ -389,7 +465,14 @@ const Account = () => {
                                     Cancel
                                 </button>
                                 <button type="submit" className="button m-0">
-                                    Save Changes
+                                    {isLoading ? (
+                                        <span className="flex items-center justify-center gap-2">
+                                            <FaSpinner className="animate-spin" />
+                                            Updating...
+                                        </span>
+                                    ) : (
+                                        "Save Changes"
+                                    )}
                                 </button>
                             </div>
                         </form>

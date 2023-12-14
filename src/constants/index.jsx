@@ -785,17 +785,12 @@ export const shopProductsData = [
 export const billingDetails = [
     {
         id: "name",
-        label: "Name *",
-        type: "text",
-    },
-    {
-        id: "companyName",
-        label: "Company Name",
+        label: "Name",
         type: "text",
     },
     {
         id: "street",
-        label: "Street Address*",
+        label: "Street Address",
         type: "text",
     },
     {
@@ -805,17 +800,17 @@ export const billingDetails = [
     },
     {
         id: "city",
-        label: "Town/City *",
+        label: "Town/City",
         type: "text",
     },
     {
-        id: "phoneNumber",
-        label: "Phone Number *",
+        id: "phone",
+        label: "Phone Number",
         type: "number",
     },
     {
         id: "email",
-        label: "Email Address *",
+        label: "Email Address",
         type: "email",
     },
 ];
