@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 const CheckoutProductCard = (props) => {
     const { _id, name, image, price, discount, isShow } = props;
@@ -14,7 +14,7 @@ const CheckoutProductCard = (props) => {
         return result ? result : 1;
     };
 
-    const [quantity, setQuantity] = useState(getProductQuantity());
+    const quantity = getProductQuantity();
     const itemPrice =
         quantity * (Number(price) - Number(price) * (discount / 100));
 

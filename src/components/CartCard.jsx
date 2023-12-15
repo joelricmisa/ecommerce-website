@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { FaXmark } from "react-icons/fa6";
+
 const CartCard = ({ _id, name, image, price, discount }) => {
     const { removeCartItem, setTriggerQty } = useContext(ShopContext);
 

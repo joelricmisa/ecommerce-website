@@ -1,12 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-    FaCartPlus,
-    FaRegEye,
-    FaSpinner,
-    FaTrashCan,
-    FaXmark,
-} from "react-icons/fa6";
+import { FaCartPlus, FaRegEye, FaTrashCan, FaXmark } from "react-icons/fa6";
 import { fiveStar, fourHalfStar, fourStar, threeStar } from "../assets/images";
 import { ShopContext } from "../contexts/ShopContext";
 

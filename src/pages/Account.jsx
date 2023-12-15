@@ -4,13 +4,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FaCircleInfo } from "react-icons/fa6";
-import {
-    FaCog,
-    FaEdit,
-    FaRegListAlt,
-    FaSignOutAlt,
-    FaSpinner,
-} from "react-icons/fa";
+import { FaCog, FaEdit, FaSpinner } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import FeedbackContext from "../contexts/FeedbackProvider";

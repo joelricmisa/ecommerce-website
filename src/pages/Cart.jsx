@@ -86,7 +86,7 @@ const Cart = () => {
                         Total:{" "}
                         <span>{numberFormatter.format(totalAmount)}</span>
                     </p>
-                    {/* <span className="absolute bg-black inset-0 text-white z-[99]">hello</span> */}
+
                     <button
                         type="button"
                         className="button"

@@ -1,5 +1,5 @@
 import { CategoryCard } from "../../components";
-import { ProductData } from "../../constants";
+import { browseByCategory } from "../../constants";
 import { v4 as uuid } from "uuid";
 
 const BrowseByCategory = () => {
@@ -13,7 +13,7 @@ const BrowseByCategory = () => {
                 Browse By Category
             </div>
             <div className="grid grid-cols-2 gap-5 px-10 sm:grid-cols-3 lg:grid-cols-4 lg:py-10 xl:grid-cols-6 ">
-                {ProductData.browseByCategory.map((category) => {
+                {browseByCategory.map((category) => {
                     // console.log(category);
                     return (
                         <CategoryCard

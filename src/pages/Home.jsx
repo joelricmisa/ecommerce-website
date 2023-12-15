@@ -1,4 +1,4 @@
-import { ProductData } from "../constants";
+
 import { ProductList } from "../components";
 import {
     Hero,
