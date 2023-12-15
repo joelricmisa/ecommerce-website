@@ -2,12 +2,14 @@ import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Breadcrumb, CartCard } from "../components";
 import { ShopContext } from "../contexts/ShopContext";
-import { FaInbox, FaUserXmark } from "react-icons/fa6";
 import useAuth from "../hooks/useAuth";
+import FeedbackContext from "../contexts/FeedbackProvider";
 
 const Cart = () => {
     const navigate = useNavigate();
     const { cartItems, totalAmount } = useContext(ShopContext);
+    const { setShowModal, setModalMessage, setType } =
+        useContext(FeedbackContext);
     const { auth } = useAuth();
     const numberFormatter = new Intl.NumberFormat("fil-PH", {
         currency: "PHP",
@@ -16,7 +18,6 @@ const Cart = () => {
 
     const [emptyCart, setEmptyCart] = useState(true);
     const [hasUser, setHasUser] = useState(true);
-    const [alert, setAlert] = useState(false);
 
     useEffect(() => {
         cartItems?.length !== 0 ? setEmptyCart(false) : setEmptyCart(true);
@@ -25,6 +26,26 @@ const Cart = () => {
     useEffect(() => {
         auth ? setHasUser(true) : setHasUser(false);
     }, [auth]);
+
+    useEffect(() => {
+        setType("error");
+
+        {
+            !hasUser && emptyCart
+                ? setModalMessage(
+                      "Your cart is empty, please add some products and make sure you have an account before checking out your cart.",
+                  )
+                : !hasUser && !emptyCart
+                ? setModalMessage(
+                      "Please make an account first or login your account if you already have to checkout your cart.",
+                  )
+                : hasUser && emptyCart
+                ? setModalMessage(
+                      "Your cart is empty, please add some products before checking out your cart.",
+                  )
+                : null;
+        }
+    }, [hasUser, emptyCart]);
 
     return (
         <div className="padding-x animate">
@@ -70,57 +91,13 @@ const Cart = () => {
                         type="button"
                         className="button"
                         onClick={() => {
-                            !hasUser || (!hasUser && !emptyCart)
-                                ? setAlert(true)
-                                : null;
-                            emptyCart ? setAlert(true) : null;
+                            !hasUser ? setShowModal(true) : null;
+                            emptyCart ? setShowModal(true) : null;
                             hasUser && !emptyCart ? navigate("checkout") : null;
                         }}
                     >
                         Process to Checkout
                     </button>
-
-                    {!hasUser || emptyCart ? (
-                        <div
-                            className={`${
-                                alert ? "fixed" : "hidden"
-                            } left-0 top-0 z-[99]  min-h-screen min-w-full bg-black/30 text-white`}
-                        >
-                            <span
-                                className={`flex-center absolute left-1/2 top-1/2 max-w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col  rounded-md bg-extraColor p-5 text-center text-black`}
-                            >
-                                {!hasUser && emptyCart ? (
-                                    <>
-                                        <FaInbox className="text-3xl" /> Your
-                                        cart is empty, please add some products
-                                        and make sure you have an account before
-                                        checking out your cart.
-                                    </>
-                                ) : emptyCart ? (
-                                    <>
-                                        <FaInbox className="text-3xl" /> Your
-                                        cart is empty, please add some products
-                                        before checking out your cart.
-                                    </>
-                                ) : !hasUser && !emptyCart ? (
-                                    <>
-                                        <FaUserXmark className="text-3xl" />
-                                        Please make an account first or login if
-                                        you already have to checkout your cart.
-                                    </>
-                                ) : null}
-
-                                <button
-                                    className="button py-2"
-                                    onClick={() => setAlert(false)}
-                                >
-                                    OK
-                                </button>
-                            </span>
-                        </div>
-                    ) : (
-                        ""
-                    )}
                 </div>
             </div>
         </div>
