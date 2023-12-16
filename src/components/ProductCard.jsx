@@ -64,8 +64,8 @@ const ProductCard = (props) => {
             wishlistItems,
             addToWishlist,
             removeWishlistItem,
-            // isLoading,
-            // setIsLoading,
+            isLoading,
+            setIsLoading,
         } = useContext(ShopContext);
 
         const [activeWishlist, setActiveWishlist] = useState(false);
@@ -82,7 +82,7 @@ const ProductCard = (props) => {
         }, [wishlistItems?.length]);
 
         const handleWishlistButtonClick = () => {
-            // setIsLoading((prev) => !prev);
+            setIsLoading(true);
             activeWishlist
                 ? removeWishlistItem({ _id, name })
                 : addToWishlist({ ...props });
@@ -91,7 +91,7 @@ const ProductCard = (props) => {
         return (
             <button
                 className={wishlistStyle}
-                // disabled={isLoading}
+                disabled={isLoading}
                 onClick={() => handleWishlistButtonClick()}
             >
                 {activeWishlist ? <FaHeart /> : <FaRegHeart />}
@@ -110,13 +110,14 @@ const ProductCard = (props) => {
             cartItems,
             addToCart,
             removeCartItem,
-            // isLoading, setIsLoading
+            isLoading,
+            setIsLoading,
         } = useContext(ShopContext);
 
         const [inCart, setInCart] = useState(false);
 
         const handleCartButtonClick = () => {
-            // setIsLoading((prev) => !prev);
+            setIsLoading(true);
             inCart
                 ? removeCartItem({ _id, name })
                 : addToCart({ ...props, price: finalPrice });
@@ -130,25 +131,25 @@ const ProductCard = (props) => {
         return (
             <button
                 type="button"
-                className="button group-hover:flex-center absolute inset-x-0 bottom-0 hidden gap-2 bg-secondary px-0 py-2 disabled:bg-gray-400"
-                // disabled={isLoading}
+                className="button group-hover:flex-center absolute inset-x-0 bottom-0 hidden w-full gap-2 bg-secondary px-0 py-2 disabled:bg-gray-400"
+                disabled={isLoading}
                 onClick={() => handleCartButtonClick()}
             >
-                {/* {isLoading ? (
+                {isLoading ? (
                     <span className="mx-auto flex items-center gap-2">
                         <FaSpinner className="animate-spin" />
-                        Updating..
+                        Updating
                     </span>
                 ) : (
                     <>
                         {inCart ? <FaXmark /> : <FaCartPlus />}
                         {inCart ? "Remove " : "Add To Cart"}
                     </>
-                )} */}
-                <>
+                )}
+                {/* <>
                     {inCart ? <FaXmark /> : <FaCartPlus />}
                     {inCart ? "Remove " : "Add To Cart"}
-                </>
+                </> */}
             </button>
         );
     };
