@@ -8,7 +8,7 @@ import FeedbackContext from "../contexts/FeedbackProvider";
 
 const useLogout = () => {
     const axiosPrivate = useAxiosPrivate();
-    const { setAuth } = useAuth();
+    const { auth, setAuth } = useAuth();
     const { setCartItems, setWishlistItems } = useContext(ShopContext);
     const {
         setType,
@@ -25,7 +25,7 @@ const useLogout = () => {
 
     const queryClient = useQueryClient();
 
-    const handleLogout = async ({ email }) => {
+    const handleLogout = async () => {
         setLoadingMessage("Logging Out");
         setShowLoadingOverlay(true);
 
@@ -49,7 +49,7 @@ const useLogout = () => {
 
                 setType("info");
                 setShowAlert(true);
-                setMessage(`Logout ${email} successfully!`);
+                setMessage(`Logout ${auth?.user} successfully!`);
             } catch (err) {
                 console.log(err);
 

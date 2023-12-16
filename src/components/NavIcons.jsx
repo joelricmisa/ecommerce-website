@@ -88,7 +88,7 @@ const NavIcons = () => {
                                     to={"/"}
                                     className={userIconLinkStyle}
                                     onClick={() => {
-                                        handleLogout({ email: auth?.user });
+                                        handleLogout();
                                     }}
                                 >
                                     <FaSignOutAlt className={iconStyle} />
