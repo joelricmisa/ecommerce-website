@@ -23,6 +23,7 @@ import {
 } from "./pages";
 import ShopContextProvider from "./contexts/ShopContext";
 import { FeedbackProvider } from "./contexts/FeedbackProvider";
+import RequireAuth from "./layouts/RequireAuth";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -30,7 +31,14 @@ const router = createBrowserRouter(
             <Route index element={<Home />} />
             <Route path="cart">
                 <Route index element={<Cart />} />
-                <Route path="checkout" element={<Checkout />} />
+                <Route
+                    path="checkout"
+                    element={
+                        <RequireAuth>
+                            <Checkout />
+                        </RequireAuth>
+                    }
+                />
             </Route>
             <Route path="wishlist" element={<Wishlist />} />
             <Route path="products">
@@ -43,7 +51,15 @@ const router = createBrowserRouter(
             <Route path="signin" element={<SignIn />} />
             <Route path="forgot" element={<ForgotPassword />} />
             <Route path="reset/:token" element={<ResetPassword />} />
-            <Route path="account" element={<Account />} />
+
+            <Route
+                path="account"
+                element={
+                    <RequireAuth>
+                        <Account />
+                    </RequireAuth>
+                }
+            />
 
             <Route path="/*" element={<NotFound />} />
         </Route>,
