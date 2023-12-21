@@ -1,24 +1,18 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
 
 const PersistLogin = () => {
+    const { setAuth, auth } = useAuth();
     const refresh = useRefreshToken();
-    const { auth } = useAuth();
 
     useEffect(() => {
-        const verifyRefreshToken = async () => {
-            try {
-                await refresh();
-            } catch (err) {
-                console.error(err);
-            }
-        };
+        if (!auth?.accessToken) {
+            refresh().catch((err) => console.error(err));
+        }
+    }, [auth?.accessToken, refresh, setAuth]);
 
-        !auth?.accessToken ? verifyRefreshToken() : null;
-    }, []);
-
-    return <></>;
+    return null;
 };
 
 export default PersistLogin;
