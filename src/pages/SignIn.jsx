@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FaCircleInfo } from "react-icons/fa6";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import FeedbackContext from "../contexts/FeedbackProvider";
 import { FaSpinner } from "react-icons/fa";
 
@@ -30,11 +30,20 @@ const SignIn = () => {
     });
 
     const LOGIN_URL = "/api/auth";
-    const { setAuth } = useAuth();
+    const { auth, setAuth } = useAuth();
     const { setType, setMessage, setShowAlert, setModalMessage, setShowModal } =
         useContext(FeedbackContext);
     const navigate = useNavigate();
+    const location = useLocation();
     const [isLoading, setIsLoading] = useState(false);
+
+    let from = location.state?.from?.pathname || "/";
+
+    useEffect(() => {
+        if (auth) {
+            navigate(from, { replace: true });
+        }
+    }, [auth]);
 
     const handleSubmit = async (e) => {
         const isValid = await trigger();
@@ -66,7 +75,7 @@ const SignIn = () => {
                 setAuth({ user, role, accessToken });
 
                 reset();
-                navigate("/", { replace: true });
+                navigate(from, { replace: true });
 
                 setType("info");
                 setShowAlert(true);
