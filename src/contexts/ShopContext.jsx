@@ -32,20 +32,22 @@ const ShopContextProvider = (props) => {
         queryKey: ["currentUser"],
 
         queryFn: async () => {
-            //cart
+            // cart;
             let cartIds = [];
-            cartItems?.map((item) => cartIds.push(item._id));
+            cartItems?.map((item) => cartIds.push(item));
             localStorage.setItem("cartIds", JSON.stringify(cartIds));
-            //wishlist
-            let wishlistIds = [];
-            wishlistItems?.map((item) => wishlistIds.push(item._id));
-            localStorage.setItem("wishlistIds", JSON.stringify(wishlistIds));
+            // wishlist;
+            // let wishlistIds = [];
+            // wishlistItems?.map((item) => wishlistIds.push(item._id));
+            // localStorage.setItem("wishlistIds", JSON.stringify(wishlistIds));
 
             const response = await axiosPrivate.get("/api/users/current");
+            setCartItems([...response?.data?.data?.cart]);
 
-            getCartProducts(response?.data?.data?.cart);
+            // getCartProducts(response?.data?.data?.cart);
+            console.log(response);
 
-            getWishlistProducts(response?.data?.data?.wishlist);
+            // getWishlistProducts(response?.data?.data?.wishlist);
 
             console.log(response?.data);
             // setIsLoading(false);
@@ -54,36 +56,60 @@ const ShopContextProvider = (props) => {
         enabled: !!auth,
     });
 
+    useEffect(() => {
+        console.log(currentUser);
+    }, [currentUser]);
     //CART//CART//CART//CART//CART//CART//CART//CART//CART
 
     useEffect(() => {
         const cartIds = JSON.parse(localStorage.getItem("cartIds"));
-        cartIds?.length > 0
-            ? updateCartItems(
-                  cartIds,
-                  cartIds.length > 1 ? "multiple items" : "item",
-              )
-            : null;
+        cartIds?.length > 0 ? updateCartItems(cartIds) : null;
+        console.log(cartItems);
+
         localStorage.removeItem("cartIds");
     }, [currentUser?._id]);
 
+    const updateItemQty = (data) => {
+        if (auth) {
+            updateCartItems(data);
+        }
+
+        if (!auth) {
+            const currentProduct = cartItems?.findIndex(
+                (item) => item.product_id._id === data._id,
+            );
+
+            cartItems[currentProduct].quantity = data.quantity;
+
+            setCartItems([...cartItems]);
+        }
+    };
+
     const addToCart = (data) => {
         if (auth) {
-            const isItemInList = cartItems?.some(
-                (item) => item._id === data._id,
-            );
-            !isItemInList ? updateCartItems([data._id], data.name) : "";
+            updateCartItems(data, true);
         }
 
         if (!auth) {
             const isItemInList = cartItems?.some(
-                (item) => item._id === data._id,
+                (item) => item.product_id._id === data._id,
             );
-            !isItemInList ? setCartItems([...cartItems, data]) : "";
+
+            !isItemInList
+                ? setCartItems([
+                      ...cartItems,
+                      {
+                          product_id: data.product_id,
+                          quantity: data.quantity,
+                          price: data.price,
+                      },
+                  ])
+                : null;
+
             setIsLoading(false);
             setType("success");
             setShowAlert(true);
-            setMessage(`Added ${data.name} to cart successfully`);
+            setMessage(`Added ${data.product_id.name} to cart successfully`);
         }
 
         // localstorage quantity
@@ -92,17 +118,17 @@ const ShopContextProvider = (props) => {
         const productsQty = itemQty ? JSON.parse(itemQty) : [];
 
         const productIndex = productsQty.findIndex((item) => {
-            return item.id === data._id;
+            return item._id === data._id;
         });
 
         if (productIndex !== -1) {
             productsQty.splice(productIndex, 1, {
-                id: data._id,
+                _id: data.product_id._id,
                 quantity: data.quantity,
             });
         } else {
             productsQty.push({
-                id: data._id,
+                _id: data.product_id._id,
                 quantity: data.quantity,
             });
         }
@@ -112,37 +138,84 @@ const ShopContextProvider = (props) => {
         // console.log(productsQty);
     };
 
-    const updateCartItems = async (newCartItems, name) => {
+    const updateCartItems = async (data, newItem) => {
         if (currentUser) {
             try {
-                // console.log("Request Data:", {
-                //     ...currentUser,
-                //     cartIds: [newCartItems] || [],
-                // });
+                console.log(data);
 
-                const response = await axiosPrivate.put(
-                    `/api/users/${currentUser?._id}`,
-                    {
-                        ...currentUser,
-                        cartIds: newCartItems || [],
-                    },
-                    {
-                        headers: { "Content-Type": "application/json" },
-                        withCredentials: true,
-                    },
-                );
+                // array works only when the user is not logged in and the carts are stored in the  local storage then the user sign up and logged its account. This would automatically update its account's cart data in the live server.
+                if (Array.isArray(data)) {
+                    await Promise.all(
+                        data.map(async (item) => {
+                            const response = await axiosPrivate.patch(
+                                `/api/users/${currentUser?._id}/cart`,
+                                JSON.stringify({
+                                    product_id: item?.product_id._id,
+                                    quantity: item?.quantity,
+                                }),
+                                {
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    withCredentials: true,
+                                },
+                            );
 
-                queryClient.setQueryData(["currentUser"], response.data.data);
+                            console.log(
+                                `Updated item with id ${item.product_id._id}:`,
+                                response.data,
+                            );
+                        }),
+                    );
 
-                setCartItems([...response.data.data.cart]);
-                setIsLoading(false);
+                    const updatedUserData =
+                        await axiosPrivate.get("/api/users/current");
 
-                setType("success");
-                setShowAlert(true);
-                setMessage(`Added ${name} to cart successfully`);
-                // console.log(setko);
-                // console.log("Response:", response.data);
-                // queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+                    queryClient.setQueryData(
+                        ["currentUser"],
+                        updatedUserData.data.data,
+                    );
+                    setCartItems([...updatedUserData.data.data.cart]);
+
+                    let name;
+                    data.length > 1
+                        ? (name = "multiple items")
+                        : (name = "item");
+
+                    setIsLoading(false);
+                    setType("success");
+                    setShowAlert(true);
+                    setMessage(`Added ${name} to cart successfully`);
+                }
+                // this updates the cart in the live server when the user is authenticated
+                else {
+                    const response = await axiosPrivate.patch(
+                        `/api/users/${currentUser?._id}/cart`,
+                        JSON.stringify({
+                            product_id: data?.product_id._id,
+                            quantity: data?.quantity,
+                        }),
+                        {
+                            headers: { "Content-Type": "application/json" },
+                            withCredentials: true,
+                        },
+                    );
+                    // console.log("Response:", response);
+
+                    queryClient.setQueryData(["currentUser"], response.data);
+
+                    setCartItems([...response.data.cart]);
+
+                    // if this newItem is true, it would run the alerts since its added to cart else the cart item was just updated the quantity
+                    if (newItem) {
+                        setIsLoading(false);
+                        setType("success");
+                        setShowAlert(true);
+                        setMessage(
+                            `Added ${data.product_id.name} to cart successfully`,
+                        );
+                    }
+                }
             } catch (err) {
                 console.log(err);
 
@@ -165,23 +238,15 @@ const ShopContextProvider = (props) => {
         }
     };
 
-    const getCartProducts = async (arrayIds) => {
-        const response = await axios.get("/api/products");
-        const products = response?.data?.data;
-
-        const filteredProducts = products?.filter((product) => {
-            return arrayIds.includes(product._id.toString());
-        });
-        setCartItems([...filteredProducts]);
-    };
-
     const removeCartItem = (data) => {
         if (auth) {
             removeCartItemFromUser(data._id, data.name);
         }
 
         if (!auth) {
-            const filtered = cartItems.filter((item) => data._id !== item._id);
+            const filtered = cartItems.filter(
+                (item) => data._id !== item.product_id._id,
+            );
             setCartItems(filtered);
 
             setIsLoading(false);
@@ -208,17 +273,26 @@ const ShopContextProvider = (props) => {
     //remove product from cart db
     const removeCartItemFromUser = async (productId, name) => {
         try {
-            const response = await axiosPrivate.put(
-                `/api/users/${currentUser?._id}/remove-from-cart/${productId}`,
-                {},
+            //
+
+            //
+            const response = await axiosPrivate.patch(
+                `/api/users/${currentUser?._id}/cart/remove`,
+                JSON.stringify({
+                    product_id: productId,
+                }),
                 {
                     headers: { "Content-Type": "application/json" },
                     withCredentials: true,
                 },
             );
 
-            queryClient.setQueryData(["currentUser"], response.data.data);
-            setCartItems([...response.data.data.cart]);
+            console.log("Response:", response);
+
+            queryClient.setQueryData(["currentUser"], response.data);
+
+            setCartItems([...response.data.cart]);
+
             setIsLoading(false);
 
             setType("delete");
@@ -413,25 +487,21 @@ const ShopContextProvider = (props) => {
         const result = productsQty?.filter((product) => {
             return cartItems.some((item) => product.id === item._id);
         });
-        console.log(result);
+        // console.log(result);
         result?.length === 0 ? localStorage.removeItem("productQty") : null;
     }, [cartItems]);
 
     useEffect(() => {
         let totalPay = 0;
 
-        const itemsQty = JSON.parse(localStorage.getItem("productQty"));
-
-        cartItems?.forEach((product) => {
-            const item = itemsQty?.find((item) => item.id === product._id);
-
-            if (item) {
-                totalPay +=
+        cartItems.map(
+            (item) =>
+                (totalPay +=
                     item.quantity *
-                    (Number(product.price) -
-                        Number(product.price) * (product.discount / 100));
-            }
-        });
+                    (item.product_id.price -
+                        item.product_id.price *
+                            (item.product_id.discount / 100))),
+        );
 
         setTotalAmount(totalPay);
 
@@ -455,7 +525,7 @@ const ShopContextProvider = (props) => {
             category,
             setCategory,
             currentUser,
-
+            updateItemQty,
             isLoading,
             setIsLoading,
         }),
