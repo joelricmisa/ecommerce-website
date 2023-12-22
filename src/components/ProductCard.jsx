@@ -120,11 +120,18 @@ const ProductCard = (props) => {
             setIsLoading(true);
             inCart
                 ? removeCartItem({ _id, name })
-                : addToCart({ ...props, price: finalPrice });
+                : addToCart({
+                      product_id: { ...props },
+                      quantity: 1,
+                      price: finalPrice,
+                  });
         };
 
         useEffect(() => {
-            const isItemInCart = cartItems?.some((item) => item._id === _id);
+            console.log(cartItems);
+            const isItemInCart = cartItems?.some(
+                (item) => item.product_id._id === _id,
+            );
             setInCart((prev) => isItemInCart);
         }, [cartItems?.length]);
 

@@ -94,7 +94,10 @@ const ProductPreview = () => {
         const filterWishlist = wishlistItems?.filter(
             (item) => item?._id === id,
         );
-        const filterCart = cartItems?.filter((item) => item?._id === id);
+        const filterCart = cartItems?.filter(
+            (item) => item?.product_id._id === id,
+        );
+
         filterWishlist?.length === 0
             ? setActiveWishlist(false)
             : setActiveWishlist(true);
@@ -118,26 +121,30 @@ const ProductPreview = () => {
         const productsQty = itemQty ? JSON.parse(itemQty) : [];
 
         const productIndex = productsQty.findIndex((item) => {
-            return item.id === id;
+            return item._id === id;
         });
+
+        const finalPrice =
+            Number(currentProduct.price) -
+            Number(currentProduct.price) * (currentProduct.discount / 100);
 
         if (productIndex !== -1) {
             productsQty.splice(productIndex, 1, {
-                id: id,
+                _id: id,
                 quantity: quantity,
             });
         } else {
             productsQty.push({
-                id: id,
+                _id: id,
                 quantity: quantity,
             });
         }
 
         localStorage.setItem("productQty", JSON.stringify(productsQty));
-
         return addToCart({
-            ...currentProduct?.data,
+            product_id: { ...currentProduct.data },
             quantity: quantity,
+            price: finalPrice,
         });
     };
 

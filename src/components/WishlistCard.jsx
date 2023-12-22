@@ -79,7 +79,9 @@ const WishlistCard = (props) => {
         };
 
         useEffect(() => {
-            const isItemInCart = cartItems?.some((item) => item._id === _id);
+            const isItemInCart = cartItems?.some(
+                (item) => item.product_id._id === _id,
+            );
             setInCart((prev) => isItemInCart);
         }, [cartItems?.length]);
 

@@ -1,26 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 const CheckoutProductCard = (props) => {
-    const { _id, name, image, price, discount, isShow } = props;
+    const { isShow, quantity, product_id } = props;
 
-    const getProductQuantity = () => {
-        const itemsQty = JSON.parse(localStorage.getItem("productQty"));
-
-        const productQty = itemsQty?.filter((item) => {
-            return item.id === _id;
-        });
-
-        const result = productQty?.[0]?.quantity;
-        return result ? result : 1;
-    };
-
-    const quantity = getProductQuantity();
-    const itemPrice =
-        quantity * (Number(price) - Number(price) * (discount / 100));
+    const itemPrice = quantity * product_id.price;
 
     const baseUrl = "https://exclusive-backend-te81.onrender.com";
 
-    const imageSource = `${baseUrl}${image
+    const imageSource = `${baseUrl}${product_id.image
         .replace("public", "")
         .replaceAll("\\", "/")}`;
 
@@ -29,30 +16,6 @@ const CheckoutProductCard = (props) => {
         style: "currency",
     });
 
-    useEffect(() => {
-        let productsQty = JSON.parse(localStorage.getItem("productQty"));
-
-        productsQty === null ? (productsQty = []) : null;
-
-        const productIndex = productsQty?.findIndex((item) => {
-            return item.id === _id;
-        });
-
-        if (productIndex !== -1) {
-            productsQty?.splice(productIndex, 1, {
-                id: _id,
-                quantity: quantity,
-            });
-        } else {
-            productsQty.push({
-                id: _id,
-                quantity: quantity,
-            });
-        }
-
-        localStorage.setItem("productQty", JSON.stringify(productsQty));
-    }, [quantity]);
-
     return (
         <div
             className={`${isShow ? "flex-center" : "hidden"}
@@ -60,7 +23,7 @@ const CheckoutProductCard = (props) => {
         >
             <img src={imageSource} alt="" className="h-14 w-14" />
             <p>
-                {name} ({quantity})
+                {product_id.name} ({quantity})
             </p>
             <p className="ml-auto">{formatNumber.format(itemPrice)}</p>
         </div>
