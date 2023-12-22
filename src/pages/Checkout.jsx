@@ -183,7 +183,7 @@ const Checkout = () => {
                             let show;
                             showItem
                                 ? (show = true)
-                                : index === 5
+                                : index >= 5
                                 ? (show = false)
                                 : (show = true);
 
