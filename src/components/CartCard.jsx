@@ -1,25 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+import { memo, useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { FaXmark } from "react-icons/fa6";
+import useAuth from "../hooks/useAuth";
 
-const CartCard = ({ _id, name, image, price, discount }) => {
-    const { removeCartItem, setTriggerQty } = useContext(ShopContext);
+const CartCard = ({ product_id, quantity }) => {
+    const { removeCartItem, setTriggerQty, updateItemQty } =
+        useContext(ShopContext);
+    const { auth } = useAuth();
 
-    const getProductQuantity = () => {
-        const itemsQty = JSON.parse(localStorage.getItem("productQty"));
-
-        const productQty = itemsQty?.filter((item) => {
-            return item.id === _id;
-        });
-
-        const result = productQty?.[0]?.quantity;
-        // console.log(productQty[0].quantity);
-        return result ? result : 1;
-    };
-
-    const [quantity, setQuantity] = useState(getProductQuantity());
-    const finalPrice = Number(price) - Number(price) * (discount / 100);
-    const productSubTotal = Number(finalPrice) * Number(quantity);
+    const [qty, setQty] = useState(quantity);
+    const finalPrice =
+        Number(product_id?.price) -
+        Number(product_id?.price) * (product_id?.discount / 100);
+    const productSubTotal = Number(finalPrice) * Number(qty);
 
     const formatNumber = new Intl.NumberFormat("fil-PH", {
         currency: "PHP",
@@ -27,7 +20,7 @@ const CartCard = ({ _id, name, image, price, discount }) => {
     });
     const baseUrl = "https://exclusive-backend-te81.onrender.com";
 
-    const imageSource = ` ${baseUrl}${image
+    const imageSource = ` ${baseUrl}${product_id?.image
         ?.replace("public", "")
         ?.replaceAll("\\", "/")}`;
 
@@ -37,28 +30,40 @@ const CartCard = ({ _id, name, image, price, discount }) => {
         productsQty === null ? (productsQty = []) : null;
 
         const productIndex = productsQty?.findIndex((item) => {
-            return item.id === _id;
+            return item._id === product_id._id;
         });
 
         if (productIndex !== -1) {
             productsQty?.splice(productIndex, 1, {
-                id: _id,
-                quantity: quantity,
+                _id: product_id._id,
+                quantity: qty,
             });
         } else {
             productsQty.push({
-                id: _id,
-                quantity: quantity,
+                _id: product_id._id,
+                quantity: qty,
             });
         }
 
         localStorage.setItem("productQty", JSON.stringify(productsQty));
         setTriggerQty(1);
-    }, [quantity]);
+    }, [qty]);
 
     useEffect(() => {
-        setQuantity(getProductQuantity());
+        setQty(quantity);
     }, [removeCartItem]);
+
+    useEffect(() => {
+        if (auth) {
+            const data = setTimeout(() => {
+                updateItemQty({ _id: product_id?._id, quantity: qty });
+            }, 3000);
+
+            return () => clearTimeout(data);
+        } else {
+            updateItemQty({ _id: product_id?._id, quantity: qty });
+        }
+    }, [qty]);
 
     return (
         <div className="flex-center relative w-full gap-0 rounded-sm shadow-sm last:mb-0">
@@ -68,7 +73,7 @@ const CartCard = ({ _id, name, image, price, discount }) => {
                     className="h-16 w-20 object-contain"
                     alt=""
                 />
-                <p> {name}</p>
+                <p> {product_id?.name}</p>
             </div>
             <div className="flex-center w-1/2 flex-col pb-10 pt-14 xl:w-4/6 xl:flex-row">
                 <div className="flex-center justify-evenly xl:w-1/2 ">
@@ -78,9 +83,9 @@ const CartCard = ({ _id, name, image, price, discount }) => {
                         type="number"
                         min={1}
                         max={100}
-                        value={`${quantity < 10 ? `0${quantity}` : quantity}`}
+                        value={`${qty < 10 ? `0${qty}` : qty}`}
                         className="input w-16 text-center font-inter "
-                        onChange={(e) => setQuantity(Number(e.target.value))}
+                        onChange={(e) => setQty(Number(e.target.value))}
                     />
                 </div>
                 <div className="flex-center justify-evenly xl:w-1/2 ">
@@ -90,7 +95,12 @@ const CartCard = ({ _id, name, image, price, discount }) => {
                     </p>
                     <span
                         className="flex-center absolute  right-0 top-0  h-8 w-8 cursor-pointer bg-tertiary-100 p-0.5 shadow-sm hover:bg-tertiary-200 hover:ring hover:ring-black/100 active:bg-tertiary-300 xl:static"
-                        onClick={() => removeCartItem({ _id: _id, name })}
+                        onClick={() =>
+                            removeCartItem({
+                                _id: product_id._id,
+                                name: product_id?.name,
+                            })
+                        }
                     >
                         <FaXmark className="fill-white" />
                     </span>
@@ -100,4 +110,4 @@ const CartCard = ({ _id, name, image, price, discount }) => {
     );
 };
 
-export default CartCard;
+export default memo(CartCard);
