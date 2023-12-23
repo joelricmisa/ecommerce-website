@@ -37,17 +37,15 @@ const ShopContextProvider = (props) => {
             cartItems?.map((item) => cartIds.push(item));
             localStorage.setItem("cartIds", JSON.stringify(cartIds));
             // wishlist;
-            // let wishlistIds = [];
-            // wishlistItems?.map((item) => wishlistIds.push(item._id));
-            // localStorage.setItem("wishlistIds", JSON.stringify(wishlistIds));
+            let wishlistIds = [];
+            wishlistItems?.map((item) => wishlistIds.push(item._id));
+            localStorage.setItem("wishlistIds", JSON.stringify(wishlistIds));
 
             const response = await axiosPrivate.get("/api/users/current");
+
             setCartItems([...response?.data?.data?.cart]);
 
-            // getCartProducts(response?.data?.data?.cart);
-            console.log(response);
-
-            // getWishlistProducts(response?.data?.data?.wishlist);
+            setWishlistItems([...response?.data?.data?.wishlist]);
 
             console.log(response?.data);
             // setIsLoading(false);
