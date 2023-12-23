@@ -75,7 +75,11 @@ const WishlistCard = (props) => {
             setIsLoading(true);
             inCart
                 ? removeCartItem({ _id, name })
-                : addToCart({ ...props, price: finalPrice });
+                : addToCart({
+                      product_id: { ...props },
+                      quantity: 1,
+                      price: finalPrice,
+                  });
         };
 
         useEffect(() => {
