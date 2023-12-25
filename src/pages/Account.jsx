@@ -4,11 +4,11 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FaCircleInfo } from "react-icons/fa6";
-import { FaCog, FaEdit, FaSpinner } from "react-icons/fa";
+import { FaCog, FaEdit, FaRegListAlt, FaSpinner } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import FeedbackContext from "../contexts/FeedbackProvider";
-
+import { format } from "date-fns";
 const formSchema = new yup.ObjectSchema({
     name: yup.string().required(),
     email: yup.string().email().required(),
@@ -33,6 +33,8 @@ const Account = () => {
     const [id, setId] = useState("");
     const { setType, setMessage, setShowAlert } = useContext(FeedbackContext);
     const [isLoading, setIsLoading] = useState(false);
+    const [orders, setOrders] = useState([]);
+    const [orderDetails, setOrderDetails] = useState({});
 
     const {
         register,
@@ -48,24 +50,37 @@ const Account = () => {
         reValidateMode: "onSubmit",
     });
 
-    const [active, setActive] = useState("");
+    const [active, setActive] = useState("account");
+
+    const getCurrentUser = async () => {
+        await axiosPrivate.get("/api/users/current").then((response) => {
+            setValue("name", response.data.data?.name);
+            setValue("email", response.data.data?.email);
+            setValue("address", response.data.data?.address);
+            setId(response.data.data?._id);
+            return response.data.data;
+        });
+    };
+
+    const getUserOrder = async () => {
+        await axiosPrivate.get(`/api/orders/user/${id}`).then((response) => {
+            setOrders([...response.data].reverse());
+            return response.data;
+        });
+    };
+
+    const numberFormatter = new Intl.NumberFormat("fil-PH", {
+        currency: "PHP",
+        style: "currency",
+    });
 
     useEffect(() => {
-        const controller = new AbortController();
-        const getCurrentUser = async () => {
-            const response = await axiosPrivate.get("/api/users/current", {
-                signal: controller.signal,
-            });
-
-            setValue("name", response.data?.data?.name);
-            setValue("email", response.data?.data?.email);
-            setValue("address", response.data?.data?.address);
-            setId(response.data?.data?._id);
-            console.log(response.data);
-        };
-
         getCurrentUser();
     }, [auth, edit]);
+
+    useEffect(() => {
+        getUserOrder();
+    }, [id]);
 
     const handleEditInfo = async (e) => {
         const isValid = trigger();
@@ -186,6 +201,365 @@ const Account = () => {
             }
         }
     };
+
+    const AccountSection = () => {
+        return (
+            <>
+                {!edit ? (
+                    <form className="grid grid-cols-2 gap-5">
+                        <h1 className=" mb-10 text-xl font-medium">
+                            Account Info
+                        </h1>
+
+                        <button
+                            type="button"
+                            className="button m-0 ml-auto flex h-12 items-center gap-2 "
+                            onClick={() => setEdit(true)}
+                        >
+                            Edit <FaEdit className="text-lg" />
+                        </button>
+
+                        <div>
+                            <label
+                                htmlFor="name"
+                                className="mb-3 inline-block "
+                            >
+                                Name:
+                            </label>
+                            <input
+                                type="text"
+                                className="input"
+                                placeholder="Click edit to add your name"
+                                value={getValues("name")}
+                                {...register("name")}
+                                readOnly
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                htmlFor="email"
+                                className="mb-3 inline-block "
+                            >
+                                Email:
+                            </label>
+                            <input
+                                type="email"
+                                className="input"
+                                placeholder="Click edit to add your email"
+                                {...register("email")}
+                                readOnly
+                            />
+                        </div>
+
+                        <div className="col-span-2">
+                            <label
+                                htmlFor="address"
+                                className="mb-3 inline-block "
+                            >
+                                Address:
+                            </label>
+                            <input
+                                type="text"
+                                className="input"
+                                placeholder="Click edit to add your address"
+                                {...register("address")}
+                                readOnly
+                            />
+                        </div>
+                    </form>
+                ) : (
+                    <form
+                        onSubmit={handleEditInfo}
+                        className="grid grid-cols-2 gap-5"
+                    >
+                        <h1 className="col-span-2 mb-10 text-xl font-medium">
+                            Edit Your Profile
+                        </h1>
+
+                        <div>
+                            <label
+                                htmlFor="name"
+                                className="mb-3 inline-block "
+                            >
+                                Name:
+                            </label>
+                            <input
+                                type="text"
+                                className="input"
+                                placeholder="Your Name"
+                                {...register("name")}
+                            />
+                            {errors?.name?.message && (
+                                <p className="errorMessage mb-1">
+                                    <span className="text-xl">
+                                        <FaCircleInfo />
+                                    </span>
+                                    {errors.name?.message}
+                                </p>
+                            )}
+                        </div>
+
+                        <div>
+                            <label
+                                htmlFor="email"
+                                className="mb-3 inline-block "
+                            >
+                                Email:
+                            </label>
+                            <input
+                                type="email"
+                                className="input"
+                                placeholder="Your Email"
+                                {...register("email")}
+                            />
+
+                            {errors?.email?.message && (
+                                <p className="errorMessage mb-1">
+                                    <span className="text-xl">
+                                        <FaCircleInfo />
+                                    </span>
+                                    {errors.email?.message}
+                                </p>
+                            )}
+                        </div>
+
+                        <div className="col-span-2">
+                            <label
+                                htmlFor="address"
+                                className="mb-3 inline-block "
+                            >
+                                Address:
+                            </label>
+                            <input
+                                type="text"
+                                className="input"
+                                placeholder="Your Address"
+                                {...register("address")}
+                            />
+
+                            {errors?.address?.message && (
+                                <p className="errorMessage mb-1">
+                                    <span className="text-xl">
+                                        <FaCircleInfo />
+                                    </span>
+                                    {errors.address?.message}
+                                </p>
+                            )}
+                        </div>
+
+                        <div className="col-span-2 mt-5 flex justify-end gap-5 ">
+                            <button
+                                type="button"
+                                className="button m-0"
+                                onClick={() => setEdit(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button type="submit" className="button m-0">
+                                {isLoading ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <FaSpinner className="animate-spin" />
+                                        Updating...
+                                    </span>
+                                ) : (
+                                    "Save Changes"
+                                )}
+                            </button>
+                        </div>
+                    </form>
+                )}
+                {!editPass ? (
+                    <button
+                        type="button"
+                        className="button col-span-2 m-0 ml-auto mt-10"
+                        onClick={() => setEditPass(true)}
+                    >
+                        Change Password
+                    </button>
+                ) : (
+                    <form
+                        className="grid grid-cols-2 gap-5"
+                        onSubmit={handleChangePass}
+                    >
+                        <label htmlFor="pass" className="mt-5 inline-block ">
+                            Password Changes:
+                        </label>
+
+                        <input
+                            type="password"
+                            className="input col-span-2"
+                            placeholder="Current Password"
+                            {...register("currentPassword")}
+                        />
+                        {errors?.currentPassword?.message && (
+                            <p className="errorMessage -mt-1 mb-1">
+                                <span className="text-xl">
+                                    <FaCircleInfo />
+                                </span>
+                                {errors.currentPassword?.message}
+                            </p>
+                        )}
+                        <input
+                            type="password"
+                            className="input col-span-2"
+                            placeholder="New Password"
+                            {...register("newPassword")}
+                        />
+
+                        {errors?.newPassword?.message && (
+                            <p className="errorMessage -mt-1 mb-1">
+                                <span className="text-xl">
+                                    <FaCircleInfo />
+                                </span>
+                                {errors.newPassword?.message}
+                            </p>
+                        )}
+
+                        <input
+                            type="password"
+                            className="input col-span-2"
+                            placeholder="Confirm New Password"
+                            {...register("confirmPassword")}
+                        />
+
+                        {errors?.confirmPassword?.message && (
+                            <p className="errorMessage -mt-1 mb-1">
+                                <span className="text-xl">
+                                    <FaCircleInfo />
+                                </span>
+                                {errors.confirmPassword?.message}
+                            </p>
+                        )}
+                        <div className="col-span-2 mt-5 flex justify-end gap-5 ">
+                            <button
+                                type="button"
+                                className="button m-0"
+                                onClick={() => setEditPass(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button type="submit" className="button m-0">
+                                {isLoading ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <FaSpinner className="animate-spin" />
+                                        Updating...
+                                    </span>
+                                ) : (
+                                    "Save Changes"
+                                )}
+                            </button>
+                        </div>
+                    </form>
+                )}{" "}
+            </>
+        );
+    };
+    const OrderSection = () => {
+        return (
+            <div>
+                <h1 className="text-xl font-medium">My Orders</h1>
+                <div className="overflow-y-auto py-5">
+                    {orders?.map((order) => (
+                        <div className="my-4 border-b-[1px] py-4">
+                            <button
+                                className="float-right text-sm"
+                                onClick={() => {
+                                    setOrderDetails({ ...order });
+                                    setActive("viewOrder");
+                                }}
+                            >
+                                View Order
+                            </button>
+                            <h2 className="font-medium text-gray-950">
+                                Order Id: {order?._id}
+                            </h2>
+                            <p className="text-gray my-2 text-gray-900">
+                                Status:{"  "}
+                                {order?.status}
+                            </p>
+                            <p className="text-gray my-2 text-gray-900">
+                                Total:{"  "}
+                                {numberFormatter.format(order?.total_price)}
+                            </p>
+                            <p className="text-gray my-2 text-gray-900">
+                                Ordered On:{"  "}
+                                {format(order?.order_date, "MM/dd/yyyy")}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
+    const ViewOrderSection = () => {
+        console.log(orderDetails);
+
+        return (
+            <div className="text-gray-900">
+                <h1 className="font-medium">Order ID: {orderDetails._id}</h1>
+                <div className="my-4 flex flex-col gap-2 border-y-2 py-4 text-sm">
+                    <p>Status: {orderDetails.status}</p>
+                    <p>
+                        Ordered On:{" "}
+                        {format(orderDetails.order_date, "MM/dd/yyyy")}
+                    </p>
+                    <p className="font-bold">
+                        Total Amount to Pay:{" "}
+                        {numberFormatter.format(orderDetails.total_price)}
+                    </p>
+                </div>
+                <div className="overflow-y-auto">
+                    <h1 className="mb-2 text-sm">
+                        {orderDetails?.products?.length > 1
+                            ? `Number of products: ${orderDetails?.products?.length}`
+                            : `Number of product: ${orderDetails?.products?.length}`}
+                    </h1>
+                    <h1 className="text-sm">
+                        {orderDetails?.products?.length > 1
+                            ? `Product Details:`
+                            : `Product Detail:`}
+                    </h1>
+                    {orderDetails?.products?.map((product) => {
+                        const baseUrl =
+                            "https://exclusive-backend-te81.onrender.com";
+
+                        const imageSource = `${baseUrl}${product?.product_id?.image
+                            ?.replace("public", "")
+                            ?.replaceAll("\\", "/")}`;
+
+                        return (
+                            <div className="my-4 flex items-center gap-8 border-b-[1px] py-4 ">
+                                <img
+                                    src={imageSource}
+                                    alt=""
+                                    className="h-[100px] w-[120px] object-contain"
+                                />
+                                <div className="flex flex-col gap-2 text-sm">
+                                    <h2 className="mb-2 text-base font-medium">
+                                        {product?.product_id?.name}
+                                    </h2>
+                                    <p>Quantity: {product?.quantity} </p>
+                                    <p>
+                                        Price:{" "}
+                                        {numberFormatter.format(product?.price)}
+                                    </p>
+                                    <p>
+                                        Total Price:{" "}
+                                        {numberFormatter.format(
+                                            product?.price * product?.quantity,
+                                        )}
+                                    </p>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    };
+
     return (
         <section className="padding-x animate w-full">
             <Breadcrumb />
@@ -194,20 +568,28 @@ const Account = () => {
                     <ul>
                         <li>
                             <button
-                                className="accountBtnSection text-secondary"
+                                className={`accountBtnSection ${
+                                    active === "account" && "text-secondary"
+                                } `}
                                 onClick={() => setActive("account")}
                             >
-                                <FaCog /> Manage My Account
+                                <FaCog /> Manage Account
                             </button>
                         </li>
-                        {/* <li>
+                        <li>
                             <button
-                                className="accountBtnSection"
+                                className={`accountBtnSection  ${
+                                    (active === "order" ||
+                                        active === "viewOrder") &&
+                                    "text-secondary"
+                                }`}
                                 onClick={() => setActive("order")}
                             >
-                                <FaRegListAlt /> My Orders
+                                <FaRegListAlt />
+                                My Orders
                             </button>
                         </li>
+                        {/*
                         <li>
                             <button
                                 className="accountBtnSection"
@@ -220,257 +602,9 @@ const Account = () => {
                     </ul>
                 </div>
                 <div className="flex flex-col px-8 py-10 shadow-md xl:w-9/12">
-                    {!edit ? (
-                        <form className="grid grid-cols-2 gap-5">
-                            <h1 className=" mb-10 text-xl font-medium">
-                                Account Info
-                            </h1>
-
-                            <button
-                                type="button"
-                                className="button m-0 ml-auto flex h-12 items-center gap-2 "
-                                onClick={() => setEdit(true)}
-                            >
-                                Edit <FaEdit className="text-lg" />
-                            </button>
-
-                            <div>
-                                <label
-                                    htmlFor="name"
-                                    className="mb-3 inline-block "
-                                >
-                                    Name:
-                                </label>
-                                <input
-                                    type="text"
-                                    className="input"
-                                    placeholder="Click edit to add your name"
-                                    value={getValues("name")}
-                                    {...register("name")}
-                                    readOnly
-                                />
-                            </div>
-
-                            <div>
-                                <label
-                                    htmlFor="email"
-                                    className="mb-3 inline-block "
-                                >
-                                    Email:
-                                </label>
-                                <input
-                                    type="email"
-                                    className="input"
-                                    placeholder="Click edit to add your email"
-                                    {...register("email")}
-                                    readOnly
-                                />
-                            </div>
-
-                            <div className="col-span-2">
-                                <label
-                                    htmlFor="address"
-                                    className="mb-3 inline-block "
-                                >
-                                    Address:
-                                </label>
-                                <input
-                                    type="text"
-                                    className="input"
-                                    placeholder="Click edit to add your address"
-                                    {...register("address")}
-                                    readOnly
-                                />
-                            </div>
-                        </form>
-                    ) : (
-                        <form
-                            onSubmit={handleEditInfo}
-                            className="grid grid-cols-2 gap-5"
-                        >
-                            <h1 className="col-span-2 mb-10 text-xl font-medium">
-                                Edit Your Profile
-                            </h1>
-
-                            <div>
-                                <label
-                                    htmlFor="name"
-                                    className="mb-3 inline-block "
-                                >
-                                    Name:
-                                </label>
-                                <input
-                                    type="text"
-                                    className="input"
-                                    placeholder="Your Name"
-                                    {...register("name")}
-                                />
-                                {errors?.name?.message && (
-                                    <p className="errorMessage mb-1">
-                                        <span className="text-xl">
-                                            <FaCircleInfo />
-                                        </span>
-                                        {errors.name?.message}
-                                    </p>
-                                )}
-                            </div>
-
-                            <div>
-                                <label
-                                    htmlFor="email"
-                                    className="mb-3 inline-block "
-                                >
-                                    Email:
-                                </label>
-                                <input
-                                    type="email"
-                                    className="input"
-                                    placeholder="Your Email"
-                                    {...register("email")}
-                                />
-
-                                {errors?.email?.message && (
-                                    <p className="errorMessage mb-1">
-                                        <span className="text-xl">
-                                            <FaCircleInfo />
-                                        </span>
-                                        {errors.email?.message}
-                                    </p>
-                                )}
-                            </div>
-
-                            <div className="col-span-2">
-                                <label
-                                    htmlFor="address"
-                                    className="mb-3 inline-block "
-                                >
-                                    Address:
-                                </label>
-                                <input
-                                    type="text"
-                                    className="input"
-                                    placeholder="Your Address"
-                                    {...register("address")}
-                                />
-
-                                {errors?.address?.message && (
-                                    <p className="errorMessage mb-1">
-                                        <span className="text-xl">
-                                            <FaCircleInfo />
-                                        </span>
-                                        {errors.address?.message}
-                                    </p>
-                                )}
-                            </div>
-
-                            <div className="col-span-2 mt-5 flex justify-end gap-5 ">
-                                <button
-                                    type="button"
-                                    className="button m-0"
-                                    onClick={() => setEdit(false)}
-                                >
-                                    Cancel
-                                </button>
-                                <button type="submit" className="button m-0">
-                                    {isLoading ? (
-                                        <span className="flex items-center justify-center gap-2">
-                                            <FaSpinner className="animate-spin" />
-                                            Updating...
-                                        </span>
-                                    ) : (
-                                        "Save Changes"
-                                    )}
-                                </button>
-                            </div>
-                        </form>
-                    )}
-
-                    {!editPass ? (
-                        <button
-                            type="button"
-                            className="button col-span-2 m-0 ml-auto mt-10"
-                            onClick={() => setEditPass(true)}
-                        >
-                            Change Password
-                        </button>
-                    ) : (
-                        <form
-                            className="grid grid-cols-2 gap-5"
-                            onSubmit={handleChangePass}
-                        >
-                            <label
-                                htmlFor="pass"
-                                className="mt-5 inline-block "
-                            >
-                                Password Changes:
-                            </label>
-
-                            <input
-                                type="password"
-                                className="input col-span-2"
-                                placeholder="Current Password"
-                                {...register("currentPassword")}
-                            />
-                            {errors?.currentPassword?.message && (
-                                <p className="errorMessage -mt-1 mb-1">
-                                    <span className="text-xl">
-                                        <FaCircleInfo />
-                                    </span>
-                                    {errors.currentPassword?.message}
-                                </p>
-                            )}
-                            <input
-                                type="password"
-                                className="input col-span-2"
-                                placeholder="New Password"
-                                {...register("newPassword")}
-                            />
-
-                            {errors?.newPassword?.message && (
-                                <p className="errorMessage -mt-1 mb-1">
-                                    <span className="text-xl">
-                                        <FaCircleInfo />
-                                    </span>
-                                    {errors.newPassword?.message}
-                                </p>
-                            )}
-
-                            <input
-                                type="password"
-                                className="input col-span-2"
-                                placeholder="Confirm New Password"
-                                {...register("confirmPassword")}
-                            />
-
-                            {errors?.confirmPassword?.message && (
-                                <p className="errorMessage -mt-1 mb-1">
-                                    <span className="text-xl">
-                                        <FaCircleInfo />
-                                    </span>
-                                    {errors.confirmPassword?.message}
-                                </p>
-                            )}
-                            <div className="col-span-2 mt-5 flex justify-end gap-5 ">
-                                <button
-                                    type="button"
-                                    className="button m-0"
-                                    onClick={() => setEditPass(false)}
-                                >
-                                    Cancel
-                                </button>
-                                <button type="submit" className="button m-0">
-                                    {isLoading ? (
-                                        <span className="flex items-center justify-center gap-2">
-                                            <FaSpinner className="animate-spin" />
-                                            Updating...
-                                        </span>
-                                    ) : (
-                                        "Save Changes"
-                                    )}
-                                </button>
-                            </div>
-                        </form>
-                    )}
+                    {active === "account" && <AccountSection />}
+                    {active === "order" && <OrderSection />}
+                    {active === "viewOrder" && <ViewOrderSection />}
                 </div>
             </div>
         </section>
