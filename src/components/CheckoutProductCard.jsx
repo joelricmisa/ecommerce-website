@@ -21,7 +21,11 @@ const CheckoutProductCard = (props) => {
             className={`${isShow ? "flex-center" : "hidden"}
          mb-3 border-b border-black/10 pb-3`}
         >
-            <img src={imageSource} alt="" className="h-14 w-14" />
+            <img
+                src={imageSource}
+                alt=""
+                className="h-14 w-14 object-contain"
+            />
             <p>
                 {product_id.name} ({quantity})
             </p>
