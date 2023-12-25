@@ -88,6 +88,18 @@ const Checkout = () => {
 
             if (currentUser) {
                 try {
+                    await axiosPrivate.post(
+                        `/api/orders`,
+                        {
+                            user_id: currentUser?._id,
+                            products: [...cartItems],
+                        },
+                        {
+                            headers: { "Content-Type": "application/json" },
+                            withCredentials: true,
+                        },
+                    );
+
                     await axiosPrivate.put(
                         `/api/users/${currentUser?._id}`,
                         {
