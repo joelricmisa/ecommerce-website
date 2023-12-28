@@ -1,14 +1,21 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Breadcrumb } from "../components";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FaCircleInfo } from "react-icons/fa6";
 import { FaCog, FaEdit, FaRegListAlt, FaSpinner } from "react-icons/fa";
-import useAuth from "../hooks/useAuth";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import FeedbackContext from "../contexts/FeedbackProvider";
 import { format } from "date-fns";
+
+import {
+    useAuth,
+    useAxiosPrivate,
+    useGetImage,
+    useNumberFormat,
+    useFeedback,
+    useErrorFeedback,
+} from "../hooks";
+
 const formSchema = new yup.ObjectSchema({
     name: yup.string().required(),
     email: yup.string().email().required(),
@@ -31,10 +38,12 @@ const Account = () => {
     const [edit, setEdit] = useState(false);
     const [editPass, setEditPass] = useState(false);
     const [id, setId] = useState("");
-    const { setType, setMessage, setShowAlert } = useContext(FeedbackContext);
     const [isLoading, setIsLoading] = useState(false);
     const [orders, setOrders] = useState([]);
     const [orderDetails, setOrderDetails] = useState({});
+
+    const showFeedback = useFeedback();
+    const showError = useErrorFeedback();
 
     const {
         register,
@@ -69,10 +78,7 @@ const Account = () => {
         });
     };
 
-    const numberFormatter = new Intl.NumberFormat("fil-PH", {
-        currency: "PHP",
-        style: "currency",
-    });
+    const numberFormatter = useNumberFormat();
 
     useEffect(() => {
         getCurrentUser();
@@ -85,7 +91,7 @@ const Account = () => {
     const handleEditInfo = async (e) => {
         const isValid = trigger();
         const { name, email, address } = getValues();
-        console.log("trigger edit btn");
+        //console.log("trigger edit btn");
         setIsLoading(true);
 
         if (!isValid) {
@@ -98,40 +104,24 @@ const Account = () => {
                 const response = await axiosPrivate.put(
                     `/api/users/${id}`,
                     JSON.stringify({ name, email, address }),
-                    {
-                        headers: { "Content-Type": "application/json" },
-                        withCredentials: true,
-                    },
                 );
 
-                console.log(response?.data);
-                console.log(response);
+                // console.log(response?.data);
+                // console.log(response);
+
                 setIsLoading(false);
 
-                setType("success");
-                setShowAlert(true);
-                setMessage(
+                showFeedback(
+                    "success",
                     `Your profile information has been successfully updated!`,
+                    "alert",
                 );
+
                 setEdit(false);
             } catch (err) {
                 setIsLoading(false);
 
-                if (err.code === "ERR_NETWORK") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
-                    );
-                }
-
-                if (err.code === "ERR_BAD_RESPONSE") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
-                    );
-                }
+                showError(err.code);
 
                 // console.log(err);
             }
@@ -141,7 +131,7 @@ const Account = () => {
     const handleChangePass = async (e) => {
         const isValid = trigger();
         const { currentPassword, newPassword } = getValues();
-        console.log("trigger change pass btn");
+        //console.log("trigger change pass btn");
         setIsLoading(true);
 
         if (!isValid) {
@@ -154,14 +144,10 @@ const Account = () => {
                 const response = await axiosPrivate.post(
                     `/api/change-password`,
                     JSON.stringify({ currentPassword, newPassword }),
-                    {
-                        headers: { "Content-Type": "application/json" },
-                        withCredentials: true,
-                    },
                 );
 
-                console.log(response?.data);
-                console.log(response);
+                // console.log(response?.data);
+                // console.log(response);
                 reset({
                     currentPassword: "",
                     newPassword: "",
@@ -169,9 +155,13 @@ const Account = () => {
                 });
 
                 setIsLoading(false);
-                setType("success");
-                setShowAlert(true);
-                setMessage(`Your password has been successfully updated!`);
+
+                showFeedback(
+                    "success",
+                    `Your password has been successfully updated!`,
+                    "alert",
+                );
+
                 setEditPass(false);
             } catch (err) {
                 setIsLoading(false);
@@ -182,21 +172,7 @@ const Account = () => {
                     message: err.response.data.message,
                 });
 
-                if (err.code === "ERR_NETWORK") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
-                    );
-                }
-
-                if (err.code === "ERR_BAD_RESPONSE") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
-                    );
-                }
+                showError(err.code);
                 // console.log(err);
             }
         }
@@ -494,8 +470,6 @@ const Account = () => {
     };
 
     const ViewOrderSection = () => {
-        console.log(orderDetails);
-
         return (
             <div className="text-gray-900">
                 <h1 className="font-medium">Order ID: {orderDetails._id}</h1>
@@ -522,12 +496,9 @@ const Account = () => {
                             : `Product Detail:`}
                     </h1>
                     {orderDetails?.products?.map((product) => {
-                        const baseUrl =
-                            "https://exclusive-backend-te81.onrender.com";
-
-                        const imageSource = `${baseUrl}${product?.product_id?.image
-                            ?.replace("public", "")
-                            ?.replaceAll("\\", "/")}`;
+                        const imageSource = useGetImage(
+                            product?.product_id?.image,
+                        );
 
                         return (
                             <div className="my-4 flex items-center gap-8 border-b-[1px] py-4 ">

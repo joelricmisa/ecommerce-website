@@ -24,7 +24,7 @@ const ShopProducts = () => {
         queryKey: ["products"],
         queryFn: async () => {
             const response = await axios.get("/api/products");
-            console.log(response);
+            //console.log(response);
 
             const filtered = response?.data?.data?.filter((item) => {
                 return item.categories?.some(
@@ -176,11 +176,11 @@ const ShopProducts = () => {
                               </motion.div>
                           );
                       })}
-                {products?.length === 0 ? (
+                {products?.length === 0 && (
                     <div className="flex-center col-span-12 py-16 text-2xl">
                         <FaInbox className="text-3xl" /> No Available Product
                     </div>
-                ) : null}
+                )}
             </div>
         </div>
     );

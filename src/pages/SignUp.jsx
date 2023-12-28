@@ -4,11 +4,10 @@ import axios from "../api/axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { FaCircleInfo, FaGoogle } from "react-icons/fa6";
-import useAuth from "../hooks/useAuth";
-import { useContext, useState } from "react";
-import FeedbackContext from "../contexts/FeedbackProvider";
+import { FaCircleInfo } from "react-icons/fa6";
+import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
+import { useFeedback, useErrorFeedback, useAuth } from "../hooks";
 
 const formSchema = new yup.ObjectSchema({
     name: yup.string().max(15).required(),
@@ -23,14 +22,14 @@ const SignUp = () => {
         reset,
         formState: { errors },
         getValues,
-        setError,
     } = useForm({
         resolver: yupResolver(formSchema),
         mode: "onTouched",
         reValidateMode: "onSubmit",
     });
-    const { setType, setMessage, setShowAlert, setShowModal, setModalMessage } =
-        useContext(FeedbackContext);
+
+    const showFeedback = useFeedback();
+    const showError = useErrorFeedback();
     const { setAuth } = useAuth();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +37,7 @@ const SignUp = () => {
     const REGISTER_URL = "/api/register";
     const handleSubmit = async (e) => {
         const isValid = await trigger();
-        console.log("trigger submit");
+        //console.log("trigger submit");
         setIsLoading(true);
 
         const { name, email, password } = getValues();
@@ -52,25 +51,17 @@ const SignUp = () => {
                 const response = await axios.post(
                     REGISTER_URL,
                     JSON.stringify({ name, email, password }),
-                    {
-                        headers: { "Content-Type": "application/json" },
-                        withCredentials: true,
-                    },
                 );
 
-                console.log(response?.data);
+                //console.log(response?.data);
 
                 try {
                     const response = await axios.post(
                         "/api/auth",
                         JSON.stringify({ email, password }),
-                        {
-                            headers: { "Content-Type": "application/json" },
-                            withCredentials: true,
-                        },
                     );
 
-                    console.log(response?.data);
+                    //console.log(response?.data);
 
                     const accessToken = response?.data?.accessToken;
                     const role = response?.data?.role;
@@ -83,36 +74,21 @@ const SignUp = () => {
 
                     navigate("/", { replace: true });
 
-                    setType("info");
-                    setShowAlert(true);
-                    setMessage(
+                    showFeedback(
+                        "info",
                         `Created an account successfully and authenticated it as ${email}.`,
+                        "alert",
                     );
                 } catch (err) {
                     navigate("/signin", { replace: true });
-                    // console.log(err);
+                    console.log(err);
                 }
             } catch (err) {
-                // console.log(err);
-                // console.log(err.code);
+                console.log(err);
 
                 setIsLoading(false);
 
-                if (err.code === "ERR_NETWORK") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
-                    );
-                }
-
-                if (err.code === "ERR_BAD_RESPONSE") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
-                    );
-                }
+                showError(err.code);
             }
         }
     };

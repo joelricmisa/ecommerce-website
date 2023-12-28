@@ -9,8 +9,7 @@ import {
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { ShopContext } from "../contexts/ShopContext";
 import { navIconLinks } from "../constants";
-import useAuth from "../hooks/useAuth";
-import useLogout from "../hooks/useLogout";
+import { useAuth, useLogout } from "../hooks";
 
 const NavIcons = () => {
     const { cartItems, wishlistItems } = useContext(ShopContext);
@@ -53,8 +52,8 @@ const NavIcons = () => {
             "flex-center cursor-pointer justify-start gap-2 bg-extraColor p-2 px-4 hover:font-medium";
 
         return (
-            <Link
-                to={"#"}
+            <button
+                type="button"
                 className=" navNotActive grid-center relative ml-1 w-[30px]  "
                 onClick={() => setUserIconFocus(!userIconFocus)}
                 onBlur={() =>
@@ -116,7 +115,7 @@ const NavIcons = () => {
                         )}
                     </span>
                 )}
-            </Link>
+            </button>
         );
     };
 

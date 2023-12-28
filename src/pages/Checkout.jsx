@@ -10,10 +10,16 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FeedbackContext from "../contexts/FeedbackProvider";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import CheckoutProductCard from "../components/CheckoutProductCard";
+
+import {
+    useAuth,
+    useAxiosPrivate,
+    useNumberFormat,
+    useFeedback,
+    useErrorFeedback,
+} from "../hooks";
 
 const formSchema = new yup.ObjectSchema({
     name: yup.string().required(),
@@ -26,18 +32,12 @@ const formSchema = new yup.ObjectSchema({
 });
 const Checkout = () => {
     const { cartItems, totalAmount } = useContext(ShopContext);
-    const {
-        setType,
-        setModalMessage,
-        setShowModal,
-        setShowAlert,
-        setLoadingMessage,
-        setShowLoadingOverlay,
-    } = useContext(FeedbackContext);
-    const formatNumber = new Intl.NumberFormat("fil-PH", {
-        currency: "PHP",
-        style: "currency",
-    });
+    const { setLoadingMessage, setShowLoadingOverlay } =
+        useContext(FeedbackContext);
+
+    const showFeedback = useFeedback();
+    const showError = useErrorFeedback();
+    const formatNumber = useNumberFormat();
 
     const showVal = cartItems?.length - 5;
     const [showItem, setShowItem] = useState(false);
@@ -74,11 +74,11 @@ const Checkout = () => {
 
     const handleSubmit = async (e) => {
         const isValid = await trigger();
-        console.log("trigger submit");
+        // console.log("trigger submit");
 
         setLoadingMessage("Processing");
         setShowLoadingOverlay(true);
-        console.log(e);
+        // console.log(e);
 
         if (!isValid) {
             e.preventDefault();
@@ -88,29 +88,15 @@ const Checkout = () => {
 
             if (currentUser) {
                 try {
-                    await axiosPrivate.post(
-                        `/api/orders`,
-                        {
-                            user_id: currentUser?._id,
-                            products: [...cartItems],
-                        },
-                        {
-                            headers: { "Content-Type": "application/json" },
-                            withCredentials: true,
-                        },
-                    );
+                    await axiosPrivate.post(`/api/orders`, {
+                        user_id: currentUser?._id,
+                        products: [...cartItems],
+                    });
 
-                    await axiosPrivate.put(
-                        `/api/users/${currentUser?._id}`,
-                        {
-                            ...currentUser,
-                            cart: [],
-                        },
-                        {
-                            headers: { "Content-Type": "application/json" },
-                            withCredentials: true,
-                        },
-                    );
+                    await axiosPrivate.put(`/api/users/${currentUser?._id}`, {
+                        ...currentUser,
+                        cart: [],
+                    });
 
                     localStorage.removeItem("cartIds");
 
@@ -123,30 +109,16 @@ const Checkout = () => {
                     setShowLoadingOverlay(false);
 
                     navigate("/");
-                    setShowAlert(false);
-                    setType("success");
-                    setShowModal(true);
-                    setModalMessage(
+
+                    showFeedback(
+                        "success",
                         `Thank you for your purchase, your order has been placed successfully.`,
+                        "modal",
                     );
                 } catch (err) {
                     console.log(err);
 
-                    if (err.code === "ERR_NETWORK") {
-                        setType("error");
-                        setShowModal(true);
-                        setModalMessage(
-                            "Something went wrong with your network connection. Please try again once your connection is stable. ",
-                        );
-                    }
-
-                    if (err.code === "ERR_BAD_RESPONSE") {
-                        setType("error");
-                        setShowModal(true);
-                        setModalMessage(
-                            "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
-                        );
-                    }
+                    showError(err.code);
                 }
             }
         }

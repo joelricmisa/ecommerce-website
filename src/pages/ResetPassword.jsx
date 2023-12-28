@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { resetPassword } from "../assets/images";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "../api/axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FaCircleInfo } from "react-icons/fa6";
-import FeedbackContext from "../contexts/FeedbackProvider";
 import { FaSpinner } from "react-icons/fa";
+import { useFeedback, useErrorFeedback } from "../hooks";
 
 const formSchema = new yup.ObjectSchema({
     newPassword: yup.string().min(4).max(15).required(),
@@ -32,12 +32,13 @@ const ResetPassword = () => {
         resolver: yupResolver(formSchema),
     });
 
-    const { setType, setMessage, setShowAlert } = useContext(FeedbackContext);
+    const showFeedback = useFeedback();
+    const showError = useErrorFeedback();
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         const isValid = await trigger();
-        console.log("trigger reset submit");
+        //console.log("trigger reset submit");
         const { newPassword } = getValues();
 
         setIsLoading(true);
@@ -57,40 +58,26 @@ const ResetPassword = () => {
                 const response = await axios.post(
                     RESET_URL,
                     JSON.stringify({ newPassword }),
-                    {
-                        headers: { "Content-Type": "application/json" },
-                        withCredentials: true,
-                    },
                 );
 
-                console.log(response?.data);
+                //console.log(response?.data);
 
                 reset();
-                setType("success");
-                setShowAlert(true);
-                setMessage(`Your password has been successfully updated!`);
+
+                showFeedback(
+                    "success",
+                    "Your password has been successfully updated!",
+                    "alert",
+                );
+
                 setIsLoading(false);
                 navigate("/signin", { replace: true });
             } catch (err) {
                 setIsLoading(false);
 
-                if (err.code === "ERR_NETWORK") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
-                    );
-                }
+                showError(err.code);
 
-                if (err.code === "ERR_BAD_RESPONSE") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
-                    );
-                }
-
-                // console.log(err);
+                console.log(err);
             }
         }
     };

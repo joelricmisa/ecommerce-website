@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import useRefreshToken from "../hooks/useRefreshToken";
-import useAuth from "../hooks/useAuth";
+import { useRefreshToken, useAuth } from "../hooks";
 
 const PersistLogin = () => {
     const { setAuth, auth } = useAuth();
@@ -8,7 +7,9 @@ const PersistLogin = () => {
 
     useEffect(() => {
         if (!auth?.accessToken) {
-            refresh().catch((err) => console.error(err));
+            refresh().catch((err) => {
+                // console.error(err);
+            });
         }
     }, [auth?.accessToken, refresh, setAuth]);
 

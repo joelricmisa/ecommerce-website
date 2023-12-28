@@ -20,17 +20,17 @@ const Modal = () => {
                     showModal ? "fixed" : "hidden"
                 } flex-center  left-1/2 top-1/2 z-[100] max-w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col gap-6 rounded-lg bg-gray-100 px-5 py-6 text-center  text-black`}
             >
-                {type === "success" ? (
+                {type === "success" && (
                     <FaCheckCircle className="text-5xl text-green-400" />
-                ) : null}
+                )}
 
-                {type === "error" ? (
+                {type === "error" && (
                     <FaInfoCircle className="text-5xl text-red-400" />
-                ) : null}
+                )}
 
-                {type === "info" ? (
+                {type === "info" && (
                     <FaInfoCircle className="text-5xl text-blue-400" />
-                ) : null}
+                )}
 
                 <p className=" text-lg font-normal tracking-wide  text-gray-950">
                     {modalMessage}

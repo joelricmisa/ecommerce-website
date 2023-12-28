@@ -35,19 +35,15 @@ export const FeedbackProvider = ({ children }) => {
         >
             {children}
 
-            {type === "success" ? (
-                <Alert message={message} type="success" />
-            ) : null}
+            {type === "success" && <Alert message={message} type="success" />}
 
-            {type === "delete" ? (
-                <Alert message={message} type="delete" />
-            ) : null}
+            {type === "delete" && <Alert message={message} type="delete" />}
 
-            {type === "info" ? <Alert message={message} type="info" /> : null}
+            {type === "info" && <Alert message={message} type="info" />}
 
-            <Modal />
+            {showModal && <Modal />}
 
-            <LoadingOverlay />
+            {showLoadingOverlay && <LoadingOverlay />}
         </FeedbackContext.Provider>
     );
 };

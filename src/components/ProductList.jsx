@@ -11,7 +11,7 @@ const ProductList = ({ dataId, category, title, timer }) => {
     const dummyArr = [1, 2, 3, 4];
     const ref = useRef();
 
-    const { data, isError, error, isLoading } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ["category", dataId],
         queryFn: async () => {
             const response = await axios.get(`/api/categories/${dataId}`);

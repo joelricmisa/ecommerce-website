@@ -1,7 +1,12 @@
-import { memo, useCallback, useContext, useEffect, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { FaXmark } from "react-icons/fa6";
-import useAuth from "../hooks/useAuth";
+import {
+    useAuth,
+    useComputePrice,
+    useGetImage,
+    useNumberFormat,
+} from "../hooks";
 
 const CartCard = ({ product_id, quantity }) => {
     const { removeCartItem, setTriggerQty, updateItemQty } =
@@ -9,20 +14,14 @@ const CartCard = ({ product_id, quantity }) => {
     const { auth } = useAuth();
 
     const [qty, setQty] = useState(quantity);
-    const finalPrice =
-        Number(product_id?.price) -
-        Number(product_id?.price) * (product_id?.discount / 100);
+
+    const finalPrice = useComputePrice(product_id?.price, product_id?.discount);
+
     const productSubTotal = Number(finalPrice) * Number(qty);
 
-    const formatNumber = new Intl.NumberFormat("fil-PH", {
-        currency: "PHP",
-        style: "currency",
-    });
-    const baseUrl = "https://exclusive-backend-te81.onrender.com";
+    const formatNumber = useNumberFormat();
 
-    const imageSource = ` ${baseUrl}${product_id?.image
-        ?.replace("public", "")
-        ?.replaceAll("\\", "/")}`;
+    const imageSource = useGetImage(product_id?.image);
 
     useEffect(() => {
         let productsQty = JSON.parse(localStorage.getItem("productQty"));
@@ -35,12 +34,16 @@ const CartCard = ({ product_id, quantity }) => {
 
         if (productIndex !== -1) {
             productsQty?.splice(productIndex, 1, {
-                _id: product_id._id,
+                product_id: {
+                    _id: product_id._id,
+                },
                 quantity: qty,
             });
         } else {
             productsQty.push({
-                _id: product_id._id,
+                product_id: {
+                    _id: product_id._id,
+                },
                 quantity: qty,
             });
         }
@@ -56,8 +59,11 @@ const CartCard = ({ product_id, quantity }) => {
     useEffect(() => {
         if (auth) {
             const data = setTimeout(() => {
-                updateItemQty({ _id: product_id?._id, quantity: qty });
-            }, 3000);
+                updateItemQty({
+                    product_id: { _id: product_id?._id },
+                    quantity: qty,
+                });
+            }, 1000);
 
             return () => clearTimeout(data);
         } else {

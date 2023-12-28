@@ -1,20 +1,14 @@
 import React from "react";
+import { useGetImage, useNumberFormat } from "../hooks";
 
 const CheckoutProductCard = (props) => {
     const { isShow, quantity, product_id } = props;
 
     const itemPrice = quantity * product_id.price;
 
-    const baseUrl = "https://exclusive-backend-te81.onrender.com";
+    const imageSource = useGetImage(product_id?.image);
 
-    const imageSource = `${baseUrl}${product_id.image
-        .replace("public", "")
-        .replaceAll("\\", "/")}`;
-
-    const formatNumber = new Intl.NumberFormat("fil-PH", {
-        currency: "PHP",
-        style: "currency",
-    });
+    const formatNumber = useNumberFormat();
 
     return (
         <div

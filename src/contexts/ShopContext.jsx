@@ -1,16 +1,13 @@
-import {
-    useState,
-    createContext,
-    useEffect,
-    memo,
-    useMemo,
-    useContext,
-} from "react";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import useAuth from "../hooks/useAuth";
+import { useState, createContext, useEffect, memo, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "../api/axios";
-import FeedbackContext from "./FeedbackProvider";
+
+import {
+    useAxiosPrivate,
+    useAuth,
+    useFeedback,
+    useErrorFeedback,
+    useComputePrice,
+} from "../hooks";
 
 export const ShopContext = createContext(0);
 
@@ -25,8 +22,9 @@ const ShopContextProvider = (props) => {
     const [totalAmount, setTotalAmount] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const queryClient = useQueryClient();
-    const { setMessage, setShowAlert, setType, setModalMessage, setShowModal } =
-        useContext(FeedbackContext);
+
+    const showFeedback = useFeedback();
+    const showError = useErrorFeedback();
 
     const { data: currentUser } = useQuery({
         queryKey: ["currentUser"],
@@ -47,22 +45,19 @@ const ShopContextProvider = (props) => {
 
             setWishlistItems([...response?.data?.data?.wishlist]);
 
-            console.log(response?.data);
-            // setIsLoading(false);
+            //console.log(response?.data);
+
             return response?.data?.data;
         },
         enabled: !!auth,
     });
 
-    useEffect(() => {
-        console.log(currentUser);
-    }, [currentUser]);
     //CART//CART//CART//CART//CART//CART//CART//CART//CART
 
     useEffect(() => {
         const cartIds = JSON.parse(localStorage.getItem("cartIds"));
         cartIds?.length > 0 ? updateCartItems(cartIds) : null;
-        console.log(cartItems);
+        //console.log(cartItems);
 
         localStorage.removeItem("cartIds");
     }, [currentUser?._id]);
@@ -105,9 +100,12 @@ const ShopContextProvider = (props) => {
                 : null;
 
             setIsLoading(false);
-            setType("success");
-            setShowAlert(true);
-            setMessage(`Added ${data.product_id.name} to cart successfully`);
+
+            showFeedback(
+                "success",
+                `Added ${data.product_id.name} to cart successfully`,
+                "alert",
+            );
         }
 
         // localstorage quantity
@@ -136,33 +134,27 @@ const ShopContextProvider = (props) => {
         // console.log(productsQty);
     };
 
-    const updateCartItems = async (data, newItem) => {
+    const updateCartItems = async (productData, newItem) => {
         if (currentUser) {
             try {
-                console.log(data);
+                //console.log(productData);
 
                 // array works only when the user is not logged in and the carts are stored in the  local storage then the user sign up and logged its account. This would automatically update its account's cart data in the live server.
-                if (Array.isArray(data)) {
+                if (Array.isArray(productData)) {
                     await Promise.all(
-                        data.map(async (item) => {
+                        productData.map(async (item) => {
                             const response = await axiosPrivate.patch(
                                 `/api/users/${currentUser?._id}/cart`,
                                 JSON.stringify({
                                     product_id: item?.product_id._id,
                                     quantity: item?.quantity,
                                 }),
-                                {
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                    },
-                                    withCredentials: true,
-                                },
                             );
 
-                            console.log(
-                                `Updated item with id ${item.product_id._id}:`,
-                                response.data,
-                            );
+                            // console.log(
+                            //     `Updated item with id ${item.product_id._id}:`,
+                            //     response.data,
+                            // );
                         }),
                     );
 
@@ -176,27 +168,25 @@ const ShopContextProvider = (props) => {
                     setCartItems([...updatedUserData.data.data.cart]);
 
                     let name;
-                    data.length > 1
+                    productData.length > 1
                         ? (name = "multiple items")
                         : (name = "item");
 
                     setIsLoading(false);
-                    setType("success");
-                    setShowAlert(true);
-                    setMessage(`Added ${name} to cart successfully`);
+                    showFeedback(
+                        "success",
+                        `Added ${name} to cart successfully`,
+                        "alert",
+                    );
                 }
                 // this updates the cart in the live server when the user is authenticated
                 else {
                     const response = await axiosPrivate.patch(
                         `/api/users/${currentUser?._id}/cart`,
                         JSON.stringify({
-                            product_id: data?.product_id._id,
-                            quantity: data?.quantity,
+                            product_id: productData?.product_id?._id,
+                            quantity: productData?.quantity,
                         }),
-                        {
-                            headers: { "Content-Type": "application/json" },
-                            withCredentials: true,
-                        },
                     );
                     // console.log("Response:", response);
 
@@ -207,31 +197,18 @@ const ShopContextProvider = (props) => {
                     // if this newItem is true, it would run the alerts since its added to cart else the cart item was just updated the quantity
                     if (newItem) {
                         setIsLoading(false);
-                        setType("success");
-                        setShowAlert(true);
-                        setMessage(
-                            `Added ${data.product_id.name} to cart successfully`,
+
+                        showFeedback(
+                            "success",
+                            `Added ${productData.product_id.name} to cart successfully`,
+                            "alert",
                         );
                     }
                 }
             } catch (err) {
                 console.log(err);
 
-                if (err.code === "ERR_NETWORK") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
-                    );
-                }
-
-                if (err.code === "ERR_BAD_RESPONSE") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
-                    );
-                }
+                showError(err.code);
             }
         }
     };
@@ -248,9 +225,11 @@ const ShopContextProvider = (props) => {
             setCartItems(filtered);
 
             setIsLoading(false);
-            setType("delete");
-            setShowAlert(true);
-            setMessage(`Removed ${data.name} from cart successfully`);
+            showFeedback(
+                "delete",
+                `Removed ${data.name} from cart successfully`,
+                "alert",
+            );
         }
 
         const itemQty = localStorage.getItem("productQty");
@@ -279,13 +258,9 @@ const ShopContextProvider = (props) => {
                 JSON.stringify({
                     product_id: productId,
                 }),
-                {
-                    headers: { "Content-Type": "application/json" },
-                    withCredentials: true,
-                },
             );
 
-            console.log("Response:", response);
+            // console.log("Response:", response);
 
             queryClient.setQueryData(["currentUser"], response.data);
 
@@ -293,29 +268,17 @@ const ShopContextProvider = (props) => {
 
             setIsLoading(false);
 
-            setType("delete");
-            setShowAlert(true);
-            setMessage(`Removed ${name} from cart successfully`);
+            showFeedback(
+                "delete",
+                `Removed ${name} from cart successfully`,
+                "alert",
+            );
 
             return response;
         } catch (error) {
             console.error("Error removing product from cart:", error);
 
-            if (err.code === "ERR_NETWORK") {
-                setType("error");
-                setShowModal(true);
-                setModalMessage(
-                    "Something went wrong with your network connection. Please try again once your connection is stable. ",
-                );
-            }
-
-            if (err.code === "ERR_BAD_RESPONSE") {
-                setType("error");
-                setShowModal(true);
-                setModalMessage(
-                    "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
-                );
-            }
+            showError(err.code);
         }
     };
 
@@ -348,9 +311,12 @@ const ShopContextProvider = (props) => {
             !isItemInList ? setWishlistItems([...wishlistItems, data]) : "";
 
             setIsLoading(false);
-            setType("success");
-            setShowAlert(true);
-            setMessage(`Added ${data.name} to wishlist successfully`);
+
+            showFeedback(
+                "success",
+                `Added ${data.name} to wishlist successfully`,
+                "alert",
+            );
         }
     };
 
@@ -368,10 +334,6 @@ const ShopContextProvider = (props) => {
                         ...currentUser,
                         wishlistIds: newWishlistItems || [],
                     }),
-                    {
-                        headers: { "Content-Type": "application/json" },
-                        withCredentials: true,
-                    },
                 );
 
                 queryClient.setQueryData(["currentUser"], response.data.data);
@@ -379,43 +341,17 @@ const ShopContextProvider = (props) => {
                 setWishlistItems([...response.data.data.wishlist]);
                 setIsLoading(false);
 
-                setType("success");
-                setShowAlert(true);
-                setMessage(`Added ${name} to wishlist successfully`);
-
-                // console.log("Response:", response.data);
-                // queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+                showFeedback(
+                    "success",
+                    `Added ${name} to wishlist successfully`,
+                    "alert",
+                );
             } catch (err) {
                 console.log(err);
 
-                if (err.code === "ERR_NETWORK") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
-                    );
-                }
-
-                if (err.code === "ERR_BAD_RESPONSE") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
-                    );
-                }
+                showError(err.code);
             }
         }
-    };
-
-    const getWishlistProducts = async (arrayIds) => {
-        const response = await axios.get("/api/products");
-        const products = response?.data?.data;
-
-        const filteredProducts = products?.filter((product) => {
-            return arrayIds.includes(product._id.toString());
-        });
-
-        setWishlistItems([...filteredProducts]);
     };
 
     const removeWishlistItem = (data) => {
@@ -430,9 +366,11 @@ const ShopContextProvider = (props) => {
             );
             setWishlistItems(filtered);
 
-            setType("delete");
-            setShowAlert(true);
-            setMessage(`Removed ${data.name} from wishlist successfully`);
+            showFeedback(
+                "delete",
+                `Removed ${data.name} from wishlist successfully`,
+                "alert",
+            );
         }
     };
 
@@ -441,10 +379,6 @@ const ShopContextProvider = (props) => {
             const response = await axiosPrivate.put(
                 `/api/users/${currentUser?._id}/remove-from-wishlist/${productId}`,
                 {},
-                {
-                    headers: { "Content-Type": "application/json" },
-                    withCredentials: true,
-                },
             );
 
             queryClient.setQueryData(["currentUser"], response.data.data);
@@ -452,29 +386,17 @@ const ShopContextProvider = (props) => {
             setWishlistItems([...response.data.data.wishlist]);
             setIsLoading(false);
 
-            setType("delete");
-            setShowAlert(true);
-            setMessage(`Removed ${name} from wishlist successfully`);
+            showFeedback(
+                "delete",
+                `Removed ${name} from wishlist successfully`,
+                "alert",
+            );
 
             return response;
         } catch (error) {
             console.error("Error removing product from wishlist:", error);
 
-            if (err.code === "ERR_NETWORK") {
-                setType("error");
-                setShowModal(true);
-                setModalMessage(
-                    "Something went wrong with your network connection. Please try again once your connection is stable. ",
-                );
-            }
-
-            if (err.code === "ERR_BAD_RESPONSE") {
-                setType("error");
-                setShowModal(true);
-                setModalMessage(
-                    "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
-                );
-            }
+            showError(err.code);
         }
     };
 
@@ -492,14 +414,14 @@ const ShopContextProvider = (props) => {
     useEffect(() => {
         let totalPay = 0;
 
-        cartItems.map(
-            (item) =>
-                (totalPay +=
-                    item.quantity *
-                    (item.product_id.price -
-                        item.product_id.price *
-                            (item.product_id.discount / 100))),
-        );
+        cartItems.map((item) => {
+            let price = useComputePrice(
+                item.product_id?.price,
+                item.product_id?.discount,
+            );
+
+            totalPay += item?.quantity * price;
+        });
 
         setTotalAmount(totalPay);
 

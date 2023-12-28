@@ -8,8 +8,9 @@ import {
     FaSpinner,
     FaXmark,
 } from "react-icons/fa6";
-import { fiveStar, fourHalfStar, fourStar, threeStar } from "../assets/images";
 import { ShopContext } from "../contexts/ShopContext";
+import { useComputePrice, useGetImage, useNumberFormat } from "../hooks";
+import { ratingImages } from "../constants";
 
 const ProductCard = (props) => {
     const {
@@ -23,26 +24,11 @@ const ProductCard = (props) => {
         controlWidth = true,
     } = props;
 
-    const numberFormatter = new Intl.NumberFormat("fil-PH", {
-        currency: "PHP",
-        style: "currency",
-    });
+    const numberFormatter = useNumberFormat();
 
-    const finalPrice = Number(price) - Number(price) * (discount / 100);
+    const finalPrice = useComputePrice(price, discount);
 
-    // base url for prod env
-    const baseUrl = "https://exclusive-backend-te81.onrender.com";
-
-    const imageSource = `${baseUrl}${image
-        ?.replace("public", "")
-        ?.replaceAll("\\", "/")}`;
-
-    const ratingImages = {
-        3: threeStar,
-        4: fourStar,
-        4.5: fourHalfStar,
-        5: fiveStar,
-    };
+    const imageSource = useGetImage(image);
 
     const ratingImg = ratingImages[rating];
 
@@ -128,9 +114,9 @@ const ProductCard = (props) => {
         };
 
         useEffect(() => {
-            console.log(cartItems);
+            //console.log(cartItems);
             const isItemInCart = cartItems?.some(
-                (item) => item.product_id._id === _id,
+                (item) => item.product_id?._id === _id,
             );
             setInCart((prev) => isItemInCart);
         }, [cartItems?.length]);

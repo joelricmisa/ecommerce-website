@@ -2,8 +2,10 @@ import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Breadcrumb, CartCard } from "../components";
 import { ShopContext } from "../contexts/ShopContext";
-import useAuth from "../hooks/useAuth";
+
 import FeedbackContext from "../contexts/FeedbackProvider";
+
+import { useAuth, useNumberFormat } from "../hooks";
 
 const Cart = () => {
     const navigate = useNavigate();
@@ -11,10 +13,7 @@ const Cart = () => {
     const { setShowModal, setModalMessage, setType } =
         useContext(FeedbackContext);
     const { auth } = useAuth();
-    const numberFormatter = new Intl.NumberFormat("fil-PH", {
-        currency: "PHP",
-        style: "currency",
-    });
+    const numberFormatter = useNumberFormat();
 
     const [emptyCart, setEmptyCart] = useState(true);
     const [hasUser, setHasUser] = useState(true);
@@ -91,9 +90,9 @@ const Cart = () => {
                         type="button"
                         className="button"
                         onClick={() => {
-                            !hasUser ? setShowModal(true) : null;
-                            emptyCart ? setShowModal(true) : null;
-                            hasUser && !emptyCart ? navigate("checkout") : null;
+                            !hasUser && setShowModal(true);
+                            emptyCart && setShowModal(true);
+                            hasUser && !emptyCart && navigate("checkout");
                         }}
                     >
                         Process to Checkout

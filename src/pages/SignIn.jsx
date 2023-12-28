@@ -1,14 +1,13 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { signInImg } from "../assets/images";
-import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FaCircleInfo } from "react-icons/fa6";
-import { useContext, useEffect, useState } from "react";
-import FeedbackContext from "../contexts/FeedbackProvider";
+import { useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
+import { useFeedback, useErrorFeedback, useAuth } from "../hooks";
 
 const formSchema = new yup.ObjectSchema({
     email: yup.string().email().required(),
@@ -22,7 +21,6 @@ const SignIn = () => {
         reset,
         formState: { errors },
         getValues,
-        setError,
     } = useForm({
         resolver: yupResolver(formSchema),
         mode: "onTouched",
@@ -31,8 +29,8 @@ const SignIn = () => {
 
     const LOGIN_URL = "/api/auth";
     const { auth, setAuth } = useAuth();
-    const { setType, setMessage, setShowAlert, setModalMessage, setShowModal } =
-        useContext(FeedbackContext);
+    const showFeedback = useFeedback();
+    const showError = useErrorFeedback();
     const navigate = useNavigate();
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +45,7 @@ const SignIn = () => {
 
     const handleSubmit = async (e) => {
         const isValid = await trigger();
-        console.log("trigger submit");
+        //console.log("trigger submit");
         setIsLoading(true);
         const { email, password } = getValues();
 
@@ -61,13 +59,9 @@ const SignIn = () => {
                 const response = await axios.post(
                     LOGIN_URL,
                     JSON.stringify({ email, password }),
-                    {
-                        headers: { "Content-Type": "application/json" },
-                        withCredentials: true,
-                    },
                 );
 
-                console.log(response?.data);
+                //console.log(response?.data);
 
                 const accessToken = response?.data?.accessToken;
                 const role = response?.data?.role;
@@ -77,39 +71,16 @@ const SignIn = () => {
                 reset();
                 navigate(from, { replace: true });
 
-                setType("info");
-                setShowAlert(true);
-                setMessage(`Authenticated as ${user}.`);
+                showFeedback("info", `Authenticated as ${user}.`, "alert");
+
                 setIsLoading(false);
-                console.log(response?.data);
+                //console.log(response?.data);
             } catch (err) {
                 setIsLoading(false);
 
-                switch (err.code) {
-                    case "ERR_NETWORK":
-                        setType("error");
-                        setShowModal(true);
-                        setModalMessage(
-                            "Something went wrong with your network connection. Please try again once your connection is stable. ",
-                        );
-                        break;
-
-                    case "ERR_BAD_REQUEST":
-                        setType("error");
-                        setShowModal(true);
-                        setModalMessage(err.response.data.message);
-                        break;
-
-                    default:
-                        setType("error");
-                        setShowModal(true);
-                        setModalMessage(
-                            "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
-                        );
-                        break;
-                }
-
                 console.log(err);
+
+                showError(err.code, err.response.data.message);
             }
         }
     };

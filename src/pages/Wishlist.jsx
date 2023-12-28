@@ -52,7 +52,7 @@ const Wishlist = () => {
                 const response = await axios.get(
                     `/api/categories/${flashSalesId}`,
                 );
-                console.log(response);
+                //console.log(response);
                 return response?.data?.data?.products;
             },
         });

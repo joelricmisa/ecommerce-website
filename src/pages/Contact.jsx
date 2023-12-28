@@ -3,10 +3,11 @@ import { Breadcrumb } from "../components/index";
 import { FaCircleInfo, FaEnvelope, FaPhone } from "react-icons/fa6";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useContext, useState } from "react";
-import FeedbackContext from "../contexts/FeedbackProvider";
+import { useState } from "react";
 import axios from "../api/axios";
 import { FaSpinner } from "react-icons/fa";
+
+import { useFeedback, useErrorFeedback } from "../hooks";
 
 const formSchema = new yup.ObjectSchema({
     name: yup.string().required(),
@@ -31,12 +32,13 @@ const Contact = () => {
         reValidateMode: "onSubmit",
     });
 
-    const { setType, setMessage, setShowAlert } = useContext(FeedbackContext);
+    const showFeedback = useFeedback();
+    const showError = useErrorFeedback();
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         const isValid = await trigger();
-        console.log("trigger send");
+        //console.log("trigger send");
         setIsLoading(true);
 
         const { name, email, message, phone } = getValues();
@@ -51,41 +53,23 @@ const Contact = () => {
                 const response = await axios.post(
                     "/api/contact",
                     JSON.stringify({ name, email, message, phone }),
-                    {
-                        headers: { "Content-Type": "application/json" },
-                        withCredentials: true,
-                    },
                 );
 
-                console.log(response?.data);
+                //console.log(response?.data);
 
                 reset();
 
                 setIsLoading(false);
-                setType("success");
-                setShowAlert(true);
-                setMessage(`Message sent successfully!`);
-                console.log(response?.data);
+
+                showFeedback("success", `Message sent successfully!`, "alert");
+
+                //console.log(response?.data);
             } catch (err) {
                 setIsLoading(false);
 
-                if (err.code === "ERR_NETWORK") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Something went wrong with your network connection. Please try again once your connection is stable. ",
-                    );
-                }
+                showError(err.code);
 
-                if (err.code === "ERR_BAD_RESPONSE") {
-                    setType("error");
-                    setShowModal(true);
-                    setModalMessage(
-                        "Our server is experiencing an issue. You may try again later, once we have resolved our server issue.",
-                    );
-                }
-
-                // console.log(err);
+                console.log(err);
             }
         }
     };

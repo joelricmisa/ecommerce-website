@@ -14,8 +14,9 @@ import {
     FaXmark,
 } from "react-icons/fa6";
 import axios from "../api/axios";
-import { fiveStar, fourHalfStar, fourStar, threeStar } from "../assets/images";
 import { useQuery } from "@tanstack/react-query";
+import { useComputePrice, useNumberFormat } from "../hooks";
+import { ratingImages } from "../constants";
 
 const ProductPreview = () => {
     const location = useLocation();
@@ -36,16 +37,12 @@ const ProductPreview = () => {
     const [inCart, setInCart] = useState(false);
     const baseUrl = "https://exclusive-backend-te81.onrender.com";
 
-    const formatNumber = new Intl.NumberFormat("fil-PH", {
-        currency: "PHP",
-        style: "currency",
-    });
-
+    const formatNumber = useNumberFormat();
     const currentProduct = useQuery({
         queryKey: ["product", id],
         queryFn: async () => {
             const response = await axios.get(`/api/products/${id}`);
-            console.log(response);
+            //console.log(response);
             return response?.data?.data;
         },
     });
@@ -69,26 +66,7 @@ const ProductPreview = () => {
         },
     ];
 
-    let ratingImg;
-
-    switch (currentProduct?.data?.rating) {
-        case "3":
-            ratingImg = threeStar;
-            // console.log(ratingImg);
-            break;
-        case "4":
-            ratingImg = fourStar;
-            // console.log(ratingImg);
-            break;
-        case "4.5":
-            ratingImg = fourHalfStar;
-            // console.log(ratingImg);
-            break;
-        case "5":
-            ratingImg = fiveStar;
-            // console.log(ratingImg);
-            break;
-    }
+    const ratingImg = ratingImages[currentProduct?.data?.rating];
 
     useEffect(() => {
         const filterWishlist = wishlistItems?.filter(
@@ -110,7 +88,7 @@ const ProductPreview = () => {
             const response = await axios.get(
                 `/api/categories/${currentProduct?.data?.categories?.[0]._id}`,
             );
-            console.log(response);
+            //console.log(response);
             return response?.data?.data?.products;
         },
     });
@@ -124,9 +102,10 @@ const ProductPreview = () => {
             return item._id === id;
         });
 
-        const finalPrice =
-            Number(currentProduct.price) -
-            Number(currentProduct.price) * (currentProduct.discount / 100);
+        const finalPrice = useComputePrice(
+            currentProduct.price,
+            currentProduct.discount,
+        );
 
         if (productIndex !== -1) {
             productsQty.splice(productIndex, 1, {
@@ -188,11 +167,11 @@ const ProductPreview = () => {
                         <p>({currentProduct?.data?.rate_count} Reviews)</p>
                     </span>
                     <div className="flex text-2xl">
-                        {currentProduct?.data?.discount > 0 ? (
+                        {currentProduct?.data?.discount > 0 && (
                             <span className="text-black/50 line-through">
                                 ₱{currentProduct?.data?.price}
                             </span>
-                        ) : null}
+                        )}
                         <span
                             className={`${
                                 currentProduct?.data?.discount > 0 ? "ml-3" : ""
@@ -209,12 +188,12 @@ const ProductPreview = () => {
                                       currentProduct?.data?.price,
                                   )}
                         </span>
-                        {currentProduct?.data?.discount > 0 ? (
+                        {currentProduct?.data?.discount > 0 && (
                             <span className="ml-3 flex h-8 items-center gap-2 rounded-md bg-tertiary-100 p-1 text-lg text-white">
                                 -{currentProduct?.data?.discount}%
                                 <FaTag />
                             </span>
-                        ) : null}
+                        )}
                     </div>
 
                     <p className="mt-2 border-b border-black/10 pb-5 text-sm leading-7">

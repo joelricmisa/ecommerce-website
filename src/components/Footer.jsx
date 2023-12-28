@@ -29,7 +29,7 @@ const Footer = () => {
                             </li>
                         ))}
 
-                        {index == 0 ? (
+                        {index == 0 && (
                             <li>
                                 <label
                                     htmlFor="email"
@@ -50,11 +50,9 @@ const Footer = () => {
                                     </button>
                                 </label>
                             </li>
-                        ) : (
-                            ""
                         )}
 
-                        {index == 4 ? (
+                        {index == 4 && (
                             <>
                                 <li className="flex">
                                     <img
@@ -82,8 +80,6 @@ const Footer = () => {
                                     <FaLinkedinIn className="text-2xl" />
                                 </li>
                             </>
-                        ) : (
-                            ""
                         )}
                     </ul>
                 ))}

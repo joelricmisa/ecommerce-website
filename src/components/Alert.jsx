@@ -39,11 +39,9 @@ const Alert = ({ message, type }) => {
 
     return (
         <div className={containerStyle}>
-            {type === "success" ? (
-                <FaCheckCircle className={iconStyle} />
-            ) : null}
-            {type === "delete" ? <FaTrashAlt className={iconStyle} /> : null}
-            {type === "info" ? <FaInfoCircle className={iconStyle} /> : null}
+            {type === "success" && <FaCheckCircle className={iconStyle} />}
+            {type === "delete" && <FaTrashAlt className={iconStyle} />}
+            {type === "info" && <FaInfoCircle className={iconStyle} />}
 
             <p className=" text-sm sm:w-11/12 sm:whitespace-nowrap sm:pr-5 sm:text-base ">
                 {message}

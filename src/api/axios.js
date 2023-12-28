@@ -9,6 +9,8 @@ const baseURL = "https://exclusive-backend-te81.onrender.com";
 
 export default axios.create({
     baseURL: baseURL,
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true,
 });
 
 export const axiosPrivate = axios.create({

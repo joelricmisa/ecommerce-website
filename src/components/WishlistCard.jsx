@@ -1,33 +1,21 @@
 import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaCartPlus, FaRegEye, FaTrashCan, FaXmark } from "react-icons/fa6";
-import { fiveStar, fourHalfStar, fourStar, threeStar } from "../assets/images";
 import { ShopContext } from "../contexts/ShopContext";
 import { FaSpinner } from "react-icons/fa";
+import { useComputePrice, useGetImage, useNumberFormat } from "../hooks";
+
+import { ratingImages } from "../constants";
 
 const WishlistCard = (props) => {
     const { _id, name, image, price, rating, discount } = props;
     const { removeWishlistItem } = useContext(ShopContext);
 
-    const numberFormatter = new Intl.NumberFormat("fil-PH", {
-        currency: "PHP",
-        style: "currency",
-    });
+    const numberFormatter = useNumberFormat();
 
-    const finalPrice = Number(price) - Number(price) * (discount / 100);
+    const finalPrice = useComputePrice(price, discount);
 
-    const baseUrl = "https://exclusive-backend-te81.onrender.com";
-
-    const imageSource = `${baseUrl}${image
-        ?.replace("public", "")
-        ?.replaceAll("\\", "/")}`;
-
-    const ratingImages = {
-        3: threeStar,
-        4: fourStar,
-        4.5: fourHalfStar,
-        5: fiveStar,
-    };
+    const imageSource = useGetImage(image);
 
     const ratingImg = ratingImages[rating];
 
