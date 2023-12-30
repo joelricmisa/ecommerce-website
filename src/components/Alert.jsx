@@ -2,12 +2,12 @@ import React, { useContext, useEffect } from "react";
 import { FaCheckCircle, FaTrashAlt, FaInfoCircle } from "react-icons/fa";
 import FeedbackContext from "../contexts/FeedbackProvider";
 
-const Alert = ({ message, type }) => {
-    const { showAlert, setShowAlert } = useContext(FeedbackContext);
+const Alert = ({ message, variant, closeFnc }) => {
+    // const { showAlert, setShowAlert } = useContext(FeedbackContext);
 
     useEffect(() => {
         const exit = setTimeout(() => {
-            setShowAlert(false);
+            closeFnc();
         }, 2500);
 
         exit;
@@ -15,7 +15,7 @@ const Alert = ({ message, type }) => {
         return () => {
             clearTimeout(exit);
         };
-    }, [showAlert]);
+    }, [variant]);
 
     const boxVariants = {
         success: "text-green-900 bg-green-100",
@@ -29,19 +29,15 @@ const Alert = ({ message, type }) => {
         info: "text-blue-400",
     };
 
-    const containerStyle = `${
-        showAlert ? "fixed" : "hidden"
-    } bottom-5 sm:left-10 left-4  z-[999]  flex w-11/12 sm:w-auto items-center justify-center gap-4 rounded-lg px-5  py-3 text-base ${
-        boxVariants[type]
-    }`;
+    const containerStyle = `fixed bottom-5 sm:left-10 left-4  z-[999]  flex w-11/12 sm:w-auto items-center justify-center gap-4 rounded-lg px-5  py-3 text-base ${boxVariants[variant]}`;
 
-    const iconStyle = `sm:w-1/12 text-xl  ${iconVariants[type]}`;
+    const iconStyle = `sm:w-1/12 text-xl  ${iconVariants[variant]}`;
 
     return (
         <div className={containerStyle}>
-            {type === "success" && <FaCheckCircle className={iconStyle} />}
-            {type === "delete" && <FaTrashAlt className={iconStyle} />}
-            {type === "info" && <FaInfoCircle className={iconStyle} />}
+            {variant === "success" && <FaCheckCircle className={iconStyle} />}
+            {variant === "delete" && <FaTrashAlt className={iconStyle} />}
+            {variant === "info" && <FaInfoCircle className={iconStyle} />}
 
             <p className=" text-sm sm:w-11/12 sm:whitespace-nowrap sm:pr-5 sm:text-base ">
                 {message}

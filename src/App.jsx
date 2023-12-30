@@ -21,9 +21,15 @@ import {
     Account,
     ResetPassword,
 } from "./pages";
-import ShopContextProvider from "./contexts/ShopContext";
-import { FeedbackProvider } from "./contexts/FeedbackProvider";
+
 import RequireAuth from "./layouts/RequireAuth";
+
+import {
+    CategoryProvider,
+    WishlistProvider,
+    ShopContextProvider,
+    FeedbackProvider,
+} from "./contexts";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -69,9 +75,13 @@ function App() {
     return (
         <>
             <FeedbackProvider>
-                <ShopContextProvider>
-                    <RouterProvider router={router} />
-                </ShopContextProvider>
+                <WishlistProvider>
+                    <ShopContextProvider>
+                        <CategoryProvider>
+                            <RouterProvider router={router} />
+                        </CategoryProvider>
+                    </ShopContextProvider>
+                </WishlistProvider>
             </FeedbackProvider>
         </>
     );

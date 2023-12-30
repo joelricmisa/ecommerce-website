@@ -2,19 +2,14 @@ import { useContext } from "react";
 import FeedbackContext from "../contexts/FeedbackProvider";
 
 const useFeedback = () => {
-    const { setMessage, setShowAlert, setType, setModalMessage, setShowModal } =
+    const { setIsShow, setComponent, setMessage, setVariant } =
         useContext(FeedbackContext);
 
     const showFeedback = (type, message, component) => {
-        setType(type);
-
-        if (component === "alert") {
-            setShowAlert(true);
-            setMessage(message);
-        } else {
-            setShowModal(true);
-            setModalMessage(message);
-        }
+        setIsShow(true);
+        setMessage(message);
+        setComponent(component);
+        setVariant(type);
     };
 
     return showFeedback;

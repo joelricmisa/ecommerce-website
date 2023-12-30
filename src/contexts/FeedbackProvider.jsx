@@ -1,49 +1,48 @@
 import React, { createContext, useState } from "react";
-import Alert from "../components/Alert";
-import Modal from "../components/Modal";
-import LoadingOverlay from "../components/LoadingOverlay";
+import { Alert, Modal, LoadingOverlay } from "../components";
 
 const FeedbackContext = createContext({});
 
 export const FeedbackProvider = ({ children }) => {
-    const [showAlert, setShowAlert] = useState(false);
+    const [isShow, setIsShow] = useState(false);
+    const [component, setComponent] = useState("");
     const [message, setMessage] = useState("");
-    const [type, setType] = useState("");
-    const [showModal, setShowModal] = useState(false);
-    const [modalMessage, setModalMessage] = useState("");
-    const [showLoadingOverlay, setShowLoadingOverlay] = useState(false);
-    const [loadingMessage, setLoadingMessage] = useState("");
+    const [variant, setVariant] = useState("");
+
+    const contextValue = {
+        isShow,
+        setIsShow,
+        component,
+        setComponent,
+        message,
+        setMessage,
+        variant,
+        setVariant,
+    };
 
     return (
-        <FeedbackContext.Provider
-            value={{
-                showAlert,
-                setShowAlert,
-                message,
-                setMessage,
-                type,
-                setType,
-                showModal,
-                setShowModal,
-                modalMessage,
-                setModalMessage,
-                showLoadingOverlay,
-                setShowLoadingOverlay,
-                loadingMessage,
-                setLoadingMessage,
-            }}
-        >
+        <FeedbackContext.Provider value={contextValue}>
             {children}
 
-            {type === "success" && <Alert message={message} type="success" />}
+            {isShow && component === "alert" && (
+                <Alert
+                    message={message}
+                    variant={variant}
+                    closeFnc={() => setIsShow(false)}
+                />
+            )}
 
-            {type === "delete" && <Alert message={message} type="delete" />}
+            {isShow && component === "modal" && (
+                <Modal
+                    message={message}
+                    variant={variant}
+                    closeFnc={() => setIsShow(false)}
+                />
+            )}
 
-            {type === "info" && <Alert message={message} type="info" />}
-
-            {showModal && <Modal />}
-
-            {showLoadingOverlay && <LoadingOverlay />}
+            {isShow && component === "overlay" && (
+                <LoadingOverlay message={message} />
+            )}
         </FeedbackContext.Provider>
     );
 };
