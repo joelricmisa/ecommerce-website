@@ -10,9 +10,10 @@ import { motion, useAnimate } from "framer-motion";
 import { FaAngleLeft, FaAngleRight, FaInbox, FaSpinner } from "react-icons/fa6";
 import axios, { axiosPrivate } from "../api/axios";
 import { useQuery } from "@tanstack/react-query";
+import { useCategory } from "../hooks";
 
 const ShopProducts = () => {
-    const { category } = useContext(ShopContext);
+    const { category } = useCategory();
     const [products, setProducts] = useState();
     const [currentCategory, setCurrentCategory] = useState(category);
     const ref = useRef();

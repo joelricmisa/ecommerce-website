@@ -2,11 +2,12 @@ import React, { useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { NavLink, useLocation } from "react-router-dom";
 import { navLinks } from "../constants";
+import { useCategory } from "../hooks";
 
 const NavLinks = () => {
     const location = useLocation();
     const currentPath = location.pathname;
-    const { setCategory } = useContext(ShopContext);
+    const { setCategory } = useCategory();
 
     const currentActive = navLinks.filter((link) => link.href === currentPath);
     const activeNav = currentActive[0]?.label;

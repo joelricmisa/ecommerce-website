@@ -6,6 +6,7 @@ import { SkeletonCard, Timer } from "./index";
 import { ProductCard } from "./index";
 import { ShopContext } from "../contexts/ShopContext";
 import axios from "../api/axios";
+import { useCategory } from "../hooks";
 
 const ProductList = ({ dataId, category, title, timer }) => {
     const dummyArr = [1, 2, 3, 4];
@@ -83,8 +84,8 @@ const ProductList = ({ dataId, category, title, timer }) => {
             </div>
         ) : (
             <div className="flex whitespace-nowrap ">
-                {data.map((product, index) => (
-                    <span key={index} className="inline-block">
+                {data.map((product) => (
+                    <span key={product._id} className="inline-block">
                         <ProductCard {...product} />
                     </span>
                 ))}
@@ -93,7 +94,7 @@ const ProductList = ({ dataId, category, title, timer }) => {
     };
 
     const ViewAllBtn = () => {
-        const { setCategory } = useContext(ShopContext);
+        const { setCategory } = useCategory();
 
         return isLoading ? null : data?.length > 4 ? (
             <Link
