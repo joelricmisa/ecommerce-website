@@ -1,10 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { FaCheckCircle, FaTrashAlt, FaInfoCircle } from "react-icons/fa";
-import FeedbackContext from "../contexts/FeedbackProvider";
 
 const Alert = ({ message, variant, closeFnc }) => {
-    // const { showAlert, setShowAlert } = useContext(FeedbackContext);
-
     useEffect(() => {
         const exit = setTimeout(() => {
             closeFnc();

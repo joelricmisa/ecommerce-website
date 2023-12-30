@@ -75,12 +75,12 @@ const Wishlist = () => {
                                 </span>
                             ) : (
                                 data
-                                    .filter((product) => {
+                                    ?.filter((product) => {
                                         return !wishlistItems?.some(
                                             (item) => item._id === product._id,
                                         );
                                     })
-                                    .map((card) => {
+                                    ?.map((card) => {
                                         return (
                                             <ProductCard
                                                 key={uuid()}

@@ -93,7 +93,7 @@ export const WishlistProvider = ({ children }) => {
                     }),
                 );
 
-                queryClient.setQueryData(["currentUser"], response.data.data);
+                queryClient.setQueryData(["wishlist"], response.data.data);
 
                 setWishlistItems([...response.data.data.wishlist]);
                 setIsLoading(false);
@@ -138,7 +138,7 @@ export const WishlistProvider = ({ children }) => {
                 {},
             );
 
-            queryClient.setQueryData(["currentUser"], response.data.data);
+            queryClient.setQueryData(["wishlist"], response.data.data);
 
             setWishlistItems([...response.data.data.wishlist]);
             setIsLoading(false);
