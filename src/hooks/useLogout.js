@@ -1,20 +1,17 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import useAxiosPrivate from "./useAxiosPrivate";
 import useAuth from "./useAuth";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../contexts/ShopContext";
 import { useQueryClient } from "@tanstack/react-query";
-import FeedbackContext from "../contexts/FeedbackProvider";
-import useFeedback from "./useFeedback";
-import useErrorFeedback from "./useErrorFeedback";
+
+import { useWishlist, useFeedback, useErrorFeedback } from "./index";
 
 const useLogout = () => {
     const axiosPrivate = useAxiosPrivate();
     const { auth, setAuth } = useAuth();
-    const { setCartItems, setWishlistItems } = useContext(ShopContext);
-    const { setShowLoadingOverlay, setLoadingMessage } =
-        useContext(FeedbackContext);
-
+    const { setCartItems } = useContext(ShopContext);
+    const { setWishlistItems } = useWishlist();
     const showFeedback = useFeedback();
     const showError = useErrorFeedback();
 
@@ -24,8 +21,9 @@ const useLogout = () => {
     const queryClient = useQueryClient();
 
     const handleLogout = async () => {
-        setLoadingMessage("Logging Out");
-        setShowLoadingOverlay(true);
+        showFeedback("loading", "Logging Out", "overlay");
+        // setLoadingMessage("");
+        // setShowLoadingOverlay(true);
 
         setTimeout(async () => {
             try {
@@ -38,7 +36,7 @@ const useLogout = () => {
                 setCartItems([]);
                 setWishlistItems([]);
                 queryClient.clear();
-                setShowLoadingOverlay(false);
+                // setShowLoadingOverlay(false);
 
                 navigate("/signin", { replace: true });
 

@@ -1,18 +1,15 @@
 import { ProductCard, WishlistCard } from "../components";
 import { v4 as uuid } from "uuid";
-
-import { ShopContext } from "../contexts/ShopContext";
-import { memo, useContext, useEffect, useMemo, useState } from "react";
-
 import { FaHeart, FaInbox } from "react-icons/fa6";
 import axios from "../api/axios";
 import { useQuery } from "@tanstack/react-query";
+import { useWishlist } from "../hooks";
 
 const Wishlist = () => {
     //
     //Wishlist components
     const WishlistCount = () => {
-        const { wishlistItems } = useContext(ShopContext);
+        const { wishlistItems } = useWishlist();
 
         return (
             <span className="flex gap-2 text-xl text-black">
@@ -23,7 +20,7 @@ const Wishlist = () => {
     };
 
     const WishlistContent = () => {
-        const { wishlistItems } = useContext(ShopContext);
+        const { wishlistItems } = useWishlist();
 
         return (
             <>
@@ -44,7 +41,8 @@ const Wishlist = () => {
 
     const RecommendationBox = () => {
         const flashSalesId = "6554b1bfdb069acd41999b0d";
-        const { wishlistItems } = useContext(ShopContext);
+
+        const { wishlistItems } = useWishlist();
 
         const { data, isError, error, isLoading } = useQuery({
             queryKey: ["category", flashSalesId],
@@ -59,9 +57,9 @@ const Wishlist = () => {
         return (
             <>
                 {isError ? null : data?.filter((product) => {
-                      return !wishlistItems?.some(
-                          (item) => item._id === product._id,
-                      );
+                      return !wishlistItems?.some((item) => {
+                          return item._id === product._id;
+                      });
                   })?.length > 0 ? (
                     <div className="padding flex flex-col ">
                         <div className="flex-center mb-20 w-full justify-start font-semibold text-tertiary-100">

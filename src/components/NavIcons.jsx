@@ -9,10 +9,11 @@ import {
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { ShopContext } from "../contexts/ShopContext";
 import { navIconLinks } from "../constants";
-import { useAuth, useLogout } from "../hooks";
+import { useAuth, useLogout, useWishlist } from "../hooks";
 
 const NavIcons = () => {
-    const { cartItems, wishlistItems } = useContext(ShopContext);
+    const { cartItems } = useContext(ShopContext);
+    const { wishlistItems } = useWishlist();
 
     const RenderNavIconLink = ({ label, href, icon, storageName }) => {
         const location = useLocation();

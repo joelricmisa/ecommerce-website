@@ -6,17 +6,15 @@ import {
     useAuth,
     useFeedback,
     useErrorFeedback,
-    useComputePrice,
 } from "../hooks";
+import { computePrice } from "../utils";
 
 export const ShopContext = createContext(0);
 
-const ShopContextProvider = (props) => {
+const ShopContextProvider = ({ children }) => {
     const axiosPrivate = useAxiosPrivate();
     const { auth } = useAuth();
     const [cartItems, setCartItems] = useState([]);
-    const [wishlistItems, setWishlistItems] = useState([]);
-    const [category, setCategory] = useState("all");
     const [triggerQty, setTriggerQty] = useState(0);
 
     const [totalAmount, setTotalAmount] = useState(0);
@@ -282,124 +280,6 @@ const ShopContextProvider = (props) => {
         }
     };
 
-    //WISHLIST//WISHLIST//WISHLIST//WISHLIST//WISHLIST//WISHLIST
-
-    useEffect(() => {
-        const wishlistIds = JSON.parse(localStorage.getItem("wishlistIds"));
-        wishlistIds?.length > 0
-            ? updateWishlistItems(
-                  wishlistIds,
-                  wishlistIds.length > 1 ? "multiple items" : "item",
-              )
-            : null;
-        localStorage.removeItem("wishlistIds");
-    }, [currentUser?._id]);
-
-    const addToWishlist = (data) => {
-        if (auth) {
-            const isItemInList = wishlistItems?.some(
-                (item) => item._id === data._id,
-            );
-            !isItemInList ? updateWishlistItems([data._id], data.name) : "";
-        }
-
-        if (!auth) {
-            // setIsLoading(false);
-            const isItemInList = wishlistItems?.some(
-                (item) => item._id === data._id,
-            );
-            !isItemInList ? setWishlistItems([...wishlistItems, data]) : "";
-
-            setIsLoading(false);
-
-            showFeedback(
-                "success",
-                `Added ${data.name} to wishlist successfully`,
-                "alert",
-            );
-        }
-    };
-
-    const updateWishlistItems = async (newWishlistItems, name) => {
-        if (currentUser) {
-            try {
-                // console.log("Request Data for wishlist:", {
-                //     ...currentUser,
-                //     wishlistIds: newWishlistItems || [],
-                // });
-
-                const response = await axiosPrivate.put(
-                    `/api/users/${currentUser?._id}`,
-                    JSON.stringify({
-                        ...currentUser,
-                        wishlistIds: newWishlistItems || [],
-                    }),
-                );
-
-                queryClient.setQueryData(["currentUser"], response.data.data);
-
-                setWishlistItems([...response.data.data.wishlist]);
-                setIsLoading(false);
-
-                showFeedback(
-                    "success",
-                    `Added ${name} to wishlist successfully`,
-                    "alert",
-                );
-            } catch (err) {
-                console.log(err);
-
-                showError(err.code);
-            }
-        }
-    };
-
-    const removeWishlistItem = (data) => {
-        if (auth) {
-            removeWishlistItemFromUser(data._id, data.name);
-        }
-
-        if (!auth) {
-            setIsLoading(false);
-            const filtered = wishlistItems.filter(
-                (item) => data._id !== item._id,
-            );
-            setWishlistItems(filtered);
-
-            showFeedback(
-                "delete",
-                `Removed ${data.name} from wishlist successfully`,
-                "alert",
-            );
-        }
-    };
-
-    const removeWishlistItemFromUser = async (productId, name) => {
-        try {
-            const response = await axiosPrivate.put(
-                `/api/users/${currentUser?._id}/remove-from-wishlist/${productId}`,
-                {},
-            );
-
-            queryClient.setQueryData(["currentUser"], response.data.data);
-
-            setWishlistItems([...response.data.data.wishlist]);
-            setIsLoading(false);
-
-            showFeedback(
-                "delete",
-                `Removed ${name} from wishlist successfully`,
-                "alert",
-            );
-
-            return response;
-        } catch (error) {
-            console.error("Error removing product from wishlist:", error);
-
-            showError(err.code);
-        }
-    };
-
     //clean up localstorage when refresh
     useEffect(() => {
         const productsQty = JSON.parse(localStorage.getItem("productQty"));
@@ -415,7 +295,7 @@ const ShopContextProvider = (props) => {
         let totalPay = 0;
 
         cartItems.map((item) => {
-            let price = useComputePrice(
+            let price = computePrice(
                 item.product_id?.price,
                 item.product_id?.discount,
             );
@@ -432,29 +312,23 @@ const ShopContextProvider = (props) => {
         () => ({
             cartItems,
             setCartItems,
-            wishlistItems,
-            setWishlistItems,
             addToCart,
-            addToWishlist,
-            removeWishlistItem,
             removeCartItem,
-            // getTotalCartAmount,
             triggerQty,
             setTriggerQty,
             totalAmount,
-            category,
-            setCategory,
             currentUser,
             updateItemQty,
             isLoading,
             setIsLoading,
         }),
-        [cartItems, wishlistItems, totalAmount, category, isLoading],
+        // category
+        [cartItems, totalAmount, isLoading],
     );
 
     return (
         <ShopContext.Provider value={contextValue}>
-            {props.children}
+            {children}
         </ShopContext.Provider>
     );
 };

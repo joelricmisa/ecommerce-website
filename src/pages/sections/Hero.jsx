@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 
 import { useContext, useState } from "react";
 import { ShopContext } from "../../contexts/ShopContext";
+import { useCategory } from "../../hooks";
 const Hero = () => {
-    const { setCategory } = useContext(ShopContext);
+    const { setCategory } = useCategory();
     const [currentHero, setCurrentHero] = useState(HeroData[0]);
 
     return (
