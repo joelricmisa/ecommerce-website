@@ -141,7 +141,7 @@ const ShopContextProvider = ({ children }) => {
                 if (Array.isArray(productData)) {
                     await Promise.all(
                         productData.map(async (item) => {
-                            const response = await axiosPrivate.patch(
+                            await axiosPrivate.patch(
                                 `/api/users/${currentUser?._id}/cart`,
                                 JSON.stringify({
                                     product_id: item?.product_id._id,
@@ -213,7 +213,7 @@ const ShopContextProvider = ({ children }) => {
 
     const removeCartItem = (data) => {
         if (auth) {
-            removeCartItemFromUser(data._id, data.name);
+            removeCartItemFromUser(data);
         }
 
         if (!auth) {
@@ -246,19 +246,14 @@ const ShopContextProvider = ({ children }) => {
     };
 
     //remove product from cart db
-    const removeCartItemFromUser = async (productId, name) => {
+    const removeCartItemFromUser = async (productData) => {
         try {
-            //
-
-            //
             const response = await axiosPrivate.patch(
                 `/api/users/${currentUser?._id}/cart/remove`,
                 JSON.stringify({
-                    product_id: productId,
+                    product_id: productData._id,
                 }),
             );
-
-            // console.log("Response:", response);
 
             queryClient.setQueryData(["currentUser"], response.data);
 
@@ -268,7 +263,7 @@ const ShopContextProvider = ({ children }) => {
 
             showFeedback(
                 "delete",
-                `Removed ${name} from cart successfully`,
+                `Removed ${productData.name} from cart successfully`,
                 "alert",
             );
 

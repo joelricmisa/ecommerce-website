@@ -42,22 +42,17 @@ export const WishlistProvider = ({ children }) => {
 
     useEffect(() => {
         const wishlistIds = JSON.parse(localStorage.getItem("wishlistIds"));
-        wishlistIds?.length > 0
-            ? updateWishlistItems(
-                  wishlistIds,
-                  wishlistIds.length > 1 ? "multiple items" : "item",
-              )
-            : null;
+        wishlistIds?.length > 0 ? updateWishlistItems(wishlistIds) : null;
         localStorage.removeItem("wishlistIds");
     }, [currentUser?._id]);
 
     const addToWishlist = (data) => {
-        console.log(data);
+        // console.log(data);
         if (auth) {
             const isItemInList = wishlistItems?.some(
                 (item) => item._id === data._id,
             );
-            !isItemInList ? updateWishlistItems([data._id], data.name) : "";
+            !isItemInList ? updateWishlistItems(data) : "";
         }
 
         if (!auth) {
@@ -77,32 +72,62 @@ export const WishlistProvider = ({ children }) => {
         }
     };
 
-    const updateWishlistItems = async (newWishlistItems, name) => {
+    const updateWishlistItems = async (productData) => {
         if (currentUser) {
             try {
-                // console.log("Request Data for wishlist:", {
-                //     ...currentUser,
-                //     wishlistIds: newWishlistItems || [],
-                // });
+                if (Array.isArray(productData)) {
+                    await Promise.all(
+                        productData.map(async (item) => {
+                            await axiosPrivate.patch(
+                                `/api/users/${currentUser?._id}/wishlist`,
+                                JSON.stringify({
+                                    product_id: item,
+                                }),
+                            );
+                        }),
+                    );
 
-                const response = await axiosPrivate.put(
-                    `/api/users/${currentUser?._id}`,
-                    JSON.stringify({
-                        ...currentUser,
-                        wishlistIds: newWishlistItems || [],
-                    }),
-                );
+                    const updatedUserData =
+                        await axiosPrivate.get("/api/users/current");
 
-                queryClient.setQueryData(["wishlist"], response.data.data);
+                    queryClient.setQueryData(
+                        ["wishlist"],
+                        updatedUserData.data.data,
+                    );
+                    setWishlistItems([...updatedUserData.data.data.wishlist]);
 
-                setWishlistItems([...response.data.data.wishlist]);
-                setIsLoading(false);
+                    let name;
+                    productData.length > 1
+                        ? (name = "multiple items")
+                        : (name = "item");
 
-                showFeedback(
-                    "success",
-                    `Added ${name} to wishlist successfully`,
-                    "alert",
-                );
+                    setIsLoading(false);
+                    showFeedback(
+                        "success",
+                        `Added ${name} to wishlist successfully`,
+                        "alert",
+                    );
+                } else {
+                    const response = await axiosPrivate.patch(
+                        `/api/users/${currentUser?._id}/wishlist`,
+                        JSON.stringify({
+                            product_id: productData?._id,
+                        }),
+                    );
+
+                    console.log(response);
+                    queryClient.setQueryData(["wishlist"], response.data);
+
+                    setWishlistItems([...response.data.wishlist]);
+
+                    setIsLoading(false);
+
+                    showFeedback(
+                        "success",
+                        `Added ${productData.name} to wishlist successfully`,
+                        "alert",
+                    );
+                }
             } catch (err) {
                 console.log(err);
 
@@ -113,7 +138,7 @@ export const WishlistProvider = ({ children }) => {
 
     const removeWishlistItem = (data) => {
         if (auth) {
-            removeWishlistItemFromUser(data._id, data.name);
+            removeWishlistItemFromUser(data);
         }
 
         if (!auth) {
@@ -131,21 +156,25 @@ export const WishlistProvider = ({ children }) => {
         }
     };
 
-    const removeWishlistItemFromUser = async (productId, name) => {
+    const removeWishlistItemFromUser = async (productData) => {
         try {
-            const response = await axiosPrivate.put(
-                `/api/users/${currentUser?._id}/remove-from-wishlist/${productId}`,
-                {},
+            //
+            const response = await axiosPrivate.patch(
+                `/api/users/${currentUser?._id}/wishlist/remove`,
+                JSON.stringify({
+                    product_id: productData._id,
+                }),
             );
 
-            queryClient.setQueryData(["wishlist"], response.data.data);
+            queryClient.setQueryData(["wishlist"], response.data);
 
-            setWishlistItems([...response.data.data.wishlist]);
+            setWishlistItems([...response.data.wishlist]);
+
             setIsLoading(false);
 
             showFeedback(
                 "delete",
-                `Removed ${name} from wishlist successfully`,
+                `Removed ${productData.name} from wishlist successfully`,
                 "alert",
             );
 
