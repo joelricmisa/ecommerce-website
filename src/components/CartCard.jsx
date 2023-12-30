@@ -1,12 +1,8 @@
 import { memo, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { FaXmark } from "react-icons/fa6";
-import {
-    useAuth,
-    useComputePrice,
-    useGetImage,
-    useNumberFormat,
-} from "../hooks";
+import { useAuth } from "../hooks";
+import { computePrice, formatPrice, getImage } from "../utils";
 
 const CartCard = ({ product_id, quantity }) => {
     const { removeCartItem, setTriggerQty, updateItemQty } =
@@ -15,13 +11,11 @@ const CartCard = ({ product_id, quantity }) => {
 
     const [qty, setQty] = useState(quantity);
 
-    const finalPrice = useComputePrice(product_id?.price, product_id?.discount);
+    const finalPrice = computePrice(product_id?.price, product_id?.discount);
 
     const productSubTotal = Number(finalPrice) * Number(qty);
 
-    const formatNumber = useNumberFormat();
-
-    const imageSource = useGetImage(product_id?.image);
+    const imageSource = getImage(product_id?.image);
 
     useEffect(() => {
         let productsQty = JSON.parse(localStorage.getItem("productQty"));
@@ -83,7 +77,7 @@ const CartCard = ({ product_id, quantity }) => {
             </div>
             <div className="flex-center w-1/2 flex-col pb-10 pt-14 xl:w-4/6 xl:flex-row">
                 <div className="flex-center justify-evenly xl:w-1/2 ">
-                    <p>{formatNumber.format(finalPrice)} (1)</p>
+                    <p>{formatPrice(finalPrice)} (1)</p>
 
                     <input
                         type="number"
@@ -97,7 +91,7 @@ const CartCard = ({ product_id, quantity }) => {
                 <div className="flex-center justify-evenly xl:w-1/2 ">
                     <p className="">
                         <span className="mr-1 font-semibold">Subtotal:</span>{" "}
-                        {formatNumber.format(productSubTotal)}{" "}
+                        {formatPrice(productSubTotal)}{" "}
                     </p>
                     <span
                         className="flex-center absolute  right-0 top-0  h-8 w-8 cursor-pointer bg-tertiary-100 p-0.5 shadow-sm hover:bg-tertiary-200 hover:ring hover:ring-black/100 active:bg-tertiary-300 xl:static"

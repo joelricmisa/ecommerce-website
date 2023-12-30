@@ -2,18 +2,16 @@ import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Breadcrumb, CartCard } from "../components";
 import { ShopContext } from "../contexts/ShopContext";
-
-import FeedbackContext from "../contexts/FeedbackProvider";
-
-import { useAuth, useNumberFormat } from "../hooks";
+import { useAuth, useFeedback } from "../hooks";
+import { formatPrice } from "../utils";
 
 const Cart = () => {
     const navigate = useNavigate();
     const { cartItems, totalAmount } = useContext(ShopContext);
-    const { setShowModal, setModalMessage, setType } =
-        useContext(FeedbackContext);
+    const [errorMsg, setErrorMsg] = useState("");
+
+    const showFeedback = useFeedback();
     const { auth } = useAuth();
-    const numberFormatter = useNumberFormat();
 
     const [emptyCart, setEmptyCart] = useState(true);
     const [hasUser, setHasUser] = useState(true);
@@ -27,19 +25,17 @@ const Cart = () => {
     }, [auth]);
 
     useEffect(() => {
-        setType("error");
-
         {
             !hasUser && emptyCart
-                ? setModalMessage(
+                ? setErrorMsg(
                       "Your cart is empty, please add some products and make sure you have an account before checking out your cart.",
                   )
                 : !hasUser && !emptyCart
-                ? setModalMessage(
+                ? setErrorMsg(
                       "Please make an account first or login your account if you already have to checkout your cart.",
                   )
                 : hasUser && emptyCart
-                ? setModalMessage(
+                ? setErrorMsg(
                       "Your cart is empty, please add some products before checking out your cart.",
                   )
                 : null;
@@ -75,23 +71,23 @@ const Cart = () => {
                 <div className="flex w-full flex-col rounded-md border border-black px-5 py-10 xl:w-2/5">
                     <h1 className="mb-7 text-xl font-medium">Cart Total</h1>
                     <p className="flex-between mb-4 w-full border-b border-black/30 pb-4">
-                        Subtotal:{" "}
-                        <span>{numberFormatter.format(totalAmount)}</span>
+                        Subtotal: <span>{formatPrice(totalAmount)}</span>
                     </p>
                     <p className="flex-between mb-4 w-full border-b border-black/30 pb-4">
                         Shipping: <span>Free</span>
                     </p>
                     <p className="flex-between mb-4 w-full pb-4">
-                        Total:{" "}
-                        <span>{numberFormatter.format(totalAmount)}</span>
+                        Total: <span>{formatPrice(totalAmount)}</span>
                     </p>
 
                     <button
                         type="button"
                         className="button"
                         onClick={() => {
-                            !hasUser && setShowModal(true);
-                            emptyCart && setShowModal(true);
+                            !hasUser &&
+                                showFeedback("error", errorMsg, "modal");
+                            emptyCart &&
+                                showFeedback("error", errorMsg, "modal");
                             hasUser && !emptyCart && navigate("checkout");
                         }}
                     >

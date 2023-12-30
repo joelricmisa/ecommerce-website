@@ -1,14 +1,13 @@
 import React from "react";
-import { useGetImage, useNumberFormat } from "../hooks";
+
+import { formatPrice, getImage } from "../utils";
 
 const CheckoutProductCard = (props) => {
     const { isShow, quantity, product_id } = props;
 
     const itemPrice = quantity * product_id.price;
 
-    const imageSource = useGetImage(product_id?.image);
-
-    const formatNumber = useNumberFormat();
+    const imageSource = getImage(product_id?.image);
 
     return (
         <div
@@ -23,7 +22,7 @@ const CheckoutProductCard = (props) => {
             <p>
                 {product_id.name} ({quantity})
             </p>
-            <p className="ml-auto">{formatNumber.format(itemPrice)}</p>
+            <p className="ml-auto">{formatPrice(itemPrice)}</p>
         </div>
     );
 };

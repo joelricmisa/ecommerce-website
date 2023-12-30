@@ -1,4 +1,4 @@
-const useGetImage = (imageUrl) => {
+const getImage = (imageUrl) => {
     const baseUrl = "https://exclusive-backend-te81.onrender.com";
 
     const imageSource = ` ${baseUrl}${imageUrl
@@ -8,4 +8,4 @@ const useGetImage = (imageUrl) => {
     return imageSource;
 };
 
-export default useGetImage;
+export default getImage;

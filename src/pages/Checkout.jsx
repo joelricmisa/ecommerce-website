@@ -16,10 +16,10 @@ import CheckoutProductCard from "../components/CheckoutProductCard";
 import {
     useAuth,
     useAxiosPrivate,
-    useNumberFormat,
     useFeedback,
     useErrorFeedback,
 } from "../hooks";
+import { formatPrice } from "../utils";
 
 const formSchema = new yup.ObjectSchema({
     name: yup.string().required(),
@@ -32,12 +32,10 @@ const formSchema = new yup.ObjectSchema({
 });
 const Checkout = () => {
     const { cartItems, totalAmount } = useContext(ShopContext);
-    const { setLoadingMessage, setShowLoadingOverlay } =
-        useContext(FeedbackContext);
+    const { setIsShow } = useContext(FeedbackContext);
 
     const showFeedback = useFeedback();
     const showError = useErrorFeedback();
-    const formatNumber = useNumberFormat();
 
     const showVal = cartItems?.length - 5;
     const [showItem, setShowItem] = useState(false);
@@ -76,13 +74,15 @@ const Checkout = () => {
         const isValid = await trigger();
         // console.log("trigger submit");
 
-        setLoadingMessage("Processing");
-        setShowLoadingOverlay(true);
+        showFeedback("loading", "Processing", "overlay");
+        // setLoadingMessage("Processing");
+        // setShowLoadingOverlay(true);
         // console.log(e);
 
         if (!isValid) {
             e.preventDefault();
-            setShowLoadingOverlay(false);
+            // setShowLoadingOverlay(false);
+            setIsShow(false);
         } else {
             e.preventDefault();
 
@@ -106,7 +106,7 @@ const Checkout = () => {
 
                     reset();
 
-                    setShowLoadingOverlay(false);
+                    // setShowLoadingOverlay(false);
 
                     navigate("/");
 
@@ -196,15 +196,13 @@ const Checkout = () => {
                         )}
 
                         <p className="flex-between mb-4 mt-10 border-b border-black/30 pb-4">
-                            Subtotal:{" "}
-                            <span>{formatNumber.format(totalAmount)}</span>
+                            Subtotal: <span>{formatPrice(totalAmount)}</span>
                         </p>
                         <p className="flex-between mb-4 border-b border-black/30 pb-4">
                             Shipping: <span>Free</span>
                         </p>
                         <p className="flex-between mb-4 pb-4">
-                            Total:{" "}
-                            <span>{formatNumber.format(totalAmount)}</span>
+                            Total: <span>{formatPrice(totalAmount)}</span>
                         </p>
                         <div className="flex gap-5">
                             <div>

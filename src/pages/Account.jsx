@@ -10,11 +10,10 @@ import { format } from "date-fns";
 import {
     useAuth,
     useAxiosPrivate,
-    useGetImage,
-    useNumberFormat,
     useFeedback,
     useErrorFeedback,
 } from "../hooks";
+import { formatPrice, getImage } from "../utils";
 
 const formSchema = new yup.ObjectSchema({
     name: yup.string().required(),
@@ -77,8 +76,6 @@ const Account = () => {
             return response.data;
         });
     };
-
-    const numberFormatter = useNumberFormat();
 
     useEffect(() => {
         getCurrentUser();
@@ -456,7 +453,7 @@ const Account = () => {
                             </p>
                             <p className="text-gray my-2 text-gray-900">
                                 Total:{"  "}
-                                {numberFormatter.format(order?.total_price)}
+                                {formatPrice(order?.total_price)}
                             </p>
                             <p className="text-gray my-2 text-gray-900">
                                 Ordered On:{"  "}
@@ -481,7 +478,7 @@ const Account = () => {
                     </p>
                     <p className="font-bold">
                         Total Amount to Pay:{" "}
-                        {numberFormatter.format(orderDetails.total_price)}
+                        {formatPrice(orderDetails.total_price)}
                     </p>
                 </div>
                 <div className="overflow-y-auto">
@@ -496,7 +493,7 @@ const Account = () => {
                             : `Product Detail:`}
                     </h1>
                     {orderDetails?.products?.map((product) => {
-                        const imageSource = useGetImage(
+                        const imageSource = getImage(
                             product?.product_id?.image,
                         );
 
@@ -512,13 +509,10 @@ const Account = () => {
                                         {product?.product_id?.name}
                                     </h2>
                                     <p>Quantity: {product?.quantity} </p>
-                                    <p>
-                                        Price:{" "}
-                                        {numberFormatter.format(product?.price)}
-                                    </p>
+                                    <p>Price: {formatPrice(product?.price)}</p>
                                     <p>
                                         Total Price:{" "}
-                                        {numberFormatter.format(
+                                        {formatPrice(
                                             product?.price * product?.quantity,
                                         )}
                                     </p>

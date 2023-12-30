@@ -9,8 +9,10 @@ import {
     FaXmark,
 } from "react-icons/fa6";
 import { ShopContext } from "../contexts/ShopContext";
-import { useComputePrice, useGetImage, useNumberFormat } from "../hooks";
+
 import { ratingImages } from "../constants";
+import { computePrice, formatPrice, getImage } from "../utils";
+import { useWishlist } from "../hooks";
 
 const ProductCard = (props) => {
     const {
@@ -24,11 +26,9 @@ const ProductCard = (props) => {
         controlWidth = true,
     } = props;
 
-    const numberFormatter = useNumberFormat();
+    const finalPrice = computePrice(price, discount);
 
-    const finalPrice = useComputePrice(price, discount);
-
-    const imageSource = useGetImage(image);
+    const imageSource = getImage(image);
 
     const ratingImg = ratingImages[rating];
 
@@ -52,7 +52,7 @@ const ProductCard = (props) => {
             removeWishlistItem,
             isLoading,
             setIsLoading,
-        } = useContext(ShopContext);
+        } = useWishlist();
 
         const [activeWishlist, setActiveWishlist] = useState(false);
 
@@ -152,7 +152,7 @@ const ProductCard = (props) => {
             <h1 className="text-wrap whitespace-pre-wrap">{name}</h1>
             <div className="mt-2 flex flex-wrap justify-between ">
                 <p className="text-secondary-100 font-medium text-tertiary-100">
-                    {numberFormatter.format(finalPrice)}
+                    {formatPrice(finalPrice)}
                     <span className="ml-3 text-black/50 line-through">
                         {discount > 0 ? `₱${price}` : null}
                     </span>

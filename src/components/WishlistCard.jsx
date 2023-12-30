@@ -3,19 +3,18 @@ import { Link } from "react-router-dom";
 import { FaCartPlus, FaRegEye, FaTrashCan, FaXmark } from "react-icons/fa6";
 import { ShopContext } from "../contexts/ShopContext";
 import { FaSpinner } from "react-icons/fa";
-import { useComputePrice, useGetImage, useNumberFormat } from "../hooks";
 
 import { ratingImages } from "../constants";
+import { computePrice, formatPrice, getImage } from "../utils";
+import { useWishlist } from "../hooks";
 
 const WishlistCard = (props) => {
     const { _id, name, image, price, rating, discount } = props;
-    const { removeWishlistItem } = useContext(ShopContext);
+    const { removeWishlistItem } = useWishlist();
 
-    const numberFormatter = useNumberFormat();
+    const finalPrice = computePrice(price, discount);
 
-    const finalPrice = useComputePrice(price, discount);
-
-    const imageSource = useGetImage(image);
+    const imageSource = getImage(image);
 
     const ratingImg = ratingImages[rating];
 
@@ -109,7 +108,7 @@ const WishlistCard = (props) => {
             <h1 className="font-medium">{name}</h1>
             <div className="mt-1 flex flex-wrap justify-between ">
                 <p className="font-medium text-tertiary-100">
-                    {numberFormatter.format(finalPrice)}
+                    {formatPrice(finalPrice)}
                     <span className="ml-3 text-black/50 line-through">
                         {discount > 0 ? `₱${price}` : null}
                     </span>

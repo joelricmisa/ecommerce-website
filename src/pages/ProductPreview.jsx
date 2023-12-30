@@ -15,29 +15,26 @@ import {
 } from "react-icons/fa6";
 import axios from "../api/axios";
 import { useQuery } from "@tanstack/react-query";
-import { useComputePrice, useNumberFormat } from "../hooks";
+
 import { ratingImages } from "../constants";
+import { computePrice, formatPrice } from "../utils";
+import { useCategory, useWishlist } from "../hooks";
 
 const ProductPreview = () => {
     const location = useLocation();
     const { id } = useParams();
 
-    const {
-        cartItems,
-        addToCart,
-        removeCartItem,
-        addToWishlist,
-        removeWishlistItem,
-        wishlistItems,
-        setCategory,
-    } = useContext(ShopContext);
+    const { cartItems, addToCart, removeCartItem } = useContext(ShopContext);
+
+    const { addToWishlist, removeWishlistItem, wishlistItems } = useWishlist();
+
+    const { setCategory } = useCategory();
 
     const [quantity, setQuantity] = useState(1);
     const [activeWishlist, setActiveWishlist] = useState(false);
     const [inCart, setInCart] = useState(false);
     const baseUrl = "https://exclusive-backend-te81.onrender.com";
 
-    const formatNumber = useNumberFormat();
     const currentProduct = useQuery({
         queryKey: ["product", id],
         queryFn: async () => {
@@ -102,7 +99,7 @@ const ProductPreview = () => {
             return item._id === id;
         });
 
-        const finalPrice = useComputePrice(
+        const finalPrice = computePrice(
             currentProduct.price,
             currentProduct.discount,
         );
@@ -178,15 +175,13 @@ const ProductPreview = () => {
                             } text-tertiary-100`}
                         >
                             {currentProduct?.data?.discount > 0
-                                ? formatNumber.format(
-                                      Number(currentProduct?.data?.price) -
-                                          Number(currentProduct?.data?.price) *
-                                              (currentProduct?.data?.discount /
-                                                  100),
+                                ? formatPrice(
+                                      computePrice(
+                                          currentProduct?.data?.price,
+                                          currentProduct?.data?.discount,
+                                      ),
                                   )
-                                : formatNumber.format(
-                                      currentProduct?.data?.price,
-                                  )}
+                                : formatPrice(currentProduct?.data?.price)}
                         </span>
                         {currentProduct?.data?.discount > 0 && (
                             <span className="ml-3 flex h-8 items-center gap-2 rounded-md bg-tertiary-100 p-1 text-lg text-white">
