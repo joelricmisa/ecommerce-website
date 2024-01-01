@@ -74,20 +74,21 @@ const Wishlist = () => {
                                     Loading...
                                 </span>
                             ) : (
-                                data
-                                    ?.filter((product) => {
-                                        return !wishlistItems?.some(
+                                data.reduce((products, product) => {
+                                    if (
+                                        !wishlistItems.some(
                                             (item) => item._id === product._id,
-                                        );
-                                    })
-                                    ?.map((card) => {
-                                        return (
+                                        )
+                                    ) {
+                                        products.push(
                                             <ProductCard
                                                 key={uuid()}
-                                                {...card}
-                                            />
+                                                {...product}
+                                            />,
                                         );
-                                    })
+                                    }
+                                    return products;
+                                }, [])
                             )}
                         </div>
                     </div>
