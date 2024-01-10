@@ -11,7 +11,7 @@ import { ShopContext } from "../contexts/ShopContext";
 import { navIconLinks } from "../constants";
 import { useAuth, useLogout, useWishlist } from "../hooks";
 
-const NavIcons = () => {
+const NavIcons = ({ setIsMenuOpen }) => {
     const { cartItems } = useContext(ShopContext);
     const { wishlistItems } = useWishlist();
 
@@ -23,6 +23,7 @@ const NavIcons = () => {
             <NavLink
                 key={label}
                 to={href}
+                onClick={setIsMenuOpen}
                 className={`grid-center relative ml-1  w-[30px] ${
                     currentPath === href ? "navActive" : "navNotActive"
                 }`}
@@ -78,6 +79,7 @@ const NavIcons = () => {
                                 <Link
                                     to={"/account"}
                                     className={userIconLinkStyle}
+                                    onClick={setIsMenuOpen}
                                 >
                                     <FaUserGear className={iconStyle} />
 
@@ -88,6 +90,7 @@ const NavIcons = () => {
                                     to={"/"}
                                     className={userIconLinkStyle}
                                     onClick={() => {
+                                        setIsMenuOpen();
                                         handleLogout();
                                     }}
                                 >
@@ -100,6 +103,7 @@ const NavIcons = () => {
                                 <Link
                                     to={"/signin"}
                                     className={userIconLinkStyle}
+                                    onClick={setIsMenuOpen}
                                 >
                                     <FaSignInAlt className={iconStyle} />
                                     <p>Log In</p>
@@ -108,6 +112,7 @@ const NavIcons = () => {
                                 <Link
                                     to={"/signup"}
                                     className={userIconLinkStyle}
+                                    onClick={setIsMenuOpen}
                                 >
                                     <FaUserPlus className={iconStyle} />
                                     <p>Sign Up</p>

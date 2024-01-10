@@ -4,7 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { navLinks } from "../constants";
 import { useCategory } from "../hooks";
 
-const NavLinks = () => {
+const NavLinks = ({ setIsMenuOpen }) => {
     const location = useLocation();
     const currentPath = location.pathname;
     const { setCategory } = useCategory();
@@ -21,7 +21,10 @@ const NavLinks = () => {
                     <NavLink
                         className="navLink"
                         to={link.href}
-                        onClick={() => setCategory("all")}
+                        onClick={() => {
+                            setCategory("all");
+                            setIsMenuOpen();
+                        }}
                     >
                         <span
                             className={`relative ${

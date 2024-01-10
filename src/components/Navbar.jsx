@@ -73,9 +73,13 @@ const Navbar = () => {
                     </div>
 
                     <div className={navLinkandIconBoxStyle}>
-                        <NavLinks />
+                        <NavLinks
+                            setIsMenuOpen={() => setIsMenuOpen(!isMenuOpen)}
+                        />
 
-                        <NavIcons />
+                        <NavIcons
+                            setIsMenuOpen={() => setIsMenuOpen(!isMenuOpen)}
+                        />
                     </div>
                 </nav>
             </header>
