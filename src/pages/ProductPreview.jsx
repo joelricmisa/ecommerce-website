@@ -18,12 +18,11 @@ import { useQuery } from "@tanstack/react-query";
 
 import { ratingImages } from "../constants";
 import { computePrice, formatPrice } from "../utils";
-import { useAuth, useCategory, useWishlist } from "../hooks";
+import { useCategory, useWishlist } from "../hooks";
 
 const ProductPreview = () => {
     const location = useLocation();
     const { id } = useParams();
-    const { auth } = useAuth();
 
     const { cartItems, addToCart, removeCartItem } = useContext(ShopContext);
 
@@ -39,11 +38,7 @@ const ProductPreview = () => {
     const currentProduct = useQuery({
         queryKey: ["product", id],
         queryFn: async () => {
-            const response = await axios.get(`/api/products/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${auth?.accessToken}`,
-                },
-            });
+            const response = await axios.get(`/api/products/${id}`);
             //console.log(response);
             return response?.data?.data;
         },

@@ -10,11 +10,6 @@ const useAxiosPrivate = () => {
     const requestIntercept = useMemo(() => {
         return axiosPrivate.interceptors.request.use(
             (config) => {
-                console.log("auth", auth);
-                console.log(
-                    "Adding Authorization header:",
-                    config.headers["Authorization"],
-                );
                 if (!config.headers["Authorization"]) {
                     config.headers[
                         "Authorization"
