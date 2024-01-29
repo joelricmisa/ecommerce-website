@@ -1,6 +1,8 @@
 # Ecommerce Business Website - Exclusive Shop
 
-Welcome to Exclusive Shop, your go-to destination for a sophisticated and seamless online shopping experience. My cutting-edge e-commerce platform is meticulously crafted to provide you with a range of features, ensuring effortless navigation and interaction. Explore the key features that set us apart:
+Welcome to Exclusive Shop, your go-to destination for a sophisticated and seamless online shopping experience. My cutting-edge e-commerce platform is meticulously crafted to provide you with a range of features, ensuring effortless navigation and interaction.
+
+## Key Features
 
 ### User Account Features
 
@@ -52,3 +54,20 @@ Welcome to Exclusive Shop, your go-to destination for a sophisticated and seamle
 -   **Feedback Messages** - Receive instant updates on your actions and purchases.
 -   **Fully Responsive/Mobile Responsive** - Shop conveniently on any device.
 -   **Cross-Browser Compatibility** - Enjoy a consistent experience across various browsers.
+
+## Utilize Tools
+
+-   VS Code
+-   Vite
+-   React.js
+-   Tailwind CSS
+-   React Router Dom
+-   React Icons
+-   Axios
+-   React Hook Form
+-   Yup
+-   Tanstack/React Query
+-   Date-fns
+-   Prettier
+-   ESLint
+-   Framer Motion
