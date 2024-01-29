@@ -35,7 +35,6 @@ Welcome to Exclusive Shop, your go-to destination for a sophisticated and seamle
 -   **Animations** - Enjoy a visually engaging experience on my platform.
 -   **Add to Cart/Wishlist** - Manage your shopping journey with one-click options.
 -   **Category Search Filter** - Refine your search with category-specific filters.
--   **Sales Banner** - Stay updated on ongoing promotions with my prominent banner.
 -   **Shopping Cart/Wishlist/Check-out Page** - Seamlessly navigate your shopping journey.
 -   **Orders Section** - Ensuring a seamless overview of your order history.
 -   **Order Details** - Dive into the specifics of each purchase with my detailed Order Details feature.
