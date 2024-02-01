@@ -54,7 +54,9 @@ const Checkout = () => {
 
             const response = await axiosPrivate.get("/api/users/current");
 
-            return response?.data?.data;
+            const responseData = response?.data?.data;
+
+            return responseData;
         },
         enabled: !!auth,
     });

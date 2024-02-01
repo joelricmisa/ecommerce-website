@@ -64,7 +64,7 @@ const ForgotPassword = () => {
                 // error when email is already used
                 setError("email", {
                     type: "custom",
-                    message: err.response.data.message,
+                    message: err.response.data.details,
                 });
 
                 showError(err.code);

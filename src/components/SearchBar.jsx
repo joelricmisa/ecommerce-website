@@ -19,7 +19,8 @@ const SearchBar = () => {
 
     const getSearchInput = async () => {
         const response = await axios.get("/api/products");
-        const filtered = response.data?.data.filter((product) =>
+        const responseData = response.data?.data?.products;
+        const filtered = responseData?.filter((product) =>
             product.name.toLowerCase().includes(searchInput.toLowerCase()),
         );
 

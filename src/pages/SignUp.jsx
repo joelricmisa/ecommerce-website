@@ -62,10 +62,11 @@ const SignUp = () => {
                     );
 
                     //console.log(response?.data);
+                    const responseData = response?.data?.data;
 
-                    const accessToken = response?.data?.accessToken;
-                    const role = response?.data?.role;
-                    const user = response?.data?.user;
+                    const accessToken = responseData?.accessToken;
+                    const role = responseData?.role;
+                    const user = responseData?.user;
 
                     setAuth({ user, role, accessToken });
 
@@ -88,7 +89,7 @@ const SignUp = () => {
 
                 setIsLoading(false);
 
-                showError(err.code);
+                showError(err.code, err.response.data.details);
             }
         }
     };

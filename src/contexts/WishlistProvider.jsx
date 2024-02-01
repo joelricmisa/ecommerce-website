@@ -28,12 +28,13 @@ export const WishlistProvider = ({ children }) => {
             localStorage.setItem("wishlistIds", JSON.stringify(wishlistIds));
 
             const response = await axiosPrivate.get("/api/users/current");
+            const responseData = response?.data?.data;
 
-            setWishlistItems([...response?.data?.data?.wishlist]);
+            setWishlistItems([...responseData?.wishlist]);
 
             //console.log(response?.data);
 
-            return response?.data?.data;
+            return responseData;
         },
         enabled: !!auth,
     });
@@ -90,11 +91,10 @@ export const WishlistProvider = ({ children }) => {
                     const updatedUserData =
                         await axiosPrivate.get("/api/users/current");
 
-                    queryClient.setQueryData(
-                        ["wishlist"],
-                        updatedUserData.data.data,
-                    );
-                    setWishlistItems([...updatedUserData.data.data.wishlist]);
+                    const responseData = updatedUserData?.data?.data;
+
+                    queryClient.setQueryData(["wishlist"], responseData);
+                    setWishlistItems([...responseData?.wishlist]);
 
                     let name;
                     productData.length > 1
@@ -115,10 +115,12 @@ export const WishlistProvider = ({ children }) => {
                         }),
                     );
 
-                    console.log(response);
-                    queryClient.setQueryData(["wishlist"], response.data);
+                    const responseData = response?.data?.data;
 
-                    setWishlistItems([...response.data.wishlist]);
+                    console.log(response);
+                    queryClient.setQueryData(["wishlist"], responseData);
+
+                    setWishlistItems([...responseData?.wishlist]);
 
                     setIsLoading(false);
 
@@ -166,9 +168,11 @@ export const WishlistProvider = ({ children }) => {
                 }),
             );
 
-            queryClient.setQueryData(["wishlist"], response.data);
+            const responseData = response?.data?.data;
 
-            setWishlistItems([...response.data.wishlist]);
+            queryClient.setQueryData(["wishlist"], responseData);
+
+            setWishlistItems([...responseData?.wishlist]);
 
             setIsLoading(false);
 

@@ -18,7 +18,7 @@ import { formatPrice, getImage } from "../utils";
 const formSchema = new yup.ObjectSchema({
     name: yup.string().required(),
     email: yup.string().email().required(),
-    address: yup.string().required(),
+    address: yup.string().optional(),
     currentPassword: yup
         .string()
         .required("current password is a required field"),
@@ -62,18 +62,22 @@ const Account = () => {
 
     const getCurrentUser = async () => {
         await axiosPrivate.get("/api/users/current").then((response) => {
-            setValue("name", response.data.data?.name);
-            setValue("email", response.data.data?.email);
-            setValue("address", response.data.data?.address);
-            setId(response.data.data?._id);
-            return response.data.data;
+            const responseData = response?.data?.data;
+
+            setValue("name", responseData?.name);
+            setValue("email", responseData?.email);
+            setValue("address", responseData?.address);
+            setId(responseData?._id);
+            return responseData;
         });
     };
 
     const getUserOrder = async () => {
         await axiosPrivate.get(`/api/orders/user/${id}`).then((response) => {
-            setOrders([...response.data].reverse());
-            return response.data;
+            const responseData = response?.data?.data;
+
+            setOrders([...responseData].reverse());
+            return responseData;
         });
     };
 
@@ -117,8 +121,9 @@ const Account = () => {
                 setEdit(false);
             } catch (err) {
                 setIsLoading(false);
+                console.log(err);
 
-                showError(err.code);
+                showError(err.code, err.response.data.details);
 
                 // console.log(err);
             }
@@ -166,7 +171,7 @@ const Account = () => {
                 //error when the current password is invalid
                 setError("currentPassword", {
                     type: "custom",
-                    message: err.response.data.message,
+                    message: err.response.data.details,
                 });
 
                 showError(err.code);

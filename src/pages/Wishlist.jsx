@@ -51,7 +51,8 @@ const Wishlist = () => {
                     `/api/categories/${flashSalesId}`,
                 );
                 //console.log(response);
-                return response?.data?.data?.products;
+                const responseData = response?.data?.data?.products;
+                return responseData;
             },
         });
         return (

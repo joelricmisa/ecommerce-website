@@ -35,12 +35,12 @@ const ProductPreview = () => {
     const [inCart, setInCart] = useState(false);
     const baseUrl = "https://exclusive-backend-te81.onrender.com";
 
-    const currentProduct = useQuery({
+    const { data: currentProduct } = useQuery({
         queryKey: ["product", id],
         queryFn: async () => {
             const response = await axios.get(`/api/products/${id}`);
-            //console.log(response);
-            return response?.data?.data;
+            const responseData = response?.data?.data;
+            return responseData;
         },
     });
 
@@ -48,22 +48,20 @@ const ProductPreview = () => {
         { label: "Home", path: "/", setCateg: "all" },
         { label: "Products", path: "/products", setCateg: "all" },
         {
-            label: currentProduct
-                ? currentProduct?.data?.categories?.[0]?.name
-                : "",
+            label: currentProduct ? currentProduct?.categories?.[0]?.name : "",
             path: "/products",
             setCateg: currentProduct
-                ? currentProduct?.data?.categories?.[0]?.name
+                ? currentProduct?.categories?.[0]?.name
                 : "",
         },
         {
-            label: currentProduct ? currentProduct?.data?.name : "",
+            label: currentProduct ? currentProduct?.name : "",
             path: location.pathname,
             setCateg: "all",
         },
     ];
 
-    const ratingImg = ratingImages[currentProduct?.data?.rating];
+    const ratingImg = ratingImages[currentProduct?.rating];
 
     useEffect(() => {
         const filterWishlist = wishlistItems?.filter(
@@ -80,14 +78,15 @@ const ProductPreview = () => {
     }, [wishlistItems, cartItems, id]);
 
     const relatedProducts = useQuery({
-        queryKey: ["category", currentProduct?.data?.categories?.[0]._id],
+        queryKey: ["category", currentProduct?.categories?.[0]._id],
         queryFn: async () => {
             const response = await axios.get(
-                `/api/categories/${currentProduct?.data?.categories?.[0]._id}`,
+                `/api/categories/${currentProduct?.categories?.[0]._id}`,
             );
-            //console.log(response);
-            return response?.data?.data?.products;
+            const responseData = response?.data?.data?.products;
+            return responseData;
         },
+        enabled: !!currentProduct?.categories?.[0]._id,
     });
 
     const handleAddToCart = () => {
@@ -100,8 +99,8 @@ const ProductPreview = () => {
         });
 
         const finalPrice = computePrice(
-            currentProduct.price,
-            currentProduct.discount,
+            currentProduct?.price,
+            currentProduct?.discount,
         );
 
         if (productIndex !== -1) {
@@ -118,7 +117,7 @@ const ProductPreview = () => {
 
         localStorage.setItem("productQty", JSON.stringify(productsQty));
         return addToCart({
-            product_id: { ...currentProduct.data },
+            product_id: { ...currentProduct },
             quantity: quantity,
             price: finalPrice,
         });
@@ -145,7 +144,7 @@ const ProductPreview = () => {
                     <img
                         src={
                             baseUrl +
-                            currentProduct?.data?.image
+                            currentProduct?.image
                                 ?.replace("public", "")
                                 ?.replaceAll("\\", "/")
                         }
@@ -156,43 +155,43 @@ const ProductPreview = () => {
 
                 <div className="flex-center w-full flex-col items-start gap-3 xl:w-1/2">
                     <h1 className="text-2xl font-semibold">
-                        {currentProduct?.data?.name}
+                        {currentProduct?.name}
                     </h1>
 
                     <span className="flex-center justify-start text-black/60 ">
                         <img src={ratingImg} alt="" />
-                        <p>({currentProduct?.data?.rate_count} Reviews)</p>
+                        <p>({currentProduct?.rate_count} Reviews)</p>
                     </span>
                     <div className="flex text-2xl">
-                        {currentProduct?.data?.discount > 0 && (
+                        {currentProduct?.discount > 0 && (
                             <span className="text-black/50 line-through">
-                                ₱{currentProduct?.data?.price}
+                                ₱{currentProduct?.price}
                             </span>
                         )}
                         <span
                             className={`${
-                                currentProduct?.data?.discount > 0 ? "ml-3" : ""
+                                currentProduct?.discount > 0 ? "ml-3" : ""
                             } text-tertiary-100`}
                         >
-                            {currentProduct?.data?.discount > 0
+                            {currentProduct?.discount > 0
                                 ? formatPrice(
                                       computePrice(
-                                          currentProduct?.data?.price,
-                                          currentProduct?.data?.discount,
+                                          currentProduct?.price,
+                                          currentProduct?.discount,
                                       ),
                                   )
-                                : formatPrice(currentProduct?.data?.price)}
+                                : formatPrice(currentProduct?.price)}
                         </span>
-                        {currentProduct?.data?.discount > 0 && (
+                        {currentProduct?.discount > 0 && (
                             <span className="ml-3 flex h-8 items-center gap-2 rounded-md bg-tertiary-100 p-1 text-lg text-white">
-                                -{currentProduct?.data?.discount}%
+                                -{currentProduct?.discount}%
                                 <FaTag />
                             </span>
                         )}
                     </div>
 
                     <p className="mt-2 border-b border-black/10 pb-5 text-sm leading-7">
-                        {currentProduct?.data?.description}
+                        {currentProduct?.description}
                     </p>
 
                     <div className="flex-center my-3 w-full flex-col xl:flex-row">
@@ -236,7 +235,7 @@ const ProductPreview = () => {
                                 inCart
                                     ? removeCartItem({
                                           _id: id,
-                                          name: currentProduct?.data?.name,
+                                          name: currentProduct?.name,
                                       })
                                     : handleAddToCart()
                             }
@@ -255,9 +254,9 @@ const ProductPreview = () => {
                                 activeWishlist
                                     ? removeWishlistItem({
                                           _id: id,
-                                          name: currentProduct?.data?.name,
+                                          name: currentProduct?.name,
                                       })
-                                    : addToWishlist({ ...currentProduct?.data })
+                                    : addToWishlist({ ...currentProduct })
                             }
                         >
                             {activeWishlist ? (
@@ -297,10 +296,7 @@ const ProductPreview = () => {
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10">
                     {relatedProducts.data?.length !== 0 ? (
                         relatedProducts.data
-                            ?.filter(
-                                (item) =>
-                                    item._id !== currentProduct?.data?._id,
-                            )
+                            ?.filter((item) => item._id !== currentProduct?._id)
                             .map((product, index) => {
                                 return <ProductCard key={index} {...product} />;
                             })

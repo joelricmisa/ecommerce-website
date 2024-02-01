@@ -21,45 +21,47 @@ const ShopProducts = () => {
     const dummyArr = [1, 2, 3, 4, 1, 2, 3, 4];
     const dummyArrCategory = [1, 2, 3, 4, 1, 2, 3, 4, 4, 1, 2, 3, 4];
 
-    const productsStorage = useQuery({
+    const { data: productsStorage, isLoading: isProdcutLoading } = useQuery({
         queryKey: ["products"],
         queryFn: async () => {
             const response = await axios.get("/api/products");
             //console.log(response);
+            const responseData = response?.data?.data?.products;
 
-            const filtered = response?.data?.data?.filter((item) => {
+            const filtered = responseData?.filter((item) => {
                 return item.categories?.some(
                     (category) => category?.name == currentCategory,
                 );
             });
 
             currentCategory === "all"
-                ? setProducts(response?.data?.data)
+                ? setProducts(responseData)
                 : setProducts(filtered);
 
             // setProducts(response?.data?.data);
-            return response?.data?.data;
+            return responseData;
         },
     });
 
-    const categories = useQuery({
+    const { data: categories, isLoading: isCategoryLoading } = useQuery({
         queryKey: ["categories"],
         queryFn: async () => {
             const response = await axiosPrivate.get("/api/categories");
-            // console.log(response);
-            return response?.data?.data;
+            const responseData = response?.data?.data?.categories;
+
+            return responseData;
         },
     });
 
     useEffect(() => {
-        const filtered = productsStorage?.data?.filter((item) => {
+        const filtered = productsStorage?.filter((item) => {
             return item.categories?.some(
                 (category) => category?.name == currentCategory,
             );
         });
 
         currentCategory === "all"
-            ? setProducts(productsStorage?.data)
+            ? setProducts(productsStorage)
             : setProducts(filtered);
     }, [currentCategory]);
 
@@ -102,7 +104,7 @@ const ShopProducts = () => {
                         All
                     </button>
 
-                    {categories.isLoading
+                    {isCategoryLoading
                         ? dummyArrCategory.map((val, index) => {
                               return (
                                   <motion.div
@@ -116,7 +118,7 @@ const ShopProducts = () => {
                                   </motion.div>
                               );
                           })
-                        : categories?.data?.map((link) => (
+                        : categories?.map((link) => (
                               <button
                                   key={link.name}
                                   className={`categoryBtn h-[35px]  snap-start whitespace-nowrap ${
@@ -146,7 +148,7 @@ const ShopProducts = () => {
                 ref={scope}
                 className="padding-b grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10 "
             >
-                {productsStorage.isLoading
+                {isProdcutLoading
                     ? dummyArr.map((val, index) => {
                           return (
                               <motion.div

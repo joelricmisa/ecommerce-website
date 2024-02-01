@@ -32,20 +32,13 @@ const ShopContextProvider = ({ children }) => {
             let cartIds = [];
             cartItems?.map((item) => cartIds.push(item));
             localStorage.setItem("cartIds", JSON.stringify(cartIds));
-            // wishlist;
-            // let wishlistIds = [];
-            // wishlistItems?.map((item) => wishlistIds.push(item._id));
-            // localStorage.setItem("wishlistIds", JSON.stringify(wishlistIds));
 
             const response = await axiosPrivate.get("/api/users/current");
+            const responseData = response?.data?.data;
 
-            setCartItems([...response?.data?.data?.cart]);
+            setCartItems([...responseData?.cart]);
 
-            // setWishlistItems([...response?.data?.data?.wishlist]);
-
-            //console.log(response?.data);
-
-            return response?.data?.data;
+            return responseData;
         },
         enabled: !!auth,
     });
@@ -159,11 +152,10 @@ const ShopContextProvider = ({ children }) => {
                     const updatedUserData =
                         await axiosPrivate.get("/api/users/current");
 
-                    queryClient.setQueryData(
-                        ["currentUser"],
-                        updatedUserData.data.data,
-                    );
-                    setCartItems([...updatedUserData.data.data.cart]);
+                    const responseData = updatedUserData?.data?.data;
+
+                    queryClient.setQueryData(["currentUser"], responseData);
+                    setCartItems([...responseData?.cart]);
 
                     let name;
                     productData.length > 1
@@ -186,11 +178,11 @@ const ShopContextProvider = ({ children }) => {
                             quantity: productData?.quantity,
                         }),
                     );
-                    // console.log("Response:", response);
+                    const responseData = response?.data?.data;
 
-                    queryClient.setQueryData(["currentUser"], response.data);
+                    queryClient.setQueryData(["currentUser"], responseData);
 
-                    setCartItems([...response.data.cart]);
+                    setCartItems([...responseData?.cart]);
 
                     // if this newItem is true, it would run the alerts since its added to cart else the cart item was just updated the quantity
                     if (newItem) {
@@ -255,9 +247,11 @@ const ShopContextProvider = ({ children }) => {
                 }),
             );
 
-            queryClient.setQueryData(["currentUser"], response.data);
+            const responseData = response.data?.data;
 
-            setCartItems([...response.data.cart]);
+            queryClient.setQueryData(["currentUser"], responseData);
+
+            setCartItems([...responseData?.cart]);
 
             setIsLoading(false);
 
@@ -268,10 +262,10 @@ const ShopContextProvider = ({ children }) => {
             );
 
             return response;
-        } catch (error) {
-            console.error("Error removing product from cart:", error);
+        } catch (err) {
+            console.error("Error removing product from cart:", err);
 
-            showError(err.code);
+            showError(err.code, err.response.data.details);
         }
     };
 
