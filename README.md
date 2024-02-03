@@ -1,6 +1,6 @@
-# Ecommerce Business Website - Exclusive Shop
+# Exclusive Shop
 
-Welcome to Exclusive Shop, your go-to destination for a sophisticated and seamless online shopping experience. My cutting-edge e-commerce platform is meticulously crafted to provide you with a range of features, ensuring effortless navigation and interaction.
+This is my personal project, Exclusive Shop – a cutting-edge e-commerce website designed to redefine your online shopping experience. This project serves as a demonstration of my skills in web development, showcasing a seamless and feature-rich platform where users can explore, shop, and indulge in a world of convenience and sophistication.
 
 ## Key Features
 
