@@ -74,11 +74,11 @@ export const sideLinks = [
 ];
 
 export const HeroData = [
-    { title: "iPhone 14 ", voucher: 10, img: hero1 },
+    { title: "ASUS Laptop", voucher: 15, img: hero5 },
     { title: "CANON Camera ", voucher: 25, img: hero2 },
+    { title: "iPhone 14 ", voucher: 10, img: hero1 },
     { title: "BOSE Headphone ", voucher: 40, img: hero3 },
     { title: "Sony Gamepad ", voucher: 50, img: hero4 },
-    { title: "ASUS Laptop", voucher: 15, img: hero5 },
 ];
 
 export const NewArrivalData = [
